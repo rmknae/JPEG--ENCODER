@@ -1,0 +1,576 @@
+m255
+K4
+z2
+Z0 !s12c _opt
+Z1 !s99 nomlopt
+R0
+R1
+R0
+R1
+!s12c _opt1
+R1
+R0
+R1
+!s11f vlog 2024.1 2024.02, Feb  1 2024
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z2 dC:/Users/HP/Desktop/check_our_code/JPEG-Encoder
+T_opt
+!s110 1755445418
+VmHmR6@<aNFkP`2Bg25Vm92
+04 11 4 work jpeg_top_TB fast 0
+=1-e0d4648929ed-68a1f8aa-1-690
+R1
+Z3 !s12f OEM100
+Z4 !s12b OEM100
+Z5 !s124 OEM100
+o-quiet -auto_acc_if_foreign -work work +acc
+Z6 tCvgOpt 0
+n@_opt
+Z7 OL;O;2024.1;79
+R2
+T_opt1
+!s110 1755445110
+VcIb@d^[:]VVhY@39aXLm61
+04 8 4 work fifo_out fast 0
+=1-e0d4648929ed-68a1f775-2bc-3454
+R1
+R3
+R4
+R5
+o-quiet -auto_acc_if_foreign -work work
+R6
+n@_opt1
+R7
+R2
+vcb_dct
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_dct.sv
+Z8 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z9 !s110 1755445635
+!i10b 1
+!s100 >0B5Ie=oUX9?N?@<>]gSW1
+IfW7:li4dLhQA5g55_1UKM2
+S1
+Z10 dC:/Users/HP/Desktop/JPEG-Encoder/rtl
+Z11 w1755444219
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_dct.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_dct.sv
+!i122 162
+Z12 L0 16 799
+Z13 VDg1SIo80bB@j0V0VzS_@n1
+Z14 OL;L;2024.1;79
+r1
+!s85 0
+31
+Z15 !s108 1755445635.000000
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_dct.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_dct.sv|
+!i113 0
+Z16 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R6
+vcb_huff
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_huff.sv
+R8
+R9
+!i10b 1
+!s100 TiC7]DSIU@`gX=FQXf^CX3
+I2;iU;SSg@JizGzXU]hE`G1
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_huff.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_huff.sv
+!i122 163
+Z17 L0 15 2212
+R13
+R14
+r1
+!s85 0
+31
+R15
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_huff.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_huff.sv|
+!i113 0
+R16
+R6
+vcb_quantizer
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_quantizer.sv
+R8
+R9
+!i10b 1
+!s100 ;fefPcFdRS<_F>C]1R:?X3
+IB;fWN7IXiZ`h9QBz:a6@R0
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_quantizer.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_quantizer.sv
+!i122 164
+L0 18 591
+R13
+R14
+r1
+!s85 0
+31
+R15
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_quantizer.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/cb_quantizer.sv|
+!i113 0
+R16
+R6
+vcbd_q_h
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/cbd_q_h.sv
+R8
+R9
+!i10b 1
+!s100 CY:>MX9QIaggS;3c1Z9ea1
+IHZIh?cEYbRZTJA7z5G;AY2
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/cbd_q_h.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/cbd_q_h.sv
+!i122 165
+L0 21 100
+R13
+R14
+r1
+!s85 0
+31
+R15
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/cbd_q_h.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/cbd_q_h.sv|
+!i113 0
+R16
+R6
+vcr_dct
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_dct.sv
+R8
+Z18 !s110 1755445636
+!i10b 1
+!s100 Zf84d`m<a`lPa<hGIDG7<2
+I57E49SOJeeGD5GFFVAaCA2
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_dct.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_dct.sv
+!i122 166
+R12
+R13
+R14
+r1
+!s85 0
+31
+R15
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_dct.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_dct.sv|
+!i113 0
+R16
+R6
+vcr_huff
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_huff.sv
+R8
+R18
+!i10b 1
+!s100 b29ll>dGGea0?]]Sn:@D_1
+IMXYI0<jTOeT;AODF3P8:K0
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_huff.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_huff.sv
+!i122 167
+L0 15 2213
+R13
+R14
+r1
+!s85 0
+31
+Z19 !s108 1755445636.000000
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_huff.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_huff.sv|
+!i113 0
+R16
+R6
+vcr_quantizer
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_quantizer.sv
+R8
+R18
+!i10b 1
+!s100 =CKOTC>no02V7i0>>h4z02
+IjF<U_M8>eJSLO56QKi`2P3
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_quantizer.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_quantizer.sv
+!i122 168
+Z20 L0 18 589
+R13
+R14
+r1
+!s85 0
+31
+R19
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_quantizer.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/cr_quantizer.sv|
+!i113 0
+R16
+R6
+vcrd_q_h
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/crd_q_h.sv
+R8
+R18
+!i10b 1
+!s100 z0Nmbno:PHXC8WK]5R9EI0
+I6VYK63cD07>e3D@C_GXoj2
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/crd_q_h.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/crd_q_h.sv
+!i122 169
+L0 24 101
+R13
+R14
+r1
+!s85 0
+31
+R19
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/crd_q_h.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/crd_q_h.sv|
+!i113 0
+R16
+R6
+vff_checker
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/ff_checker.sv
+R8
+R18
+!i10b 1
+!s100 Y;VB=9gP_7CK?HZ<1PP0V3
+I2_mY0W693;<;W<0f?]oK82
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/ff_checker.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/ff_checker.sv
+!i122 170
+L0 22 603
+R13
+R14
+r1
+!s85 0
+31
+R19
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/ff_checker.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/ff_checker.sv|
+!i113 0
+R16
+R6
+vfifo_out
+2C:\Users\HP\Desktop\JPEG-Encoder\rtl\fifo_out.sv
+R8
+Z21 !s110 1755445637
+!i10b 1
+!s100 [O?g5eJDRl[jU7a]L9VMP2
+IM9YigG68>UGlhI^3j;Tn@0
+S1
+R10
+w1755445363
+8C:\Users\HP\Desktop\JPEG-Encoder\rtl\fifo_out.sv
+FC:\Users\HP\Desktop\JPEG-Encoder\rtl\fifo_out.sv
+!i122 171
+L0 19 803
+R13
+R14
+r1
+!s85 0
+31
+Z22 !s108 1755445637.000000
+!s107 C:\Users\HP\Desktop\JPEG-Encoder\rtl\fifo_out.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:\Users\HP\Desktop\JPEG-Encoder\rtl\fifo_out.sv|
+!i113 0
+R16
+R6
+vjpeg_top
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/jpeg_top.sv
+R8
+R21
+!i10b 1
+!s100 eBXX7Z]@bDGWAICD`VQ_00
+I<jEFTmm2df5jl@L>A9K213
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/jpeg_top.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/jpeg_top.sv
+!i122 172
+L0 21 29
+R13
+R14
+r1
+!s85 0
+31
+R22
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/jpeg_top.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/jpeg_top.sv|
+!i113 0
+R16
+R6
+vjpeg_top_tb
+Z23 2C:\Users\HP\Desktop\JPEG-Encoder\rtl\jpeg_top_TB.sv
+R8
+R21
+!i10b 1
+!s100 cXceD3fTOCk_;_m][T1bC1
+IQDn`YaZPLMCV[o789]lNN1
+S1
+R10
+w1755445628
+Z24 8C:\Users\HP\Desktop\JPEG-Encoder\rtl\jpeg_top_TB.sv
+Z25 FC:\Users\HP\Desktop\JPEG-Encoder\rtl\jpeg_top_TB.sv
+!i122 173
+L0 37 19072
+R13
+R14
+r1
+!s85 0
+31
+R22
+Z26 !s107 C:\Users\HP\Desktop\JPEG-Encoder\rtl\jpeg_top_TB.sv|
+Z27 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:\Users\HP\Desktop\JPEG-Encoder\rtl\jpeg_top_TB.sv|
+!i113 0
+R16
+R6
+vjpeg_top_TB
+R23
+R8
+!s110 1755445410
+!i10b 1
+!s100 d[SaSd^;hhNHl:Gbo_YR13
+I1Q@[IRQ_NKV`ejF>iUd302
+S1
+R10
+w1755445357
+R24
+R25
+!i122 133
+L0 21 19084
+R13
+R14
+r1
+!s85 0
+31
+!s108 1755445409.000000
+R26
+R27
+!i113 0
+R16
+R6
+njpeg_top_@t@b
+vpre_fifo
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/pre_fifo.sv
+R8
+R21
+!i10b 1
+!s100 7:e31@3ogZjnW3:lB?9=C2
+IaXM>no496@1X^NC2hP:Cf0
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/pre_fifo.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/pre_fifo.sv
+!i122 174
+L0 18 42
+R13
+R14
+r1
+!s85 0
+31
+R22
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/pre_fifo.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/pre_fifo.sv|
+!i113 0
+R16
+R6
+vRGB2YCBCR
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/RGB2YCRCB.sv
+R8
+Z28 !s110 1755445638
+!i10b 1
+!s100 DRbdMgHzRnZ7DG4BkA8S63
+IBW5ST@Ln[PSa6FH]o^gR52
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/RGB2YCRCB.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/RGB2YCRCB.sv
+!i122 175
+L0 19 94
+R13
+R14
+r1
+!s85 0
+31
+Z29 !s108 1755445638.000000
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/RGB2YCRCB.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/RGB2YCRCB.sv|
+!i113 0
+R16
+R6
+n@r@g@b2@y@c@b@c@r
+vsync_fifo_32
+2C:\Users\HP\Desktop\JPEG-Encoder\rtl\sync_fifo_32.sv
+R8
+R28
+!i10b 1
+!s100 P]H@VmHJ4IChSdMh3faAY3
+I<G=B0=BMXBA`_kf[?YzEG0
+S1
+R10
+w1755445388
+8C:\Users\HP\Desktop\JPEG-Encoder\rtl\sync_fifo_32.sv
+FC:\Users\HP\Desktop\JPEG-Encoder\rtl\sync_fifo_32.sv
+!i122 176
+L0 22 62
+R13
+R14
+r1
+!s85 0
+31
+R29
+!s107 C:\Users\HP\Desktop\JPEG-Encoder\rtl\sync_fifo_32.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:\Users\HP\Desktop\JPEG-Encoder\rtl\sync_fifo_32.sv|
+!i113 0
+R16
+R6
+vsync_fifo_ff
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/sync_fifo_ff.sv
+R8
+R28
+!i10b 1
+!s100 lnEe7:39f[O>a3E:?CbYn0
+I9^LB;>oXaAZZU`cTGLiHY3
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/sync_fifo_ff.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/sync_fifo_ff.sv
+!i122 177
+L0 20 76
+R13
+R14
+r1
+!s85 0
+31
+R29
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/sync_fifo_ff.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/sync_fifo_ff.sv|
+!i113 0
+R16
+R6
+vy_dct
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_dct.sv
+R8
+R28
+!i10b 1
+!s100 Y5X@Ym3RXIzeSA9m1@PV83
+IDz5ooUJ^AW2B__ZEWN1fj1
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_dct.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/y_dct.sv
+!i122 178
+L0 17 798
+R13
+R14
+r1
+!s85 0
+31
+R29
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_dct.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_dct.sv|
+!i113 0
+R16
+R6
+vy_huff
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_huff.sv
+R8
+R28
+!i10b 1
+!s100 hmDFaMRbP_9GF_e31e25g2
+IggmdG^IV7NzmB:aLiF]3C3
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_huff.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/y_huff.sv
+!i122 179
+R17
+R13
+R14
+r1
+!s85 0
+31
+R29
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_huff.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_huff.sv|
+!i113 0
+R16
+R6
+vy_quantizer
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_quantizer.sv
+R8
+Z30 !s110 1755445639
+!i10b 1
+!s100 b0LcA8HhGV0?m>=]QF1]X1
+I7PIjf`DIgg>i2o]PQPA3U3
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_quantizer.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/y_quantizer.sv
+!i122 180
+R20
+R13
+R14
+r1
+!s85 0
+31
+Z31 !s108 1755445639.000000
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_quantizer.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/y_quantizer.sv|
+!i113 0
+R16
+R6
+vyd_q_h
+2C:/Users/HP/Desktop/JPEG-Encoder/rtl/yd_q_h.sv
+R8
+R30
+!i10b 1
+!s100 g?]d?NZciJS[K5hml8=JD3
+I`ofiDCHGIFHSWo53]2bI60
+S1
+R10
+R11
+8C:/Users/HP/Desktop/JPEG-Encoder/rtl/yd_q_h.sv
+FC:/Users/HP/Desktop/JPEG-Encoder/rtl/yd_q_h.sv
+!i122 181
+L0 28 103
+R13
+R14
+r1
+!s85 0
+31
+R31
+!s107 C:/Users/HP/Desktop/JPEG-Encoder/rtl/yd_q_h.sv|
+!s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|C:/Users/HP/Desktop/JPEG-Encoder/rtl/yd_q_h.sv|
+!i113 0
+R16
+R6
