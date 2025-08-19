@@ -30,9 +30,9 @@ output		data_ready;
 output	[4:0] end_of_file_bitstream_count;
 output		eof_data_partial_ready;
 
-logic [31:0] JPEG_FF;
-logic data_ready_FF;
-logic [4:0] orc_reg_in;
+wire [31:0] JPEG_FF;
+wire data_ready_FF;
+wire [4:0] orc_reg_in;
  
 
  fifo_out u19 (.clk(clk), .rst(rst), .enable(enable), .data_in(data_in), 
@@ -45,5 +45,12 @@ logic [4:0] orc_reg_in;
  .data_ready_1(data_ready), .orc_reg(end_of_file_bitstream_count),
  .eof_data_partial_ready(eof_data_partial_ready));
 
+`ifdef TRACE
+initial begin
+  $dumpfile ("waveform.vcd");
+  $dumpvars (0,jpeg_top);
+end
+`endif
+ 
  
  endmodule

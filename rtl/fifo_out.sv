@@ -1,3 +1,4 @@
+
 // Copyright 2025 Maktab-e-Digital Systems Lahore.
 // Licensed under the Apache License, Version 2.0, see LICENSE file for details.
 // SPDX-License-Identifier: Apache-2.0
@@ -25,9 +26,9 @@ output	[4:0] orc_reg;
 
 
 
-logic [31:0]  cb_JPEG_bitstream, cr_JPEG_bitstream, y_JPEG_bitstream;
-logic [4:0] cr_orc, cb_orc, y_orc;
-logic [31:0]  y_bits_out;
+wire  [31:0]  cb_JPEG_bitstream, cr_JPEG_bitstream, y_JPEG_bitstream;
+wire  [4:0] cr_orc, cb_orc, y_orc;
+wire  [31:0]  y_bits_out;
 wire		y_out_enable;
 wire		cb_data_ready, cr_data_ready, y_data_ready;
 wire		end_of_block_output, y_eob_empty; 
@@ -56,30 +57,30 @@ reg			rollover, rollover_1, rollover_2, rollover_3, rollover_eob;
 reg			rollover_4, rollover_5, rollover_6, rollover_7;
 reg			data_ready, eobe_1, cb_read_req, cr_read_req, y_read_req;
 reg			eob_early_out_enable, fifo_mux;
-logic[31:0] cr_bits_out1, cr_bits_out2, cb_bits_out1, cb_bits_out2;
+wire [31:0] cr_bits_out1, cr_bits_out2, cb_bits_out1, cb_bits_out2;
 wire		cr_fifo_empty1, cr_fifo_empty2, cb_fifo_empty1, cb_fifo_empty2;
 wire		cr_out_enable1, cr_out_enable2, cb_out_enable1, cb_out_enable2;
-logic cb_write_enable = cb_data_ready && !cb_eob_empty;
-logic cr_write_enable = cr_data_ready && !cr_eob_empty;
-logic y_write_enable = y_data_ready && !y_eob_empty;
-logic cr_read_req1 = fifo_mux ? 0 : cr_read_req;
-logic cr_read_req2 = fifo_mux ? cr_read_req : 0;
-logic[31:0] cr_JPEG_bitstream1 = fifo_mux ? cr_JPEG_bitstream : 0;
-logic[31:0] cr_JPEG_bitstream2 = fifo_mux ? 0 : cr_JPEG_bitstream;
-logic cr_write_enable1 = fifo_mux && cr_write_enable;
-logic cr_write_enable2 = !fifo_mux && cr_write_enable;
-logic[31:0] cr_bits_out = fifo_mux ? cr_bits_out2 : cr_bits_out1;
-logic cr_fifo_empty = fifo_mux ? cr_fifo_empty2 : cr_fifo_empty1;
-logic cr_out_enable = fifo_mux ? cr_out_enable2 : cr_out_enable1;
-logic cb_read_req1 = fifo_mux ? 0 : cb_read_req;
-logic cb_read_req2 = fifo_mux ? cb_read_req : 0;
-logic[31:0] cb_JPEG_bitstream1 = fifo_mux ? cb_JPEG_bitstream : 0;
-logic[31:0] cb_JPEG_bitstream2 = fifo_mux ? 0 : cb_JPEG_bitstream;
-logic cb_write_enable1 = fifo_mux && cb_write_enable;
-logic cb_write_enable2 = !fifo_mux && cb_write_enable;
-logic[31:0] cb_bits_out = fifo_mux ? cb_bits_out2 : cb_bits_out1;
-logic cb_fifo_empty = fifo_mux ? cb_fifo_empty2 : cb_fifo_empty1;
-logic cb_out_enable = fifo_mux ? cb_out_enable2 : cb_out_enable1;
+wire cb_write_enable = cb_data_ready && !cb_eob_empty;
+wire cr_write_enable = cr_data_ready && !cr_eob_empty;
+wire y_write_enable = y_data_ready && !y_eob_empty;
+wire cr_read_req1 = fifo_mux ? 0 : cr_read_req;
+wire cr_read_req2 = fifo_mux ? cr_read_req : 0;
+wire [31:0] cr_JPEG_bitstream1 = fifo_mux ? cr_JPEG_bitstream : 0;
+wire [31:0] cr_JPEG_bitstream2 = fifo_mux ? 0 : cr_JPEG_bitstream;
+wire cr_write_enable1 = fifo_mux && cr_write_enable;
+wire cr_write_enable2 = !fifo_mux && cr_write_enable;
+wire [31:0] cr_bits_out = fifo_mux ? cr_bits_out2 : cr_bits_out1;
+wire cr_fifo_empty = fifo_mux ? cr_fifo_empty2 : cr_fifo_empty1;
+wire cr_out_enable = fifo_mux ? cr_out_enable2 : cr_out_enable1;
+wire cb_read_req1 = fifo_mux ? 0 : cb_read_req;
+wire cb_read_req2 = fifo_mux ? cb_read_req : 0;
+wire [31:0] cb_JPEG_bitstream1 = fifo_mux ? cb_JPEG_bitstream : 0;
+wire [31:0] cb_JPEG_bitstream2 = fifo_mux ? 0 : cb_JPEG_bitstream;
+wire cb_write_enable1 = fifo_mux && cb_write_enable;
+wire cb_write_enable2 = !fifo_mux && cb_write_enable;
+wire [31:0] cb_bits_out = fifo_mux ? cb_bits_out2 : cb_bits_out1;
+wire cb_fifo_empty = fifo_mux ? cb_fifo_empty2 : cb_fifo_empty1;
+wire cb_out_enable = fifo_mux ? cb_out_enable2 : cb_out_enable1;
 
 
  	pre_fifo u14(.clk(clk), .rst(rst), .enable(enable), .data_in(data_in),
@@ -116,7 +117,7 @@ logic cb_out_enable = fifo_mux ? cb_out_enable2 : cb_out_enable1;
 		.read_data(y_bits_out), 
 		.fifo_empty(y_fifo_empty), .rdata_valid(y_out_enable));			
 
-always_ff @(posedge clk)
+	always_ff @(posedge clk)
 	begin
 		if (rst) 
 			fifo_mux <= 0;

@@ -15,32 +15,24 @@
 
 `timescale 1ns / 100ps
 
-module cb_quantizer(clk, rst, enable,
-Z11, Z12, Z13, Z14, Z15, Z16, Z17, Z18, Z21, Z22, Z23, Z24, Z25, Z26, Z27, Z28,
-Z31, Z32, Z33, Z34, Z35, Z36, Z37, Z38, Z41, Z42, Z43, Z44, Z45, Z46, Z47, Z48,
-Z51, Z52, Z53, Z54, Z55, Z56, Z57, Z58, Z61, Z62, Z63, Z64, Z65, Z66, Z67, Z68,
-Z71, Z72, Z73, Z74, Z75, Z76, Z77, Z78, Z81, Z82, Z83, Z84, Z85, Z86, Z87, Z88,
-Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28,
-Q31, Q32, Q33, Q34, Q35, Q36, Q37, Q38, Q41, Q42, Q43, Q44, Q45, Q46, Q47, Q48,
-Q51, Q52, Q53, Q54, Q55, Q56, Q57, Q58, Q61, Q62, Q63, Q64, Q65, Q66, Q67, Q68,
-Q71, Q72, Q73, Q74, Q75, Q76, Q77, Q78, Q81, Q82, Q83, Q84, Q85, Q86, Q87, Q88,
-out_enable);
-input		clk;
-input		rst;
-input		enable;
-input  [10:0]  Z11, Z12, Z13, Z14, Z15, Z16, Z17, Z18, Z21, Z22, Z23, Z24;
-input  [10:0]  Z25, Z26, Z27, Z28, Z31, Z32, Z33, Z34, Z35, Z36, Z37, Z38;
-input  [10:0]  Z41, Z42, Z43, Z44, Z45, Z46, Z47, Z48, Z51, Z52, Z53, Z54;
-input  [10:0]  Z55, Z56, Z57, Z58, Z61, Z62, Z63, Z64, Z65, Z66, Z67, Z68;
-input  [10:0]  Z71, Z72, Z73, Z74, Z75, Z76, Z77, Z78, Z81, Z82, Z83, Z84;
-input  [10:0]  Z85, Z86, Z87, Z88;
-output  [10:0]  Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q21, Q22, Q23, Q24;
-output  [10:0]  Q25, Q26, Q27, Q28, Q31, Q32, Q33, Q34, Q35, Q36, Q37, Q38;
-output  [10:0]  Q41, Q42, Q43, Q44, Q45, Q46, Q47, Q48, Q51, Q52, Q53, Q54;
-output  [10:0]  Q55, Q56, Q57, Q58, Q61, Q62, Q63, Q64, Q65, Q66, Q67, Q68;
-output  [10:0]  Q71, Q72, Q73, Q74, Q75, Q76, Q77, Q78, Q81, Q82, Q83, Q84;
-output  [10:0]  Q85, Q86, Q87, Q88;
-output		out_enable;
+module cb_quantizer(
+    input  logic        clk,
+    input  logic        rst,
+    input  logic        enable,
+    input  logic [10:0] Z11, Z12, Z13, Z14, Z15, Z16, Z17, Z18, Z21, Z22, Z23, Z24,
+    input  logic [10:0] Z25, Z26, Z27, Z28, Z31, Z32, Z33, Z34, Z35, Z36, Z37, Z38,
+    input  logic [10:0] Z41, Z42, Z43, Z44, Z45, Z46, Z47, Z48, Z51, Z52, Z53, Z54,
+    input  logic [10:0] Z55, Z56, Z57, Z58, Z61, Z62, Z63, Z64, Z65, Z66, Z67, Z68,
+    input  logic [10:0] Z71, Z72, Z73, Z74, Z75, Z76, Z77, Z78, Z81, Z82, Z83, Z84,
+    input  logic [10:0] Z85, Z86, Z87, Z88,
+    output logic [10:0] Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q21, Q22, Q23, Q24,
+    output logic [10:0] Q25, Q26, Q27, Q28, Q31, Q32, Q33, Q34, Q35, Q36, Q37, Q38,
+    output logic [10:0] Q41, Q42, Q43, Q44, Q45, Q46, Q47, Q48, Q51, Q52, Q53, Q54,
+    output logic [10:0] Q55, Q56, Q57, Q58, Q61, Q62, Q63, Q64, Q65, Q66, Q67, Q68,
+    output logic [10:0] Q71, Q72, Q73, Q74, Q75, Q76, Q77, Q78, Q81, Q82, Q83, Q84,
+    output logic [10:0] Q85, Q86, Q87, Q88,
+    output logic        out_enable
+);
 
 /* Below are the quantization values, these can be changed for different 
 quantization levels. */
@@ -119,7 +111,7 @@ actually dividing the Y, Cb, and Cr values by the quantization values.
 Instead, you can multiply by the values below, and then divide by 4096
 to get the same result.  And 4096 = 2^12, so instead of dividing, you can
 just shift the bottom 12 bits out.  This is a lossy process, as 4096/Q divided
-by 4096 doesn't always equal the same value as if you were just dividing by Q.  But
+by 4096 doesn't always_ff equal the same value as if you were just dividing by Q.  But
 the quantization process is also lossy, so the additional loss of precision is
 negligible.  To decrease the loss, you could use a larger number than 4096 to 
 get around the actual use of division.  Like take 8192/Q and then divide by 8192.*/
@@ -253,31 +245,24 @@ logic [12:0] QM8_5 = QQ8_5;
 logic [12:0] QM8_6 = QQ8_6;
 logic [12:0] QM8_7 = QQ8_7;
 logic [12:0] QM8_8 = QQ8_8;
-reg [22:0] Z11_temp, Z12_temp, Z13_temp, Z14_temp, Z15_temp, Z16_temp, Z17_temp, Z18_temp;
-reg [22:0] Z21_temp, Z22_temp, Z23_temp, Z24_temp, Z25_temp, Z26_temp, Z27_temp, Z28_temp;
-reg [22:0] Z31_temp, Z32_temp, Z33_temp, Z34_temp, Z35_temp, Z36_temp, Z37_temp, Z38_temp;
-reg [22:0] Z41_temp, Z42_temp, Z43_temp, Z44_temp, Z45_temp, Z46_temp, Z47_temp, Z48_temp;
-reg [22:0] Z51_temp, Z52_temp, Z53_temp, Z54_temp, Z55_temp, Z56_temp, Z57_temp, Z58_temp;
-reg [22:0] Z61_temp, Z62_temp, Z63_temp, Z64_temp, Z65_temp, Z66_temp, Z67_temp, Z68_temp;
-reg [22:0] Z71_temp, Z72_temp, Z73_temp, Z74_temp, Z75_temp, Z76_temp, Z77_temp, Z78_temp;
-reg [22:0] Z81_temp, Z82_temp, Z83_temp, Z84_temp, Z85_temp, Z86_temp, Z87_temp, Z88_temp;
-reg [22:0] Z11_temp_1, Z12_temp_1, Z13_temp_1, Z14_temp_1, Z15_temp_1, Z16_temp_1, Z17_temp_1, Z18_temp_1;
-reg [22:0] Z21_temp_1, Z22_temp_1, Z23_temp_1, Z24_temp_1, Z25_temp_1, Z26_temp_1, Z27_temp_1, Z28_temp_1;
-reg [22:0] Z31_temp_1, Z32_temp_1, Z33_temp_1, Z34_temp_1, Z35_temp_1, Z36_temp_1, Z37_temp_1, Z38_temp_1;
-reg [22:0] Z41_temp_1, Z42_temp_1, Z43_temp_1, Z44_temp_1, Z45_temp_1, Z46_temp_1, Z47_temp_1, Z48_temp_1;
-reg [22:0] Z51_temp_1, Z52_temp_1, Z53_temp_1, Z54_temp_1, Z55_temp_1, Z56_temp_1, Z57_temp_1, Z58_temp_1;
-reg [22:0] Z61_temp_1, Z62_temp_1, Z63_temp_1, Z64_temp_1, Z65_temp_1, Z66_temp_1, Z67_temp_1, Z68_temp_1;
-reg [22:0] Z71_temp_1, Z72_temp_1, Z73_temp_1, Z74_temp_1, Z75_temp_1, Z76_temp_1, Z77_temp_1, Z78_temp_1;
-reg [22:0] Z81_temp_1, Z82_temp_1, Z83_temp_1, Z84_temp_1, Z85_temp_1, Z86_temp_1, Z87_temp_1, Z88_temp_1;
-reg [10:0] Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18; 	
-reg [10:0] Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28; 
-reg [10:0] Q31, Q32, Q33, Q34, Q35, Q36, Q37, Q38; 
-reg [10:0] Q41, Q42, Q43, Q44, Q45, Q46, Q47, Q48; 
-reg [10:0] Q51, Q52, Q53, Q54, Q55, Q56, Q57, Q58; 
-reg [10:0] Q61, Q62, Q63, Q64, Q65, Q66, Q67, Q68; 
-reg [10:0] Q71, Q72, Q73, Q74, Q75, Q76, Q77, Q78; 
-reg [10:0] Q81, Q82, Q83, Q84, Q85, Q86, Q87, Q88; 
-reg out_enable, enable_1, enable_2, enable_3;
+logic [22:0] Z11_temp, Z12_temp, Z13_temp, Z14_temp, Z15_temp, Z16_temp, Z17_temp, Z18_temp;
+logic [22:0] Z21_temp, Z22_temp, Z23_temp, Z24_temp, Z25_temp, Z26_temp, Z27_temp, Z28_temp;
+logic [22:0] Z31_temp, Z32_temp, Z33_temp, Z34_temp, Z35_temp, Z36_temp, Z37_temp, Z38_temp;
+logic [22:0] Z41_temp, Z42_temp, Z43_temp, Z44_temp, Z45_temp, Z46_temp, Z47_temp, Z48_temp;
+logic [22:0] Z51_temp, Z52_temp, Z53_temp, Z54_temp, Z55_temp, Z56_temp, Z57_temp, Z58_temp;
+logic [22:0] Z61_temp, Z62_temp, Z63_temp, Z64_temp, Z65_temp, Z66_temp, Z67_temp, Z68_temp;
+logic [22:0] Z71_temp, Z72_temp, Z73_temp, Z74_temp, Z75_temp, Z76_temp, Z77_temp, Z78_temp;
+logic [22:0] Z81_temp, Z82_temp, Z83_temp, Z84_temp, Z85_temp, Z86_temp, Z87_temp, Z88_temp;
+logic [22:0] Z11_temp_1, Z12_temp_1, Z13_temp_1, Z14_temp_1, Z15_temp_1, Z16_temp_1, Z17_temp_1, Z18_temp_1;
+logic [22:0] Z21_temp_1, Z22_temp_1, Z23_temp_1, Z24_temp_1, Z25_temp_1, Z26_temp_1, Z27_temp_1, Z28_temp_1;
+logic [22:0] Z31_temp_1, Z32_temp_1, Z33_temp_1, Z34_temp_1, Z35_temp_1, Z36_temp_1, Z37_temp_1, Z38_temp_1;
+logic [22:0] Z41_temp_1, Z42_temp_1, Z43_temp_1, Z44_temp_1, Z45_temp_1, Z46_temp_1, Z47_temp_1, Z48_temp_1;
+logic [22:0] Z51_temp_1, Z52_temp_1, Z53_temp_1, Z54_temp_1, Z55_temp_1, Z56_temp_1, Z57_temp_1, Z58_temp_1;
+logic [22:0] Z61_temp_1, Z62_temp_1, Z63_temp_1, Z64_temp_1, Z65_temp_1, Z66_temp_1, Z67_temp_1, Z68_temp_1;
+logic [22:0] Z71_temp_1, Z72_temp_1, Z73_temp_1, Z74_temp_1, Z75_temp_1, Z76_temp_1, Z77_temp_1, Z78_temp_1;
+logic [22:0] Z81_temp_1, Z82_temp_1, Z83_temp_1, Z84_temp_1, Z85_temp_1, Z86_temp_1, Z87_temp_1, Z88_temp_1;
+ 
+logic  enable_1, enable_2, enable_3;
 integer Z11_int, Z12_int, Z13_int, Z14_int, Z15_int, Z16_int, Z17_int, Z18_int;
 integer Z21_int, Z22_int, Z23_int, Z24_int, Z25_int, Z26_int, Z27_int, Z28_int;
 integer Z31_int, Z32_int, Z33_int, Z34_int, Z35_int, Z36_int, Z37_int, Z38_int;

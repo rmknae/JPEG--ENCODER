@@ -11,146 +11,123 @@
 // Author:Rameen
 // Date:12th July,2025.
 
+
 `timescale 1ns / 100ps
 
-module cr_dct(clk, rst, enable, data_in,
-Z11_final, Z12_final, Z13_final, Z14_final, Z15_final, Z16_final, Z17_final, Z18_final,
-Z21_final, Z22_final, Z23_final, Z24_final, Z25_final, Z26_final, Z27_final, Z28_final,
-Z31_final, Z32_final, Z33_final, Z34_final, Z35_final, Z36_final, Z37_final, Z38_final,
-Z41_final, Z42_final, Z43_final, Z44_final, Z45_final, Z46_final, Z47_final, Z48_final,
-Z51_final, Z52_final, Z53_final, Z54_final, Z55_final, Z56_final, Z57_final, Z58_final,
-Z61_final, Z62_final, Z63_final, Z64_final, Z65_final, Z66_final, Z67_final, Z68_final,
-Z71_final, Z72_final, Z73_final, Z74_final, Z75_final, Z76_final, Z77_final, Z78_final,
-Z81_final, Z82_final, Z83_final, Z84_final, Z85_final, Z86_final, Z87_final, Z88_final, 
-output_enable);
-input		clk;
-input		rst;
-input		enable;
-input	[7:0]	data_in;
-output  [10:0]  Z11_final, Z12_final, Z13_final, Z14_final;
-output  [10:0]  Z15_final, Z16_final, Z17_final, Z18_final;
-output  [10:0]  Z21_final, Z22_final, Z23_final, Z24_final;
-output  [10:0]  Z25_final, Z26_final, Z27_final, Z28_final;
-output  [10:0]  Z31_final, Z32_final, Z33_final, Z34_final;
-output  [10:0]  Z35_final, Z36_final, Z37_final, Z38_final;
-output  [10:0]  Z41_final, Z42_final, Z43_final, Z44_final;
-output  [10:0]  Z45_final, Z46_final, Z47_final, Z48_final;
-output  [10:0]  Z51_final, Z52_final, Z53_final, Z54_final;
-output  [10:0]  Z55_final, Z56_final, Z57_final, Z58_final;
-output  [10:0]  Z61_final, Z62_final, Z63_final, Z64_final;
-output  [10:0]  Z65_final, Z66_final, Z67_final, Z68_final;
-output  [10:0]  Z71_final, Z72_final, Z73_final, Z74_final;
-output  [10:0]  Z75_final, Z76_final, Z77_final, Z78_final;
-output  [10:0]  Z81_final, Z82_final, Z83_final, Z84_final;
-output  [10:0]  Z85_final, Z86_final, Z87_final, Z88_final;
-output	output_enable;
-
+module cr_dct(
+    input  logic        clk,
+    input  logic        rst,
+    input  logic        enable,
+    input  logic [7:0]  data_in,
+    output logic [10:0] Z11_final, Z12_final, Z13_final, Z14_final,
+    output logic [10:0] Z15_final, Z16_final, Z17_final, Z18_final,
+    output logic [10:0] Z21_final, Z22_final, Z23_final, Z24_final,
+    output logic [10:0] Z25_final, Z26_final, Z27_final, Z28_final,
+    output logic [10:0] Z31_final, Z32_final, Z33_final, Z34_final,
+    output logic [10:0] Z35_final, Z36_final, Z37_final, Z38_final,
+    output logic [10:0] Z41_final, Z42_final, Z43_final, Z44_final,
+    output logic [10:0] Z45_final, Z46_final, Z47_final, Z48_final,
+    output logic [10:0] Z51_final, Z52_final, Z53_final, Z54_final,
+    output logic [10:0] Z55_final, Z56_final, Z57_final, Z58_final,
+    output logic [10:0] Z61_final, Z62_final, Z63_final, Z64_final,
+    output logic [10:0] Z65_final, Z66_final, Z67_final, Z68_final,
+    output logic [10:0] Z71_final, Z72_final, Z73_final, Z74_final,
+    output logic [10:0] Z75_final, Z76_final, Z77_final, Z78_final,
+    output logic [10:0] Z81_final, Z82_final, Z83_final, Z84_final,
+    output logic [10:0] Z85_final, Z86_final, Z87_final, Z88_final,
+    output logic        output_enable
+);
 
 integer T1, T21, T22, T23, T24, T25, T26, T27, T28, T31, T32, T33, T34, T52; 
 integer Ti1, Ti21, Ti22, Ti23, Ti24, Ti25, Ti26, Ti27, Ti28, Ti31, Ti32, Ti33, Ti34, Ti52; 
 
-reg [24:0] Cb_temp_11;
-reg [24:0] Cb11, Cb21, Cb31, Cb41, Cb51, Cb61, Cb71, Cb81, Cb11_final;
-reg [31:0] Cb_temp_21, Cb_temp_31, Cb_temp_41, Cb_temp_51;
-reg [31:0] Cb_temp_61, Cb_temp_71, Cb_temp_81;
-reg [31:0] Z_temp_11, Z_temp_12, Z_temp_13, Z_temp_14;
-reg [31:0] Z_temp_15, Z_temp_16, Z_temp_17, Z_temp_18;
-reg [31:0] Z_temp_21, Z_temp_22, Z_temp_23, Z_temp_24;
-reg [31:0] Z_temp_25, Z_temp_26, Z_temp_27, Z_temp_28;
-reg [31:0] Z_temp_31, Z_temp_32, Z_temp_33, Z_temp_34;
-reg [31:0] Z_temp_35, Z_temp_36, Z_temp_37, Z_temp_38;
-reg [31:0] Z_temp_41, Z_temp_42, Z_temp_43, Z_temp_44;
-reg [31:0] Z_temp_45, Z_temp_46, Z_temp_47, Z_temp_48;
-reg [31:0] Z_temp_51, Z_temp_52, Z_temp_53, Z_temp_54;
-reg [31:0] Z_temp_55, Z_temp_56, Z_temp_57, Z_temp_58;
-reg [31:0] Z_temp_61, Z_temp_62, Z_temp_63, Z_temp_64;
-reg [31:0] Z_temp_65, Z_temp_66, Z_temp_67, Z_temp_68;
-reg [31:0] Z_temp_71, Z_temp_72, Z_temp_73, Z_temp_74;
-reg [31:0] Z_temp_75, Z_temp_76, Z_temp_77, Z_temp_78;
-reg [31:0] Z_temp_81, Z_temp_82, Z_temp_83, Z_temp_84;
-reg [31:0] Z_temp_85, Z_temp_86, Z_temp_87, Z_temp_88;
-reg [24:0] Z11, Z12, Z13, Z14, Z15, Z16, Z17, Z18;
-reg [24:0] Z21, Z22, Z23, Z24, Z25, Z26, Z27, Z28;
-reg [24:0] Z31, Z32, Z33, Z34, Z35, Z36, Z37, Z38;
-reg [24:0] Z41, Z42, Z43, Z44, Z45, Z46, Z47, Z48;
-reg [24:0] Z51, Z52, Z53, Z54, Z55, Z56, Z57, Z58;
-reg [24:0] Z61, Z62, Z63, Z64, Z65, Z66, Z67, Z68;
-reg [24:0] Z71, Z72, Z73, Z74, Z75, Z76, Z77, Z78;
-reg [24:0] Z81, Z82, Z83, Z84, Z85, Z86, Z87, Z88;
-reg [31:0]  Cb11_final_2, Cb21_final_2, Cb11_final_3, Cb11_final_4, Cb31_final_2, Cb41_final_2;
-reg [31:0]  Cb51_final_2, Cb61_final_2, Cb71_final_2, Cb81_final_2;
-reg [10:0]  Cb11_final_1, Cb21_final_1, Cb31_final_1, Cb41_final_1;
-reg [10:0]  Cb51_final_1, Cb61_final_1, Cb71_final_1, Cb81_final_1;
-reg [24:0] Cb21_final, Cb31_final, Cb41_final, Cb51_final;
-reg [24:0] Cb61_final, Cb71_final, Cb81_final;
-reg [24:0] Cb21_final_prev, Cb21_final_diff;
-reg [24:0] Cb31_final_prev, Cb31_final_diff;
-reg [24:0] Cb41_final_prev, Cb41_final_diff;
-reg [24:0] Cb51_final_prev, Cb51_final_diff;
-reg [24:0] Cb61_final_prev, Cb61_final_diff;
-reg [24:0] Cb71_final_prev, Cb71_final_diff;
-reg [24:0] Cb81_final_prev, Cb81_final_diff;
-reg [10:0] Z11_final, Z12_final, Z13_final, Z14_final;
-reg [10:0] Z15_final, Z16_final, Z17_final, Z18_final;
-reg [10:0] Z21_final, Z22_final, Z23_final, Z24_final;
-reg [10:0] Z25_final, Z26_final, Z27_final, Z28_final;
-reg [10:0] Z31_final, Z32_final, Z33_final, Z34_final;
-reg [10:0] Z35_final, Z36_final, Z37_final, Z38_final;
-reg [10:0] Z41_final, Z42_final, Z43_final, Z44_final;
-reg [10:0] Z45_final, Z46_final, Z47_final, Z48_final;
-reg [10:0] Z51_final, Z52_final, Z53_final, Z54_final;
-reg [10:0] Z55_final, Z56_final, Z57_final, Z58_final;
-reg [10:0] Z61_final, Z62_final, Z63_final, Z64_final;
-reg [10:0] Z65_final, Z66_final, Z67_final, Z68_final;
-reg [10:0] Z71_final, Z72_final, Z73_final, Z74_final;
-reg [10:0] Z75_final, Z76_final, Z77_final, Z78_final;
-reg [10:0] Z81_final, Z82_final, Z83_final, Z84_final;
-reg [10:0] Z85_final, Z86_final, Z87_final, Z88_final;
-reg [2:0] count;
-reg	[2:0] count_of, count_of_copy;
-reg	count_1, count_3, count_4, count_5, count_6, count_7, count_8, enable_1, output_enable;
-reg count_9, count_10;
-reg [7:0] data_1;
+logic [24:0] Cb_temp_11;
+logic [24:0] Cb11, Cb21, Cb31, Cb41, Cb51, Cb61, Cb71, Cb81, Cb11_final;
+logic [31:0] Cb_temp_21, Cb_temp_31, Cb_temp_41, Cb_temp_51;
+logic [31:0] Cb_temp_61, Cb_temp_71, Cb_temp_81;
+logic [31:0] Z_temp_11, Z_temp_12, Z_temp_13, Z_temp_14;
+logic [31:0] Z_temp_15, Z_temp_16, Z_temp_17, Z_temp_18;
+logic [31:0] Z_temp_21, Z_temp_22, Z_temp_23, Z_temp_24;
+logic [31:0] Z_temp_25, Z_temp_26, Z_temp_27, Z_temp_28;
+logic [31:0] Z_temp_31, Z_temp_32, Z_temp_33, Z_temp_34;
+logic [31:0] Z_temp_35, Z_temp_36, Z_temp_37, Z_temp_38;
+logic [31:0] Z_temp_41, Z_temp_42, Z_temp_43, Z_temp_44;
+logic [31:0] Z_temp_45, Z_temp_46, Z_temp_47, Z_temp_48;
+logic [31:0] Z_temp_51, Z_temp_52, Z_temp_53, Z_temp_54;
+logic [31:0] Z_temp_55, Z_temp_56, Z_temp_57, Z_temp_58;
+logic [31:0] Z_temp_61, Z_temp_62, Z_temp_63, Z_temp_64;
+logic [31:0] Z_temp_65, Z_temp_66, Z_temp_67, Z_temp_68;
+logic [31:0] Z_temp_71, Z_temp_72, Z_temp_73, Z_temp_74;
+logic [31:0] Z_temp_75, Z_temp_76, Z_temp_77, Z_temp_78;
+logic [31:0] Z_temp_81, Z_temp_82, Z_temp_83, Z_temp_84;
+logic [31:0] Z_temp_85, Z_temp_86, Z_temp_87, Z_temp_88;
+logic [24:0] Z11, Z12, Z13, Z14, Z15, Z16, Z17, Z18;
+logic [24:0] Z21, Z22, Z23, Z24, Z25, Z26, Z27, Z28;
+logic [24:0] Z31, Z32, Z33, Z34, Z35, Z36, Z37, Z38;
+logic [24:0] Z41, Z42, Z43, Z44, Z45, Z46, Z47, Z48;
+logic [24:0] Z51, Z52, Z53, Z54, Z55, Z56, Z57, Z58;
+logic [24:0] Z61, Z62, Z63, Z64, Z65, Z66, Z67, Z68;
+logic [24:0] Z71, Z72, Z73, Z74, Z75, Z76, Z77, Z78;
+logic [24:0] Z81, Z82, Z83, Z84, Z85, Z86, Z87, Z88;
+logic [31:0]  Cb11_final_2, Cb21_final_2, Cb11_final_3, Cb11_final_4, Cb31_final_2, Cb41_final_2;
+logic [31:0]  Cb51_final_2, Cb61_final_2, Cb71_final_2, Cb81_final_2;
+logic [10:0]  Cb11_final_1, Cb21_final_1, Cb31_final_1, Cb41_final_1;
+logic [10:0]  Cb51_final_1, Cb61_final_1, Cb71_final_1, Cb81_final_1;
+logic [24:0] Cb21_final, Cb31_final, Cb41_final, Cb51_final;
+logic [24:0] Cb61_final, Cb71_final, Cb81_final;
+logic [24:0] Cb21_final_prev, Cb21_final_diff;
+logic [24:0] Cb31_final_prev, Cb31_final_diff;
+logic [24:0] Cb41_final_prev, Cb41_final_diff;
+logic [24:0] Cb51_final_prev, Cb51_final_diff;
+logic [24:0] Cb61_final_prev, Cb61_final_diff;
+logic [24:0] Cb71_final_prev, Cb71_final_diff;
+logic [24:0] Cb81_final_prev, Cb81_final_diff;
+
+logic [2:0] count;
+logic	[2:0] count_of, count_of_copy;
+logic	count_1, count_3, count_4, count_5, count_6, count_7, count_8, enable_1;
+logic count_9, count_10;
+logic [7:0] data_1;
 integer Cb2_mul_input, Cb3_mul_input, Cb4_mul_input, Cb5_mul_input;
 integer Cb6_mul_input, Cb7_mul_input, Cb8_mul_input;	
 integer Ti2_mul_input, Ti3_mul_input, Ti4_mul_input, Ti5_mul_input;
 integer Ti6_mul_input, Ti7_mul_input, Ti8_mul_input;
 
-always_ff @(posedge clk) begin
-    // DCT matrix entries
-    T1  <= 5793;   // .3536
-    T21 <= 8035;   // .4904
-    T22 <= 6811;   // .4157
-    T23 <= 4551;   // .2778
-    T24 <= 1598;   // .0975
-    T25 <= -1598;  // -.0975
-    T26 <= -4551;  // -.2778
-    T27 <= -6811;  // -.4157
-    T28 <= -8035;  // -.4904
-    T31 <= 7568;   // .4619
-    T32 <= 3135;   // .1913
-    T33 <= -3135;  // -.1913
-    T34 <= -7568;  // -.4619
-    T52 <= -5793;  // -.3536
-end
+always_ff @(posedge clk)		
+begin // DCT matrix entries
+	T1 = 5793; // .3536
+	T21 = 8035; // .4904
+	T22 = 6811; // .4157
+	T23 = 4551; // .2778
+	T24 = 1598; // .0975
+	T25 = -1598; // -.0975
+	T26 = -4551; // -.2778
+	T27 = -6811; // -.4157
+	T28 = -8035; // -.4904
+	T31 = 7568; // .4619
+	T32 = 3135; // .1913
+	T33 = -3135; // -.1913
+	T34 = -7568; // -.4619
+	T52 = -5793; // -.3536
+end 
   
-always_ff @(posedge clk) begin
-    // Inverse DCT matrix entries
-    Ti1  <= 5793;   // .3536
-    Ti21 <= 8035;   // .4904
-    Ti22 <= 6811;   // .4157
-    Ti23 <= 4551;   // .2778
-    Ti24 <= 1598;   // .0975
-    Ti25 <= -1598;  // -.0975
-    Ti26 <= -4551;  // -.2778
-    Ti27 <= -6811;  // -.4157
-    Ti28 <= -8035;  // -.4904
-    Ti31 <= 7568;   // .4619
-    Ti32 <= 3135;   // .1913
-    Ti33 <= -3135;  // -.1913
-    Ti34 <= -7568;  // -.4619
-    Ti52 <= -5793;  // -.3536
-end
+always_ff @(posedge clk)		
+begin // The inverse DCT matrix entries
+	Ti1 = 5793; // .3536
+	Ti21 = 8035; // .4904
+	Ti22 = 6811; // .4157
+	Ti23 = 4551; // .2778
+	Ti24 = 1598; // .0975
+	Ti25 = -1598; // -.0975
+	Ti26 = -4551; // -.2778
+	Ti27 = -6811; // -.4157
+	Ti28 = -8035; // -.4904
+	Ti31 = 7568; // .4619
+	Ti32 = 3135; // .1913
+	Ti33 = -3135; // -.1913
+	Ti34 = -7568; // -.4619
+	Ti52 = -5793; // -.3536
+end 
 
 always_ff @(posedge clk)
 begin
@@ -768,7 +745,7 @@ begin
 		Cb11_final_1 <= Cb11_final[13] ? Cb11_final[24:14] + 1 : Cb11_final[24:14];
 		Cb11_final_2[31:11] <= Cb11_final_1[10] ? 21'b111111111111111111111 : 21'b000000000000000000000;
 		Cb11_final_2[10:0] <= Cb11_final_1;
-		// Need to sign extend Cb11_final_1 and the other registers to store a negative 
+		// Need to sign extend Cb11_final_1 and the other logicisters to store a negative 
 		// number as a twos complement number.  If you don't sign extend, then a negative number
 		// will be stored incorrectly as a positive number.  For example, -215 would be stored
 		// as 1833 without sign extending

@@ -17,6 +17,7 @@
 // Author: Navaal Noshi
 // Date: 29th July, 2025
 
+
 `timescale 1ns / 100ps
 
 module ff_checker(clk, rst, end_of_file_signal, JPEG_in, data_ready_in, orc_reg_in,
@@ -58,15 +59,15 @@ reg [1:0] ffc_postfifo, count_total_eof;
 reg [4:0] orc_input;
 reg [4:0] orc_reg;
 reg [6:0] extra_bits_eof, extra_bits_eof_1;
-logic[90:0] read_data;
-logic[90:0] write_data = { JPEG_out_1, ffc_7, rollover_5 }; 
+wire [90:0] read_data;
+wire [90:0] write_data = { JPEG_out_1, ffc_7, rollover_5 }; 
 reg data_ready, data_ready_1, write_enable, read_req, rdv_1;
 reg end_of_file_enable, eof_count_enable;
 reg eof_data_partial_ready, eof_dpr_1, eof_dpr_2;
 reg end_of_file_enable_hold, eof_data_ready;
 reg eof_data_ready_1, eof_bits_1, eof_bits_2, eof_bits_3;
 reg [8:0] eof_count;
-logic fifo_empty, rdata_valid;
+wire fifo_empty, rdata_valid;
 
  sync_fifo_ff u18(.clk(clk), .rst(rst), .read_req(read_req), .write_data(write_data), 
 		.write_enable(write_enable), .rollover_write(rollover_5),

@@ -10,6 +10,7 @@
 // Author:Rameen
 // Date:16th July,2025.
 
+
 `timescale 1ns / 100ps
 		
 module cr_huff(clk, rst, enable,
@@ -129,7 +130,7 @@ reg		third_8_all_0s, fourth_8_all_0s, fifth_8_all_0s, sixth_8_all_0s, seventh_8_
 reg		eighth_8_all_0s, end_of_block, code_15_0, zrl_et_15, end_of_block_output;
 reg		end_of_block_empty;
 
-logic	[7:0]	code_index = { zrl_2, Cr12_bits };
+wire	[7:0]	code_index = { zrl_2, Cr12_bits };
 
 
 
