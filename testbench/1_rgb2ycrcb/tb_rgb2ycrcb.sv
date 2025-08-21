@@ -17,7 +17,6 @@
 // Date:20th July,2025.
 
 `timescale 1ns / 100ps
-`include "rgb2ycbcr_constants.svh"
 module tb_rgb2ycrcb;
 
   // DUT I/O
@@ -89,3 +88,4 @@ module tb_rgb2ycrcb;
   end
 
 endmodule
+
