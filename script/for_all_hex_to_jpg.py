@@ -33,7 +33,6 @@ compressed_jpg = sys.argv[2]
 
 # Optional upscaled output
 upscaled_jpg = os.path.splitext(compressed_jpg)[0] + "_upscaled.jpg"
->>>>>>> 7c836686dfa8ecad753f06cc324096d5c0be7dc6
 
 # -------------------------
 # Step 1: Read the header
@@ -52,14 +51,11 @@ if not os.path.exists(hex_file):
     print(f"❌ ERROR: hex file not found: {hex_file}")
     sys.exit(1)
 
-<<<<<<< HEAD
 bitstream_bytes = bytearray()
 =======
 if not os.path.exists(hex_file):
     print(f"❌ ERROR: hex file not found: {hex_file}")
     sys.exit(1)
-
->>>>>>> 7c836686dfa8ecad753f06cc324096d5c0be7dc6
 with open(hex_file, 'r') as f:
     for line in f:
         line = line.strip()
@@ -93,7 +89,6 @@ try:
     # -------------------------
     # Step 5: Upscale back to the original test.jpg size
     # -------------------------
-<<<<<<< HEAD
     if not os.path.exists(original_image):
         print(f"⚠️ Original image not found: {original_image}")
         original_size = (640, 480)  # fallback size
@@ -101,9 +96,8 @@ try:
         with Image.open(original_image) as orig:
             original_size = orig.size  # get width and height from test.jpg
 
-=======
+
     original_size = (640, 480)  # 👈 replace with your real original image size
->>>>>>> 7c836686dfa8ecad753f06cc324096d5c0be7dc6
     img_up = img.resize(original_size, Image.LANCZOS)
     img_up.save(
         upscaled_jpg,
@@ -116,3 +110,4 @@ try:
 
 except Exception as e:
     print("⚠️ Could not recompress JPEG:", e)
+
