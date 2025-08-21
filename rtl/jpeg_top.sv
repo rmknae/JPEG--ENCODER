@@ -45,12 +45,6 @@ wire [4:0] orc_reg_in;
  .data_ready_1(data_ready), .orc_reg(end_of_file_bitstream_count),
  .eof_data_partial_ready(eof_data_partial_ready));
 
-`ifdef TRACE
-initial begin
-  $dumpfile ("waveform.vcd");
-  $dumpvars (0,jpeg_top);
-end
-`endif
  
  
  endmodule
