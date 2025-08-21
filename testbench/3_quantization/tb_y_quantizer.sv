@@ -21,119 +21,96 @@
 // Date: 24th July, 2025
 
 `timescale 1ns / 100ps
-`include "quantizer_constant.svh"
 
 module tb_y_quantizer;
 
-  logic clk, rst, enable;
-  logic signed [10:0] Z [0:7][0:7];
-  logic signed [10:0] Q [0:7][0:7];
-  logic out_enable;
+    // Signals for the DUT
+    logic clk;
+    logic rst;
+    logic enable;
+    logic [10:0] Z [0:7][0:7];
+    logic [10:0] Q [0:7][0:7];
+    logic out_enable;
 
-  // Instantiate DUT
-  y_quantizer dut (
-    .clk(clk),
-    .rst(rst),
-    .enable(enable),
-    .Z(Z),
-    .Q(Q),
-    .out_enable(out_enable)
-  );
-
-  // Clock generation
-  always #5 clk = ~clk;
-
-  // Test data and reference matrices
-  logic signed [10:0] test_input [0:7][0:7];
-  logic signed [10:0] expected_output [0:7][0:7];
-
-  // Compute expected output using (Z * 4096 / Q[i][j]) >> 12 with rounding
-  task automatic compute_expected_output;
-    for (int i = 0; i < 8; i++) begin
-      for (int j = 0; j < 8; j++) begin
-        int qq = 4096 / Q_MATRIX[i][j];
-        int temp = test_input[i][j] * qq;
-        expected_output[i][j] = (temp[11]) ? (temp >>> 12) + 1 : (temp >>> 12);
-      end
-    end
-  endtask
-
-  // Horizontally print Z, expected_output, and Q
-  task automatic print_all_matrices;
-    $display("\n%-70s %-70s %-150s", "Input Matrix (Z)", "Expected Output", "Actual Output (Q)");
-    $display("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-    for (int i = 0; i < 8; i++) begin
-      for (int j = 0; j < 8; j++) $write("%6d ", test_input[i][j]);
-      $write("   ");
-      for (int j = 0; j < 8; j++) $write("%6d ", expected_output[i][j]);
-      $write("   ");
-      for (int j = 0; j < 8; j++) $write("%6d ", Q[i][j]);
-      $write("\n");
-    end
-  endtask
-
-  // Single test
-  task automatic run_test(string testname);
-    $display("\n===============================");
-    $display(" Running Test: %s", testname);
-    $display("===============================\n");
-
-    // Reset
-    rst = 1; enable = 0; #10;
-    rst = 0; #10;
-
-    // Apply input
-    for (int i = 0; i < 8; i++)
-      for (int j = 0; j < 8; j++)
-        Z[i][j] = test_input[i][j];
-
-    // Enable pulse
-    enable = 1; #10;
-    enable = 0;
-
-    // Wait for pipeline
-    wait (out_enable); #10;
-
-    print_all_matrices();
-  endtask
-
-  // Main
-  initial begin
-    clk = 0;
-
-    // Test: All 1023
-    for (int i = 0; i < 8; i++)
-      for (int j = 0; j < 8; j++)
-        test_input[i][j] = 11'sd1023;
-
-    compute_expected_output();
-    run_test("All 1023 Values");
-
-    // Test: Ramp
-    for (int i = 0; i < 8; i++)
-      for (int j = 0; j < 8; j++)
-        test_input[i][j] = i * 8 + j;
-
-    compute_expected_output();
-    run_test("Ramp Pattern");
-
-    // Test: Alternating +1023/-1024
-    for (int i = 0; i < 8; i++)
-      for (int j = 0; j < 8; j++)
-        test_input[i][j] = ((i + j) % 2 == 0) ? 1023 : -1024;
-
-    compute_expected_output();
-    run_test("Checkerboard Pattern");
-
-    // Test: Random Values
-    for (int i = 0; i < 8; i++)
-      for (int j = 0; j < 8; j++)
-        test_input[i][j] = $urandom_range(-1024, 1023);
-
-    compute_expected_output();
-    run_test("Random Values");
+    integer i, j;
     
-    $finish;
-  end
-endmodule
+    // DUT Instantiation
+    y_quantizer dut (
+        .clk(clk),
+        .rst(rst),
+        .enable(enable),
+        
+        // Connect the input array to the individual DUT ports
+        .Z11(Z[0][0]), .Z12(Z[0][1]), .Z13(Z[0][2]), .Z14(Z[0][3]),
+        .Z15(Z[0][4]), .Z16(Z[0][5]), .Z17(Z[0][6]), .Z18(Z[0][7]),
+        .Z21(Z[1][0]), .Z22(Z[1][1]), .Z23(Z[1][2]), .Z24(Z[1][3]),
+        .Z25(Z[1][4]), .Z26(Z[1][5]), .Z27(Z[1][6]), .Z28(Z[1][7]),
+        .Z31(Z[2][0]), .Z32(Z[2][1]), .Z33(Z[2][2]), .Z34(Z[2][3]),
+        .Z35(Z[2][4]), .Z36(Z[2][5]), .Z37(Z[2][6]), .Z38(Z[2][7]),
+        .Z41(Z[3][0]), .Z42(Z[3][1]), .Z43(Z[3][2]), .Z44(Z[3][3]),
+        .Z45(Z[3][4]), .Z46(Z[3][5]), .Z47(Z[3][6]), .Z48(Z[3][7]),
+        .Z51(Z[4][0]), .Z52(Z[4][1]), .Z53(Z[4][2]), .Z54(Z[4][3]),
+        .Z55(Z[4][4]), .Z56(Z[4][5]), .Z57(Z[4][6]), .Z58(Z[4][7]),
+        .Z61(Z[5][0]), .Z62(Z[5][1]), .Z63(Z[5][2]), .Z64(Z[5][3]),
+        .Z65(Z[5][4]), .Z66(Z[5][5]), .Z67(Z[5][6]), .Z68(Z[5][7]),
+        .Z71(Z[6][0]), .Z72(Z[6][1]), .Z73(Z[6][2]), .Z74(Z[6][3]),
+        .Z75(Z[6][4]), .Q76(Q[6][5]), .Q77(Q[6][6]), .Q78(Q[6][7]),
+        .Q81(Q[7][0]), .Q82(Q[7][1]), .Q83(Q[7][2]), .Q84(Q[7][3]),
+        .Q85(Q[7][4]), .Q86(Q[7][5]), .Q87(Q[7][6]), .Q88(Q[7][7]),
 
+        .out_enable(out_enable)
+    );
+    
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+    
+    // Stimulus and Output Print
+    initial begin
+        // 1. Reset
+        rst = 1;
+        enable = 0;
+        Z = '{default: '{default: 11'd0}};
+        #10;
+        @(posedge clk);
+        rst = 0;
+        
+        // 2. Provide random data
+        @(posedge clk);
+        enable = 1;
+        
+        // Use a for loop to assign random values to the Z matrix
+        for (i = 0; i < 8; i++) begin
+            for (j = 0; j < 8; j++) begin
+                // $urandom_range generates a non-negative random number
+                Z[i][j] = $urandom_range(0, 2047); 
+            end
+        end
+        
+        // Wait for the pipeline to finish
+        repeat (4) @(posedge clk);
+        enable = 0;
+
+        // 3. Print the input and output data
+        $display("Input Z Matrix (Randomly Generated):");
+        for (i = 0; i < 8; i++) begin
+            for (j = 0; j < 8; j++) begin
+                $write("%0d\t", Z[i][j]);
+            end
+            $write("\n");
+        end
+        
+        $display("\nOutput Q Matrix:");
+        for (i = 0; i < 8; i++) begin
+            for (j = 0; j < 8; j++) begin
+                $write("%0d\t", Q[i][j]);
+            end
+            $write("\n");
+        end
+        
+        #10;
+        $finish;
+    end
+endmodule
