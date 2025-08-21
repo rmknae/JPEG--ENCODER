@@ -16,7 +16,7 @@
 
 `timescale 1ns / 100ps
 
-module RGB2YCBCR(
+module rgb2ycrcb(
     input  logic       clk,
     input  logic       rst,
     input  logic       enable,
@@ -109,3 +109,4 @@ begin
 		end
 end
 endmodule
+
