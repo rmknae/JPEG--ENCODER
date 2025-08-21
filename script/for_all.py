@@ -1,91 +1,52 @@
-# image_to_hex_and_blocks.py
-# Convert any image into 96x96 hex dump + Verilog-style pixel data file
-
 from PIL import Image
 import numpy as np
-import os
 
-# --- Configuration ---
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))  # folder where script is located
-<<<<<<< HEAD
-rtl_dir = os.path.join(SCRIPT_DIR, "rtl")               # rtl folder for pixel_data.txt
-os.makedirs(rtl_dir, exist_ok=True)                     # ensure folder exists
+# Load image (ensure 1080x1920 or any size)
+img = Image.open("test.jpg").convert("RGB")
 
-input_image = os.path.join(SCRIPT_DIR, "test.jpg")      # input image
-hex_file = os.path.join(SCRIPT_DIR, "input_96.hex")     # hex RGB values in script folder
-pixel_file = os.path.join(rtl_dir, "pixel_data.txt")    # pixel data in rtl folder
-width, height = 96, 96
-=======
-input_image = os.path.join(SCRIPT_DIR, "test.jpg")       # input image (any size)
-hex_file = os.path.join(SCRIPT_DIR, "input_96.hex")      # plain hex RGB values
-pixel_file = os.path.join(SCRIPT_DIR, "pixel_data.txt")  # Verilog-style data stream
-width, height = 96, 96         # resize target
->>>>>>> 7c836686dfa8ecad753f06cc324096d5c0be7dc6
-block_size = 8
+# Convert to NumPy array and BGR
+imgBGR = np.array(img)[:, :, ::-1]   # swap RGB -> BGR
+h, w, _ = imgBGR.shape
 
-# -------------------------
-# Step 1: Resize to 96x96 and save hex dump
-# -------------------------
-def image_to_hex(img_path, hex_out, width=96, height=96):
-    if not os.path.exists(img_path):
-        raise FileNotFoundError(f"Image file not found: {img_path}")
+block_size = 8  # 8x8 block size
 
-    img = Image.open(img_path).convert("RGB")
-    img_resized = img.resize((width, height), Image.LANCZOS)
+# Open output file
+with open("pixel_data.txt", "w") as f:
 
-    with open(hex_out, "w") as f:
-        for y in range(height):
-            for x in range(width):
-                r, g, b = img_resized.getpixel((x, y))
-                f.write(f"{r:02X}\n{g:02X}\n{b:02X}\n")
+    # Go through 8x8 blocks
+    for by in range(0, h, block_size):
+        for bx in range(0, w, block_size):
 
-    print(f"📥 Image {img_path} resized to {width}x{height} and written as {hex_out}")
-    return np.array(img_resized)
+            # Handle edge cases (if h or w not multiple of 8)
+            y_end = min(by + block_size, h)
+            x_end = min(bx + block_size, w)
 
-# -------------------------
-# Step 2: Generate Verilog-style block stream
-# -------------------------
-def image_to_blocks(img_array, block_out, block_size=8):
-    imgBGR = img_array[:, :, [2, 1, 0]]  # Convert to BGR
-    h, w, _ = imgBGR.shape
-    total_pixels = h * w
-    pixel_count = 0
+            block = imgBGR[by:y_end, bx:x_end, :]
 
-    with open(block_out, "w") as f:
-        for by in range(0, h, block_size):
-            for bx in range(0, w, block_size):
-                block = imgBGR[by:by+block_size, bx:bx+block_size, :]
+            # Pad to 8x8 if smaller at edges
+            padded_block = np.zeros((block_size, block_size, 3), dtype=np.uint8)
+            padded_block[:block.shape[0], :block.shape[1], :] = block
 
-                # Mark EOF only before last block
-                if pixel_count == total_pixels - 64:
-                    f.write("end_of_file_signal <= 1'b1;\n")
+            # Flatten block (row-major, left→right, top→down)
+            pixels = padded_block.transpose(1, 0, 2).reshape(-1, 3)
 
-                for row in range(block_size):
-                    for col in range(block_size):
-                        B, G, R = block[row, col]
-                        pixel_count += 1
+            # Loop through 64 pixels
+            for (B, G, R) in pixels:
+                Rbin = format(R, "08b")
+                Gbin = format(G, "08b")
+                Bbin = format(B, "08b")
 
-                        Rbin = format(R, "08b")
-                        Gbin = format(G, "08b")
-                        Bbin = format(B, "08b")
-                        binStr = f"{Bbin}{Gbin}{Rbin}"
+                # Choose BGR (or RGB if needed)
+                binStr = f"{Bbin}{Gbin}{Rbin}"   # BGR order
+                # binStr = f"{Rbin}{Gbin}{Bbin}" # RGB order
 
-                        f.write(f"\tdata_in <= 24'b{binStr};\n#10000;\n")
+                # Write pixel line
+                f.write(f"\tdata_in <= 24'b{binStr};\n#10000;\n")
 
-                if pixel_count < total_pixels:
-                    f.write("#130000;\n")
-                    f.write("enable <= 1'b0;\n")
-                    f.write("#10000;\n")
-                    f.write("enable <= 1'b1;\n")
+            # After finishing one 8x8 block, add control sequence
+            f.write("#130000;\n")
+            f.write("enable <= 1'b0;\n")
+            f.write("#10000;\n")
+            f.write("enable <= 1'b1;\n")
 
-        f.write("#130000;\n")
-        f.write("enable <= 1'b0;\n")
-
-    print(f"✅ Pixel data written to {block_out} (8x8 blocks, row-major, EOF only before last block)")
-
-# -------------------------
-# Run the pipeline
-# -------------------------
-if __name__ == "__main__":
-    resized_array = image_to_hex(input_image, hex_file, width, height)
-    image_to_blocks(resized_array, pixel_file, block_size)
+print("✅ Pixel data written to pixel_data.txt (supports any size, 8x8 block order with enable control)")
