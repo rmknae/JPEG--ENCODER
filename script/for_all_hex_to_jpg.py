@@ -1,41 +1,30 @@
-# Converts JPEG bitstream from simulation to an actual JPEG image using a header file
-# Saves compressed version and upscales back to the original test.jpg size
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Aug 21 23:39:35 2025
+
+@author: HH Traders
+"""
+
+# Converts JPEG bitstream (hex + header) to a real JPEG image
+# Saves only the reconstructed image (no recompression, no hidden quality changes)
 
 from PIL import Image, ImageFile
 import io
 import os
 import sys
 
-ImageFile.LOAD_TRUNCATED_IMAGES = True  # allow loading incomplete JPEGs
+ImageFile.LOAD_TRUNCATED_IMAGES = True  # allow incomplete JPEGs
 
 # -------------------------
-# Paths (portable)
+# Paths (Desktop only)
 # -------------------------
-<<<<<<< HEAD
-script_dir = os.path.dirname(os.path.abspath(__file__))        # folder where this script lives
-rtl_dir = os.path.join(os.path.dirname(script_dir), 'rtl')    # rtl folder at same level as script folder
-header_file = os.path.join(script_dir, 'header.bin')          # JPEG header
-hex_file = os.path.join(rtl_dir, 'jpeg_output.hex')           # simulation hex in rtl folder
-compressed_jpg = os.path.join(script_dir, 'output.jpg')       # compressed output
-upscaled_jpg = os.path.join(script_dir, 'output_upscaled.jpg')# upscaled output
-original_image = os.path.join(script_dir, 'test.jpg')         # original input image
-=======
-script_dir = os.path.dirname(os.path.abspath(__file__))  # folder where this script lives
-header_file = os.path.join(script_dir, 'header.bin')    # JPEG header in same folder
-
-# Accept hex_file and output paths from command-line arguments
-if len(sys.argv) < 3:
-    print("Usage: python for_all_hex_to_jpg.py <hex_file> <output_jpg>")
-    sys.exit(1)
-
-hex_file = sys.argv[1]
-compressed_jpg = sys.argv[2]
-
-# Optional upscaled output
-upscaled_jpg = os.path.splitext(compressed_jpg)[0] + "_upscaled.jpg"
+desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+header_file = os.path.join(desktop, "header.bin")     # JPEG header on Desktop
+hex_file = os.path.join(desktop, "jpeg_output.hex")   # hex file on Desktop
+output_jpg = os.path.join(desktop, "output.jpg")      # final reconstructed image
 
 # -------------------------
-# Step 1: Read the header
+# Step 1: Read header
 # -------------------------
 if not os.path.exists(header_file):
     print(f"❌ ERROR: header file not found: {header_file}")
@@ -45,24 +34,20 @@ with open(header_file, 'rb') as f:
     header = f.read()
 
 # -------------------------
-# Step 2: Read the hex bitstream and convert to bytes
+# Step 2: Read hex file (bitstream)
 # -------------------------
 if not os.path.exists(hex_file):
     print(f"❌ ERROR: hex file not found: {hex_file}")
     sys.exit(1)
 
 bitstream_bytes = bytearray()
-=======
-if not os.path.exists(hex_file):
-    print(f"❌ ERROR: hex file not found: {hex_file}")
-    sys.exit(1)
 with open(hex_file, 'r') as f:
     for line in f:
         line = line.strip()
-        if line == '':
+        if line == "":
             continue
         val = int(line, 16)
-        bytes_chunk = val.to_bytes(4, byteorder='big')  # 32-bit → 4 bytes
+        bytes_chunk = val.to_bytes(4, byteorder="big")  # 32-bit word → 4 bytes
         bitstream_bytes.extend(bytes_chunk)
 
 # -------------------------
@@ -71,43 +56,12 @@ with open(hex_file, 'r') as f:
 jpeg_data = header + bitstream_bytes
 
 # -------------------------
-# Step 4: Open from memory and save compressed version
+# Step 4: Save reconstructed JPEG (no recompression)
 # -------------------------
 try:
     img = Image.open(io.BytesIO(jpeg_data))
-
-    # Save compressed 96x96 version
-    img.save(
-        compressed_jpg,
-        "JPEG",
-        quality=40,
-        optimize=True,
-        progressive=True
-    )
-    print(f"📉 Compressed JPEG saved: {compressed_jpg}")
-
-    # -------------------------
-    # Step 5: Upscale back to the original test.jpg size
-    # -------------------------
-    if not os.path.exists(original_image):
-        print(f"⚠️ Original image not found: {original_image}")
-        original_size = (640, 480)  # fallback size
-    else:
-        with Image.open(original_image) as orig:
-            original_size = orig.size  # get width and height from test.jpg
-
-
-    original_size = (640, 480)  # 👈 replace with your real original image size
-    img_up = img.resize(original_size, Image.LANCZOS)
-    img_up.save(
-        upscaled_jpg,
-        "JPEG",
-        quality=40,
-        optimize=True,
-        progressive=True
-    )
-    print(f"📈 Upscaled JPEG saved: {upscaled_jpg} ({original_size[0]}x{original_size[1]})")
+    img.save(output_jpg, "JPEG")  # ✅ just save as-is
+    print(f"✅ JPEG reconstructed and saved at: {output_jpg}")
 
 except Exception as e:
-    print("⚠️ Could not recompress JPEG:", e)
-
+    print("⚠️ Could not reconstruct JPEG:", e)
