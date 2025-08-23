@@ -148,7 +148,7 @@ You can also create your own `run_sim.sh` shell script.
 * The final JPEG will be stored in a new folder:
 
 ```
-output_image/
+output_images/
 ```
 
 ---
