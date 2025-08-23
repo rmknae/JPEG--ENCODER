@@ -61,7 +61,9 @@ cd JPEG--ENCODER
 > During simulation, the encoder reads image **headers (size, format, pixel depth)** and selects the proper quantization and Huffman tables automatically.
 > This ensures compatibility with baseline JPEG compression.
 ## Supported Image Sizes  (These headers are available in Headers folder)
+
 <div align="center">
+ 
 | Resolution   | Standard  |
 |--------------|-----------|
 | 1920 × 1080  | Full HD   |
@@ -69,6 +71,7 @@ cd JPEG--ENCODER
 | 1024 × 768   | XGA       |
 | 800 × 600    | SVGA      |
 | 96 × 96      | Icon/Test |
+
 </div>
 ---
 
@@ -92,10 +95,12 @@ FF C0 00 11 08 HH HH WW WW ...
 
 3. Convert your target resolution into **hex (big-endian)**:  
 <div align="center">
+ 
 720 → 02 D0
 1280 → 05 00
 480 → 01 E0
 640 → 02 80
+ 
 </div>
 
 4. Overwrite the **[HH HH] [WW WW]** bytes with new height and width.  
@@ -105,6 +110,8 @@ FF C0 00 11 08 HH HH WW WW ...
 
 ## 📏 Quick Reference (Common Sizes)  
 
+<div align="center">
+ 
 | Resolution  | Height (dec) | Height (hex) | Width (dec) | Width (hex) |
 |-------------|--------------|--------------|-------------|-------------|
 | 3840×2160   | 2160         | 08 70        | 3840        | 0F 00       | *(4K UHD)*  
@@ -115,6 +122,7 @@ FF C0 00 11 08 HH HH WW WW ...
 | 320×240     | 240          | 00 F0        | 320         | 01 40       | *(QVGA)*  
 | 160×120     | 120          | 00 78        | 160         | 00 A0       | *(QQVGA)*  
 
+</div>
 ---
 
 ### 3. Run Simulation
