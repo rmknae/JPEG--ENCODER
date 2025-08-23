@@ -285,7 +285,6 @@ begin
 		end
 end
 
-// output_enable signals the next block, the quantizer, that the input data is ready
 always_ff @(posedge clk)
 begin
 	if (rst) 
@@ -680,7 +679,6 @@ begin
 	endcase
 end
 
-// Rounding stage
 always_ff @(posedge clk)
 begin
 	if (rst) begin
@@ -719,9 +717,6 @@ begin
 		Y81_final_1 <= Y81_final_diff[11] ? Y81_final_diff[24:12] + 1 : Y81_final_diff[24:12];
 		Y81_final_2[31:13] <= Y81_final_1[12] ? 21'b111111111111111111111 : 21'b000000000000000000000;
 		Y81_final_2[12:0] <= Y81_final_1;
-		// The bit in place 11 is the fraction part, for rounding purposes
-		// if it is 1, then you need to add 1 to the bits in 24-12, 
-		// if bit 11 is 0, then the bits in 24-12 won't change
 		end
 end
 
