@@ -15,7 +15,6 @@
 
 `timescale 1ns / 100ps
 `include "quantizer_constants.svh"
-
 module cb_quantizer(
     input  logic        clk,
     input  logic        rst,
@@ -34,6 +33,8 @@ module cb_quantizer(
     output logic [10:0] Q85, Q86, Q87, Q88,
     output logic        out_enable
 );
+
+
 
 logic [12:0] QM1_1 = QQ1_1;
 logic [12:0] QM1_2 = QQ1_2;
@@ -163,6 +164,7 @@ begin
 		Z75_int[10:0] <= Z75; Z76_int[10:0] <= Z76; Z77_int[10:0] <= Z77; Z78_int[10:0] <= Z78;
 		Z81_int[10:0] <= Z81; Z82_int[10:0] <= Z82; Z83_int[10:0] <= Z83; Z84_int[10:0] <= Z84;
 		Z85_int[10:0] <= Z85; Z86_int[10:0] <= Z86; Z87_int[10:0] <= Z87; Z88_int[10:0] <= Z88;
+		// sign extend to make Z11_int a twos complement representation of Z11
 		Z11_int[31:11] <= Z11[10] ? 21'b111111111111111111111 : 21'b000000000000000000000;
 		Z12_int[31:11] <= Z12[10] ? 21'b111111111111111111111 : 21'b000000000000000000000;
 		Z13_int[31:11] <= Z13[10] ? 21'b111111111111111111111 : 21'b000000000000000000000;
@@ -285,6 +287,7 @@ begin
 		Z87_temp <= Z87_int * QM8_7; Z88_temp <= Z88_int * QM8_8;
 		end
 end	 
+
 
 always_ff @(posedge clk)
 begin
@@ -423,6 +426,12 @@ begin
 		end
 end	 
 
+
+/* enable_1 is delayed one clock cycle from enable, and it's used to 
+enable the logic that needs to execute on the clock cycle after enable goes high 
+enable_2 is delayed two clock cycles, and out_enable signals the next module
+that its input data is ready*/
+
 always_ff @(posedge clk)
 begin
 	if (rst) begin
@@ -435,4 +444,5 @@ begin
 		out_enable <= enable_3;
 		end
 end	 
+
 endmodule

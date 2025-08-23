@@ -34,7 +34,10 @@ module cr_quantizer(
     output logic [10:0] Q85, Q86, Q87, Q88,
     output logic out_enable
 );
-	
+
+
+
+
 logic [12:0] QM1_1 = QQ1_1;
 logic [12:0] QM1_2 = QQ1_2;
 logic [12:0] QM1_3 = QQ1_3;
@@ -287,6 +290,7 @@ begin
 		end
 end	 
 
+
 always_ff @(posedge clk)
 begin
 	if (rst) begin
@@ -424,6 +428,12 @@ begin
 		end
 end	 
 
+
+/* enable_1 is delayed one clock cycle from enable, and it's used to 
+enable the logic that needs to execute on the clock cycle after enable goes high 
+enable_2 is delayed two clock cycles, and out_enable signals the next module
+that its input data is ready*/
+
 always_ff @(posedge clk)
 begin
 	if (rst) begin
@@ -436,4 +446,5 @@ begin
 		out_enable <= enable_3;
 		end
 end	 
+
 endmodule
