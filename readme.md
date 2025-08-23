@@ -60,6 +60,60 @@ cd JPEG--ENCODER
 > **Headers & Selection**
 > During simulation, the encoder reads image **headers (size, format, pixel depth)** and selects the proper quantization and Huffman tables automatically.
 > This ensures compatibility with baseline JPEG compression.
+## Supported Image Sizes  (These headers are available in Headers folder)
+<div align="center">
+| Resolution   | Standard  |
+|--------------|-----------|
+| 1920 × 1080  | Full HD   |
+| 1280 × 720   | HD        |
+| 1024 × 768   | XGA       |
+| 800 × 600    | SVGA      |
+| 96 × 96      | Icon/Test |
+</div>
+---
+
+## 🛠️ Custom Resolution via `header.bin` (SOF0)  
+
+If you need a resolution not listed above, you can edit the static JPEG header file:  
+
+1. Open **`header.bin`** in a hex editor → [hexed.it](https://hexed.it)  
+2. Locate the **SOF0 (Start of Frame, Baseline DCT)** marker:  
+
+<div align="center">
+FF C0 00 11 08 HH HH WW WW ...
+</div>
+
+**Breakdown:**  
+- `FF C0` → SOF0 marker  
+- `00 11` → Segment length (17 bytes)  
+- `08` → Precision (8 bits)  
+- Next **2 bytes** → Height (big-endian)  
+- Next **2 bytes** → Width (big-endian)  
+
+3. Convert your target resolution into **hex (big-endian)**:  
+<div align="center">
+720 → 02 D0
+1280 → 05 00
+480 → 01 E0
+640 → 02 80
+</div>
+
+4. Overwrite the **[HH HH] [WW WW]** bytes with new height and width.  
+5. Save the file and rerun the simulation.  
+
+---
+
+## 📏 Quick Reference (Common Sizes)  
+
+| Resolution  | Height (dec) | Height (hex) | Width (dec) | Width (hex) |
+|-------------|--------------|--------------|-------------|-------------|
+| 3840×2160   | 2160         | 08 70        | 3840        | 0F 00       | *(4K UHD)*  
+| 2560×1440   | 1440         | 05 A0        | 2560        | 0A 00       | *(QHD / 2K)*  
+| 1600×1200   | 1200         | 04 B0        | 1600        | 06 40       | *(UXGA)*  
+| 1280×1024   | 1024         | 04 00        | 1280        | 05 00       | *(SXGA)*  
+| 1366×768    | 768          | 03 00        | 1366        | 05 56       | *(HD+)*  
+| 320×240     | 240          | 00 F0        | 320         | 01 40       | *(QVGA)*  
+| 160×120     | 120          | 00 78        | 160         | 00 A0       | *(QQVGA)*  
 
 ---
 
