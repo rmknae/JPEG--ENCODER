@@ -36,8 +36,7 @@ module y_dct(
     output logic        output_enable
 );
 
-integer T1, T21, T22, T23, T24, T25, T26, T27, T28, T31, T32, T33, T34, T52; 
-integer Ti1, Ti21, Ti22, Ti23, Ti24, Ti25, Ti26, Ti27, Ti28, Ti31, Ti32, Ti33, Ti34, Ti52; 
+
 
 logic [24:0] Y_temp_11;
 logic [24:0] Y11, Y21, Y31, Y41, Y51, Y61, Y71, Y81, Y11_final;
@@ -90,42 +89,42 @@ integer Y2_mul_input, Y3_mul_input, Y4_mul_input, Y5_mul_input;
 integer Y6_mul_input, Y7_mul_input, Y8_mul_input;	
 integer Ti2_mul_input, Ti3_mul_input, Ti4_mul_input, Ti5_mul_input;
 integer Ti6_mul_input, Ti7_mul_input, Ti8_mul_input;
+// ---------------------
+// DCT matrix entries
+// ---------------------
+parameter int T1  = 5793;   // .3536
+parameter int T21 = 8035;   // .4904
+parameter int T22 = 6811;   // .4157
+parameter int T23 = 4551;   // .2778
+parameter int T24 = 1598;   // .0975
+parameter int T25 = -1598;  // -.0975
+parameter int T26 = -4551;  // -.2778
+parameter int T27 = -6811;  // -.4157
+parameter int T28 = -8035;  // -.4904
+parameter int T31 = 7568;   // .4619
+parameter int T32 = 3135;   // .1913
+parameter int T33 = -3135;  // -.1913
+parameter int T34 = -7568;  // -.4619
+parameter int T52 = -5793;  // -.3536
 
-always_ff @(posedge clk)		
-begin // DCT matrix entries
-	T1 = 5793; // .3536
-	T21 = 8035; // .4904
-	T22 = 6811; // .4157
-	T23 = 4551; // .2778
-	T24 = 1598; // .0975
-	T25 = -1598; // -.0975
-	T26 = -4551; // -.2778
-	T27 = -6811; // -.4157
-	T28 = -8035; // -.4904
-	T31 = 7568; // .4619
-	T32 = 3135; // .1913
-	T33 = -3135; // -.1913
-	T34 = -7568; // -.4619
-	T52 = -5793; // -.3536
-end 
-  
-always_ff @(posedge clk)		
-begin // The inverse DCT matrix entries
-	Ti1 = 5793; // .3536
-	Ti21 = 8035; // .4904
-	Ti22 = 6811; // .4157
-	Ti23 = 4551; // .2778
-	Ti24 = 1598; // .0975
-	Ti25 = -1598; // -.0975
-	Ti26 = -4551; // -.2778
-	Ti27 = -6811; // -.4157
-	Ti28 = -8035; // -.4904
-	Ti31 = 7568; // .4619
-	Ti32 = 3135; // .1913
-	Ti33 = -3135; // -.1913
-	Ti34 = -7568; // -.4619
-	Ti52 = -5793; // -.3536
-end 
+// ---------------------
+// Inverse DCT matrix entries
+// ---------------------
+parameter int Ti1  = 5793;   // .3536
+parameter int Ti21 = 8035;   // .4904
+parameter int Ti22 = 6811;   // .4157
+parameter int Ti23 = 4551;   // .2778
+parameter int Ti24 = 1598;   // .0975
+parameter int Ti25 = -1598;  // -.0975
+parameter int Ti26 = -4551;  // -.2778
+parameter int Ti27 = -6811;  // -.4157
+parameter int Ti28 = -8035;  // -.4904
+parameter int Ti31 = 7568;   // .4619
+parameter int Ti32 = 3135;   // .1913
+parameter int Ti33 = -3135;  // -.1913
+parameter int Ti34 = -7568;  // -.4619
+parameter int Ti52 = -5793;  // -.3536
+
 
 always_ff @(posedge clk)
 begin
