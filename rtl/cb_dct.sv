@@ -680,7 +680,6 @@ begin
 	endcase
 end
 
-// Rounding stage
 always_ff @(posedge clk)
 begin
 	if (rst) begin
@@ -732,3 +731,4 @@ begin
 		end
 end
 endmodule
+
