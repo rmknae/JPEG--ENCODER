@@ -21,6 +21,7 @@
 // Date: 24th July, 2025
 
 `timescale 1ns / 100ps
+`include "quantizer_constants.svh"
 
 module tb_y_quantizer;             // cr,cb replace here only
 
@@ -114,4 +115,5 @@ module tb_y_quantizer;             // cr,cb replace here only
         $finish;
     end
 endmodule
+
 
