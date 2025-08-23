@@ -11,8 +11,8 @@
 // Author: Rameen
 // Date  : 23rd July 2025
 
-`ifndef HUFF_CONSTANTS_SVH
-`define HUFF_CONSTANTS_SVH
+`ifndef CB_HUFF_CONSTANTS_SVH
+`define CB_HUFF_CONSTANTS_SVH
 // ============================
 // Huffman Table Parameters
 // ============================
@@ -119,4 +119,4 @@ parameter int Cb_AC_run_code [0:255] = '{
    240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255
 };
 
-`endif // HUFF_CONSTANTS_SVH
+`endif // CB_HUFF_CONSTANTS_SVH
