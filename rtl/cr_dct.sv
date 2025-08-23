@@ -11,8 +11,8 @@
 // Author:Rameen
 // Date:12th July,2025.
 
-
 `timescale 1ns / 100ps
+`include "dct_constants.svh"
 
 module cr_dct(
     input  logic        clk,
@@ -37,7 +37,6 @@ module cr_dct(
     output logic [10:0] Z85_final, Z86_final, Z87_final, Z88_final,
     output logic        output_enable
 );
-
 
 logic [24:0] Cb_temp_11;
 logic [24:0] Cb11, Cb21, Cb31, Cb41, Cb51, Cb61, Cb71, Cb81, Cb11_final;
@@ -90,39 +89,6 @@ integer Cb2_mul_input, Cb3_mul_input, Cb4_mul_input, Cb5_mul_input;
 integer Cb6_mul_input, Cb7_mul_input, Cb8_mul_input;	
 integer Ti2_mul_input, Ti3_mul_input, Ti4_mul_input, Ti5_mul_input;
 integer Ti6_mul_input, Ti7_mul_input, Ti8_mul_input;
-
-// DCT matrix entries
-parameter int T1  = 5793;   // .3536
-parameter int T21 = 8035;   // .4904
-parameter int T22 = 6811;   // .4157
-parameter int T23 = 4551;   // .2778
-parameter int T24 = 1598;   // .0975
-parameter int T25 = -1598;  // -.0975
-parameter int T26 = -4551;  // -.2778
-parameter int T27 = -6811;  // -.4157
-parameter int T28 = -8035;  // -.4904
-parameter int T31 = 7568;   // .4619
-parameter int T32 = 3135;   // .1913
-parameter int T33 = -3135;  // -.1913
-parameter int T34 = -7568;  // -.4619
-parameter int T52 = -5793;  // -.3536
-
-// Inverse DCT matrix entries
-parameter int Ti1  = 5793;   // .3536
-parameter int Ti21 = 8035;   // .4904
-parameter int Ti22 = 6811;   // .4157
-parameter int Ti23 = 4551;   // .2778
-parameter int Ti24 = 1598;   // .0975
-parameter int Ti25 = -1598;  // -.0975
-parameter int Ti26 = -4551;  // -.2778
-parameter int Ti27 = -6811;  // -.4157
-parameter int Ti28 = -8035;  // -.4904
-parameter int Ti31 = 7568;   // .4619
-parameter int Ti32 = 3135;   // .1913
-parameter int Ti33 = -3135;  // -.1913
-parameter int Ti34 = -7568;  // -.4619
-parameter int Ti52 = -5793;  // -.3536
-
 
 always_ff @(posedge clk)
 begin
@@ -318,7 +284,6 @@ begin
 		end
 end
 
-// output_enable signals the next block, the quantizer, that the input data is ready
 always_ff @(posedge clk)
 begin
 	if (rst) 
@@ -465,17 +430,8 @@ begin
 		end
 	else if (count_3 & enable_1) begin
 		Cb11_final <= Cb11 - 25'd5932032;  
-		/* The Cb values weren't centered on 0 before doing the DCT	
-		 128 needs to be subtracted from each Cb value before, or in this
-		 case, 362 is subtracted from the total, because this is the 
-		 total obtained by subtracting 128 from each element 
-		 and then multiplying by the weight
-		 assigned by the DCT matrix : 128*8*5793 = 5932032
-		 This is only needed for the first row, the values in the rest of
-		 the rows add up to 0 */
 		end
 end
-
 
 always_ff @(posedge clk)
 begin
@@ -625,7 +581,6 @@ begin
 	endcase
 end
 
-// Inverse DCT matrix entries
 always_ff @(posedge clk)
 begin
 	case (count_of_copy)
@@ -740,10 +695,6 @@ begin
 		Cb11_final_1 <= Cb11_final[13] ? Cb11_final[24:14] + 1 : Cb11_final[24:14];
 		Cb11_final_2[31:11] <= Cb11_final_1[10] ? 21'b111111111111111111111 : 21'b000000000000000000000;
 		Cb11_final_2[10:0] <= Cb11_final_1;
-		// Need to sign extend Cb11_final_1 and the other logicisters to store a negative 
-		// number as a twos complement number.  If you don't sign extend, then a negative number
-		// will be stored incorrectly as a positive number.  For example, -215 would be stored
-		// as 1833 without sign extending
 		Cb11_final_3 <= Cb11_final_2;
 		Cb11_final_4 <= Cb11_final_3;
 		Cb21_final_1 <= Cb21_final_diff[13] ? Cb21_final_diff[24:14] + 1 : Cb21_final_diff[24:14];
@@ -782,5 +733,4 @@ begin
 		enable_1 <= enable;
 		end
 end
-
 endmodule
