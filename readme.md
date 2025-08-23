@@ -169,10 +169,16 @@ We welcome contributions!
 * Submit PRs with improvements or bug fixes
 
 ---
+## Documentation
 
-## License
+[![Documentation Status](https://meds-jpeg-docs.readthedocs.io/en/badge/?version=latest)](https://meds-jpeg-docs.readthedocs.io/en/latest/?badge=latest)
+
+---
+
+##  Licensing
 
 Licensed under the **Apache License 2.0**
-© 2025 Maktab-e-Digital Systems Lahore
+Copyright © 2025
+**[Maktab-e-Digital Systems Lahore](https://github.com/meds-uet)**
 
 ---
