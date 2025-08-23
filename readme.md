@@ -73,6 +73,7 @@ cd JPEG--ENCODER
 | 96 × 96      | Icon/Test |
 
 </div>
+
 ---
 
 ## 🛠️ Custom Resolution via `header.bin` (SOF0)  
@@ -123,6 +124,7 @@ FF C0 00 11 08 HH HH WW WW ...
 | 160×120     | 120          | 00 78        | 160         | 00 A0       | *(QQVGA)*  
 
 </div>
+
 ---
 
 ### 3. Run Simulation
