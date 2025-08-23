@@ -14,7 +14,7 @@ This tool allows you to **convert raw RGB images into JPEG compressed format** u
 
 ---
 
-## 🚀 Features
+## Features
 
 * Converts **RGB images → YCbCr → DCT → Quantization → Huffman Encoding → JPEG Bitstream**
 * Modular design in **SystemVerilog/Verilog**
@@ -27,7 +27,7 @@ This tool allows you to **convert raw RGB images into JPEG compressed format** u
 
 ---
 
-## ⚙️ Requirements
+## Requirements
 
 Before using, make sure you have:
 
@@ -41,7 +41,7 @@ Before using, make sure you have:
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 ### 1. Clone the Repository
 
@@ -52,7 +52,7 @@ cd JPEG--ENCODER
 ### 3. Place the desired image in the testimage folder.
  /////////// tell about headers and selectionn here////////////////
 
-### 3. Run with `.bat` File (Windows)
+### 4. Run with `.bat` File (Windows)
 
 If you’re on **Windows**, simply double-click:
 
@@ -63,7 +63,7 @@ run_simulation.bat
 This will **compile + simulate** the encoder.
 
 
-### 4. Converted JPEG image in Output image folder
+### 5. Converted JPEG image in Output image folder
 
 
 ///// Make a new folder///////////////////////////
