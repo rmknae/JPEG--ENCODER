@@ -1,13 +1,15 @@
 // Copyright 2025 Maktab-e-Digital Systems Lahore.
-// Licensed under the Apache License, Version 2.0, see LICENSE file // for details.
+// Licensed under the Apache License, Version 2.0, see LICENSE file for details.
 // SPDX-License-Identifier: Apache-2.0
 //
 // Description:
-//   Defines the standard JPEG luminance quantization matrix (8x8)  //  used for testing quantizer modules.
+//    Header file defining localparams for JPEG Huffman encoding.
+//    - DC Huffman code lengths and codes (Luma & Chroma)
+//    - AC Huffman code lengths and codes (Luma & Chroma)
+//    - Run-length/size to Huffman index mapping
 //
-// Author : Navaal Noshi
-// Date   : 29th July 2025
-//
+// Author: Rameen
+// Date  : 23rd July 2025
 
 `ifndef CR_QUANTIZER_CONSTANTS_SVH
 `define CR_QUANTIZER_CONSTANTS_SVH
