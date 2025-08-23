@@ -73,10 +73,6 @@ begin
 		CR_temp <= 22'd2097152 + CR1_product - CR2_product - CR3_product;  
 		end
 end 
- 
-/* Rounding of Y, CB, CR requires looking at bit 13.  If there is a '1' in bit 13,
-then the value in bits [21:14] needs to be rounded up by adding 1 to the value
-in those bits */
 
 always_ff @(posedge clk)
 begin
@@ -89,11 +85,8 @@ begin
 		Y <= Y_temp[13] ? Y_temp[21:14] + 1: Y_temp[21:14];
 		CB <= CB_temp[13] & (CB_temp[21:14] != 8'd255) ? CB_temp[21:14] + 1: CB_temp[21:14];
 		CR <= CR_temp[13] & (CR_temp[21:14] != 8'd255) ? CR_temp[21:14] + 1: CR_temp[21:14]; 
-		// Need to avoid rounding if the value in the top 8 bits is 255, otherwise
-		// the value would rollover from 255 to 0
 		end
 end
-
 
 always_ff @(posedge clk)
 begin
@@ -109,4 +102,3 @@ begin
 		end
 end
 endmodule
-
