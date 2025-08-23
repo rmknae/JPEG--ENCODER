@@ -101,15 +101,7 @@ module cr_huff(
     logic Cr83_et_zero, Cr83_msb, Cr84_et_zero, Cr84_msb;
     logic Cr85_et_zero, Cr85_msb, Cr86_et_zero, Cr86_msb;
     logic Cr87_et_zero, Cr87_msb, Cr88_et_zero, Cr88_msb;
-
     logic Cr12_et_zero_1, Cr12_et_zero_2, Cr12_et_zero_3, Cr12_et_zero_4, Cr12_et_zero_5;
-
-    logic [10:0] Cr_DC [11:0];
-    logic [3:0]  Cr_DC_code_length [11:0];
-    logic [15:0] Cr_AC [161:0];
-    logic [4:0]  Cr_AC_code_length [161:0];
-    logic [7:0]  Cr_AC_run_code [250:0];
-
     logic [10:0] Cr11_Huff, Cr11_Huff_1, Cr11_Huff_2;
     logic [15:0] Cr12_Huff, Cr12_Huff_1, Cr12_Huff_2;
     logic [3:0]  Cr11_Huff_count, Cr11_Huff_shift, Cr11_Huff_shift_1, Cr11_amp_shift, Cr12_amp_shift;
@@ -136,8 +128,6 @@ module cr_huff(
     logic eighth_8_all_0s, end_of_block, code_15_0, zrl_et_15, end_of_block_output;
 
 wire	[7:0]	code_index = { zrl_2, Cr12_bits };
-
-
 
 always_ff @(posedge clk)
 begin
