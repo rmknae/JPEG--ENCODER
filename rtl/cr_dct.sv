@@ -679,7 +679,6 @@ begin
 	endcase
 end
 
-// Rounding stage
 always_ff @(posedge clk)
 begin
 	if (rst) begin
@@ -718,9 +717,6 @@ begin
 		Cb81_final_1 <= Cb81_final_diff[13] ? Cb81_final_diff[24:14] + 1 : Cb81_final_diff[24:14];
 		Cb81_final_2[31:11] <= Cb81_final_1[10] ? 21'b111111111111111111111 : 21'b000000000000000000000;
 		Cb81_final_2[10:0] <= Cb81_final_1;
-		// The bit in place 13 is the fraction part, for rounding purposes
-		// if it is 1, then you need to add 1 to the bits in 22-14, 
-		// if bit 13 is 0, then the bits in 22-14 won't change
 		end
 end
 
