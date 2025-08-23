@@ -12,6 +12,7 @@
 // Author:Rameen
 // Date:1st August,2025.
 
+`timescale 1ns / 100ps
 `include "dct_constants.svh"
 
 module y_dct(
@@ -37,6 +38,7 @@ module y_dct(
     output logic [10:0] Z85_final, Z86_final, Z87_final, Z88_final,
     output logic        output_enable
 );
+	
 logic [24:0] Y_temp_11;
 logic [24:0] Y11, Y21, Y31, Y41, Y51, Y61, Y71, Y81, Y11_final;
 logic [31:0] Y_temp_21, Y_temp_31, Y_temp_41, Y_temp_51;
@@ -430,17 +432,8 @@ begin
 		end
 	else if (count_3 & enable_1) begin
 		Y11_final <= Y11 - 25'd5932032;  
-		/* The Y values weren't centered on 0 before doing the DCT	
-		 128 needs to be subtracted from each Y value before, or in this
-		 case, 362 is subtracted from the total, because this is the 
-		 total obtained by subtracting 128 from each element 
-		 and then multiplying by the weight
-		 assigned by the DCT matrix : 128*8*5793 = 5932032
-		 This is only needed for the first row, the values in the rest of
-		 the rows add up to 0 */
 		end
 end
-
 
 always_ff @(posedge clk)
 begin
@@ -589,7 +582,6 @@ begin
 	endcase
 end
 
-// Inverse DCT matrix entries
 always_ff @(posedge clk)
 begin
 	case (count_of_copy)
@@ -704,10 +696,6 @@ begin
 		Y11_final_1 <= Y11_final[11] ? Y11_final[24:12] + 1 : Y11_final[24:12];
 		Y11_final_2[31:13] <= Y11_final_1[12] ? 21'b111111111111111111111 : 21'b000000000000000000000;
 		Y11_final_2[12:0] <= Y11_final_1;
-		// Need to sign extend Y11_final_1 and the other logicisters to store a negative 
-		// number as a twos complement number.  If you don't sign extend, then a negative number
-		// will be stored incorrectly as a positive number.  For example, -215 would be stored
-		// as 1833 without sign extending
 		Y11_final_3 <= Y11_final_2;
 		Y11_final_4 <= Y11_final_3;
 		Y21_final_1 <= Y21_final_diff[11] ? Y21_final_diff[24:12] + 1 : Y21_final_diff[24:12];
@@ -746,6 +734,4 @@ begin
 		enable_1 <= enable;
 		end
 end
-
-
 endmodule
