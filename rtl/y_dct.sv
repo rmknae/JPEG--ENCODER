@@ -38,7 +38,9 @@ module y_dct(
     output logic [10:0] Z85_final, Z86_final, Z87_final, Z88_final,
     output logic        output_enable
 );
-	
+
+
+
 logic [24:0] Y_temp_11;
 logic [24:0] Y11, Y21, Y31, Y41, Y51, Y61, Y71, Y81, Y11_final;
 logic [31:0] Y_temp_21, Y_temp_31, Y_temp_41, Y_temp_51;
@@ -90,6 +92,8 @@ integer Y2_mul_input, Y3_mul_input, Y4_mul_input, Y5_mul_input;
 integer Y6_mul_input, Y7_mul_input, Y8_mul_input;	
 integer Ti2_mul_input, Ti3_mul_input, Ti4_mul_input, Ti5_mul_input;
 integer Ti6_mul_input, Ti7_mul_input, Ti8_mul_input;
+
+
 
 always_ff @(posedge clk)
 begin
@@ -285,6 +289,7 @@ begin
 		end
 end
 
+// output_enable signals the next block, the quantizer, that the input data is ready
 always_ff @(posedge clk)
 begin
 	if (rst) 
@@ -431,8 +436,17 @@ begin
 		end
 	else if (count_3 & enable_1) begin
 		Y11_final <= Y11 - 25'd5932032;  
+		/* The Y values weren't centered on 0 before doing the DCT	
+		 128 needs to be subtracted from each Y value before, or in this
+		 case, 362 is subtracted from the total, because this is the 
+		 total obtained by subtracting 128 from each element 
+		 and then multiplying by the weight
+		 assigned by the DCT matrix : 128*8*5793 = 5932032
+		 This is only needed for the first row, the values in the rest of
+		 the rows add up to 0 */
 		end
 end
+
 
 always_ff @(posedge clk)
 begin
@@ -581,6 +595,7 @@ begin
 	endcase
 end
 
+// Inverse DCT matrix entries
 always_ff @(posedge clk)
 begin
 	case (count_of_copy)
@@ -679,6 +694,7 @@ begin
 	endcase
 end
 
+// Rounding stage
 always_ff @(posedge clk)
 begin
 	if (rst) begin
@@ -694,6 +710,10 @@ begin
 		Y11_final_1 <= Y11_final[11] ? Y11_final[24:12] + 1 : Y11_final[24:12];
 		Y11_final_2[31:13] <= Y11_final_1[12] ? 21'b111111111111111111111 : 21'b000000000000000000000;
 		Y11_final_2[12:0] <= Y11_final_1;
+		// Need to sign extend Y11_final_1 and the other logicisters to store a negative 
+		// number as a twos complement number.  If you don't sign extend, then a negative number
+		// will be stored incorrectly as a positive number.  For example, -215 would be stored
+		// as 1833 without sign extending
 		Y11_final_3 <= Y11_final_2;
 		Y11_final_4 <= Y11_final_3;
 		Y21_final_1 <= Y21_final_diff[11] ? Y21_final_diff[24:12] + 1 : Y21_final_diff[24:12];
@@ -717,6 +737,9 @@ begin
 		Y81_final_1 <= Y81_final_diff[11] ? Y81_final_diff[24:12] + 1 : Y81_final_diff[24:12];
 		Y81_final_2[31:13] <= Y81_final_1[12] ? 21'b111111111111111111111 : 21'b000000000000000000000;
 		Y81_final_2[12:0] <= Y81_final_1;
+		// The bit in place 11 is the fraction part, for rounding purposes
+		// if it is 1, then you need to add 1 to the bits in 24-12, 
+		// if bit 11 is 0, then the bits in 24-12 won't change
 		end
 end
 
@@ -729,4 +752,5 @@ begin
 		enable_1 <= enable;
 		end
 end
+
 endmodule

@@ -10,125 +10,129 @@
 // Author:Rameen
 // Date:16th July,2025.
 
-
 `timescale 1ns / 100ps
 		
-module cr_huff(clk, rst, enable,
-Cr11, Cr12, Cr13, Cr14, Cr15, Cr16, Cr17, Cr18, Cr21, Cr22, Cr23, Cr24, Cr25, Cr26, Cr27, Cr28,
-Cr31, Cr32, Cr33, Cr34, Cr35, Cr36, Cr37, Cr38, Cr41, Cr42, Cr43, Cr44, Cr45, Cr46, Cr47, Cr48,
-Cr51, Cr52, Cr53, Cr54, Cr55, Cr56, Cr57, Cr58, Cr61, Cr62, Cr63, Cr64, Cr65, Cr66, Cr67, Cr68,
-Cr71, Cr72, Cr73, Cr74, Cr75, Cr76, Cr77, Cr78, Cr81, Cr82, Cr83, Cr84, Cr85, Cr86, Cr87, Cr88,
-JPEG_bitstream, data_ready, output_reg_count, end_of_block_empty);
-input		clk;
-input		rst;
-input		enable;
-input  [10:0]  Cr11, Cr12, Cr13, Cr14, Cr15, Cr16, Cr17, Cr18, Cr21, Cr22, Cr23, Cr24;
-input  [10:0]  Cr25, Cr26, Cr27, Cr28, Cr31, Cr32, Cr33, Cr34, Cr35, Cr36, Cr37, Cr38;
-input  [10:0]  Cr41, Cr42, Cr43, Cr44, Cr45, Cr46, Cr47, Cr48, Cr51, Cr52, Cr53, Cr54;
-input  [10:0]  Cr55, Cr56, Cr57, Cr58, Cr61, Cr62, Cr63, Cr64, Cr65, Cr66, Cr67, Cr68;
-input  [10:0]  Cr71, Cr72, Cr73, Cr74, Cr75, Cr76, Cr77, Cr78, Cr81, Cr82, Cr83, Cr84;
-input  [10:0]  Cr85, Cr86, Cr87, Cr88;
-output	[31:0]	JPEG_bitstream;
-output	data_ready;
-output	[4:0] output_reg_count;
-output	end_of_block_empty;
-		
+module cr_huff(
+    input  logic        clk,
+    input  logic        rst,
+    input  logic        enable,
+    input  logic [10:0] Cr11, Cr12, Cr13, Cr14, Cr15, Cr16, Cr17, Cr18,
+    input  logic [10:0] Cr21, Cr22, Cr23, Cr24, Cr25, Cr26, Cr27, Cr28,
+    input  logic [10:0] Cr31, Cr32, Cr33, Cr34, Cr35, Cr36, Cr37, Cr38,
+    input  logic [10:0] Cr41, Cr42, Cr43, Cr44, Cr45, Cr46, Cr47, Cr48,
+    input  logic [10:0] Cr51, Cr52, Cr53, Cr54, Cr55, Cr56, Cr57, Cr58,
+    input  logic [10:0] Cr61, Cr62, Cr63, Cr64, Cr65, Cr66, Cr67, Cr68,
+    input  logic [10:0] Cr71, Cr72, Cr73, Cr74, Cr75, Cr76, Cr77, Cr78,
+    input  logic [10:0] Cr81, Cr82, Cr83, Cr84, Cr85, Cr86, Cr87, Cr88,
+    output logic [31:0] JPEG_bitstream,
+    output logic        data_ready,
+    output logic [4:0]  output_reg_count,
+    output logic        end_of_block_empty
+);
 
-reg		[7:0] block_counter;
-reg		[11:0]  Cr11_amp, Cr11_1_pos, Cr11_1_neg, Cr11_diff;
-reg		[11:0]  Cr11_previous, Cr11_1;
-reg		[10:0]  Cr12_amp, Cr12_pos, Cr12_neg;
-reg		[10:0]  Cr21_pos, Cr21_neg, Cr31_pos, Cr31_neg, Cr22_pos, Cr22_neg;
-reg		[10:0]  Cr13_pos, Cr13_neg, Cr14_pos, Cr14_neg, Cr15_pos, Cr15_neg;
-reg		[10:0]  Cr16_pos, Cr16_neg, Cr17_pos, Cr17_neg, Cr18_pos, Cr18_neg;
-reg		[10:0]  Cr23_pos, Cr23_neg, Cr24_pos, Cr24_neg, Cr25_pos, Cr25_neg;
-reg		[10:0]  Cr26_pos, Cr26_neg, Cr27_pos, Cr27_neg, Cr28_pos, Cr28_neg;
-reg		[10:0]  Cr32_pos, Cr32_neg;
-reg		[10:0]  Cr33_pos, Cr33_neg, Cr34_pos, Cr34_neg, Cr35_pos, Cr35_neg;
-reg		[10:0]  Cr36_pos, Cr36_neg, Cr37_pos, Cr37_neg, Cr38_pos, Cr38_neg;
-reg		[10:0]  Cr41_pos, Cr41_neg, Cr42_pos, Cr42_neg;
-reg		[10:0]  Cr43_pos, Cr43_neg, Cr44_pos, Cr44_neg, Cr45_pos, Cr45_neg;
-reg		[10:0]  Cr46_pos, Cr46_neg, Cr47_pos, Cr47_neg, Cr48_pos, Cr48_neg;
-reg		[10:0]  Cr51_pos, Cr51_neg, Cr52_pos, Cr52_neg;
-reg		[10:0]  Cr53_pos, Cr53_neg, Cr54_pos, Cr54_neg, Cr55_pos, Cr55_neg;
-reg		[10:0]  Cr56_pos, Cr56_neg, Cr57_pos, Cr57_neg, Cr58_pos, Cr58_neg;
-reg		[10:0]  Cr61_pos, Cr61_neg, Cr62_pos, Cr62_neg;
-reg		[10:0]  Cr63_pos, Cr63_neg, Cr64_pos, Cr64_neg, Cr65_pos, Cr65_neg;
-reg		[10:0]  Cr66_pos, Cr66_neg, Cr67_pos, Cr67_neg, Cr68_pos, Cr68_neg;
-reg		[10:0]  Cr71_pos, Cr71_neg, Cr72_pos, Cr72_neg;
-reg		[10:0]  Cr73_pos, Cr73_neg, Cr74_pos, Cr74_neg, Cr75_pos, Cr75_neg;
-reg		[10:0]  Cr76_pos, Cr76_neg, Cr77_pos, Cr77_neg, Cr78_pos, Cr78_neg;
-reg		[10:0]  Cr81_pos, Cr81_neg, Cr82_pos, Cr82_neg;
-reg		[10:0]  Cr83_pos, Cr83_neg, Cr84_pos, Cr84_neg, Cr85_pos, Cr85_neg;
-reg		[10:0]  Cr86_pos, Cr86_neg, Cr87_pos, Cr87_neg, Cr88_pos, Cr88_neg;
-reg		[3:0]	Cr11_bits_pos, Cr11_bits_neg, Cr11_bits, Cr11_bits_1;
-reg		[3:0]	Cr12_bits_pos, Cr12_bits_neg, Cr12_bits, Cr12_bits_1; 
-reg		[3:0]	Cr12_bits_2, Cr12_bits_3;
-reg		Cr11_msb, Cr12_msb, Cr12_msb_1, data_ready;
-reg		enable_1, enable_2, enable_3, enable_4, enable_5, enable_6;
-reg		enable_7, enable_8, enable_9, enable_10, enable_11, enable_12;
-reg		enable_13, enable_module, enable_latch_7, enable_latch_8;
-reg		Cr12_et_zero, rollover, rollover_1, rollover_2, rollover_3;
-reg		rollover_4, rollover_5, rollover_6, rollover_7;
-reg		Cr21_et_zero, Cr21_msb, Cr31_et_zero, Cr31_msb;
-reg		Cr22_et_zero, Cr22_msb, Cr13_et_zero, Cr13_msb;
-reg		Cr14_et_zero, Cr14_msb, Cr15_et_zero, Cr15_msb;
-reg		Cr16_et_zero, Cr16_msb, Cr17_et_zero, Cr17_msb;
-reg		Cr18_et_zero, Cr18_msb;
-reg		Cr23_et_zero, Cr23_msb, Cr24_et_zero, Cr24_msb;
-reg		Cr25_et_zero, Cr25_msb, Cr26_et_zero, Cr26_msb;
-reg		Cr27_et_zero, Cr27_msb, Cr28_et_zero, Cr28_msb;
-reg		Cr32_et_zero, Cr32_msb, Cr33_et_zero, Cr33_msb;
-reg		Cr34_et_zero, Cr34_msb, Cr35_et_zero, Cr35_msb;
-reg		Cr36_et_zero, Cr36_msb, Cr37_et_zero, Cr37_msb;
-reg		Cr38_et_zero, Cr38_msb;
-reg		Cr41_et_zero, Cr41_msb, Cr42_et_zero, Cr42_msb;
-reg		Cr43_et_zero, Cr43_msb, Cr44_et_zero, Cr44_msb;
-reg		Cr45_et_zero, Cr45_msb, Cr46_et_zero, Cr46_msb;
-reg		Cr47_et_zero, Cr47_msb, Cr48_et_zero, Cr48_msb;
-reg		Cr51_et_zero, Cr51_msb, Cr52_et_zero, Cr52_msb;
-reg		Cr53_et_zero, Cr53_msb, Cr54_et_zero, Cr54_msb;
-reg		Cr55_et_zero, Cr55_msb, Cr56_et_zero, Cr56_msb;
-reg		Cr57_et_zero, Cr57_msb, Cr58_et_zero, Cr58_msb;
-reg		Cr61_et_zero, Cr61_msb, Cr62_et_zero, Cr62_msb;
-reg		Cr63_et_zero, Cr63_msb, Cr64_et_zero, Cr64_msb;
-reg		Cr65_et_zero, Cr65_msb, Cr66_et_zero, Cr66_msb;
-reg		Cr67_et_zero, Cr67_msb, Cr68_et_zero, Cr68_msb;
-reg		Cr71_et_zero, Cr71_msb, Cr72_et_zero, Cr72_msb;
-reg		Cr73_et_zero, Cr73_msb, Cr74_et_zero, Cr74_msb;
-reg		Cr75_et_zero, Cr75_msb, Cr76_et_zero, Cr76_msb;
-reg		Cr77_et_zero, Cr77_msb, Cr78_et_zero, Cr78_msb;
-reg		Cr81_et_zero, Cr81_msb, Cr82_et_zero, Cr82_msb;
-reg		Cr83_et_zero, Cr83_msb, Cr84_et_zero, Cr84_msb;
-reg		Cr85_et_zero, Cr85_msb, Cr86_et_zero, Cr86_msb;
-reg		Cr87_et_zero, Cr87_msb, Cr88_et_zero, Cr88_msb;
-reg 	Cr12_et_zero_1, Cr12_et_zero_2, Cr12_et_zero_3, Cr12_et_zero_4, Cr12_et_zero_5;
-reg		[10:0] Cr_DC [11:0];
-reg 	[3:0] Cr_DC_code_length [11:0];
-reg		[15:0] Cr_AC [161:0];
-reg 	[4:0] Cr_AC_code_length [161:0];
-reg 	[7:0] Cr_AC_run_code [250:0];
-reg		[10:0] Cr11_Huff, Cr11_Huff_1, Cr11_Huff_2;
-reg		[15:0] Cr12_Huff, Cr12_Huff_1, Cr12_Huff_2;
-reg		[3:0] Cr11_Huff_count, Cr11_Huff_shift, Cr11_Huff_shift_1, Cr11_amp_shift, Cr12_amp_shift;
-reg		[3:0] Cr12_Huff_shift, Cr12_Huff_shift_1, zero_run_length, zrl_1, zrl_2, zrl_3;
-reg		[4:0] Cr12_Huff_count, Cr12_Huff_count_1;
-reg		[4:0] output_reg_count, Cr11_output_count, old_orc_1, old_orc_2;
-reg		[4:0] old_orc_3, old_orc_4, old_orc_5, old_orc_6, Cr12_oc_1;
-reg		[4:0] orc_3, orc_4, orc_5, orc_6, orc_7, orc_8;
-reg		[4:0] Cr12_output_count;
-reg 	[4:0] Cr12_edge, Cr12_edge_1, Cr12_edge_2, Cr12_edge_3, Cr12_edge_4;
-reg		[31:0]	JPEG_bitstream, JPEG_bs, JPEG_bs_1, JPEG_bs_2, JPEG_bs_3, JPEG_bs_4, JPEG_bs_5;
-reg		[31:0]	JPEG_Cr12_bs, JPEG_Cr12_bs_1, JPEG_Cr12_bs_2, JPEG_Cr12_bs_3, JPEG_Cr12_bs_4;
-reg		[31:0]	JPEG_ro_bs, JPEG_ro_bs_1, JPEG_ro_bs_2, JPEG_ro_bs_3, JPEG_ro_bs_4;
-reg		[21:0]	Cr11_JPEG_LSBs_3;
-reg		[10:0]	Cr11_JPEG_LSBs, Cr11_JPEG_LSBs_1, Cr11_JPEG_LSBs_2;
-reg		[9:0]	Cr12_JPEG_LSBs, Cr12_JPEG_LSBs_1, Cr12_JPEG_LSBs_2, Cr12_JPEG_LSBs_3;
-reg		[25:0]	Cr11_JPEG_bits, Cr11_JPEG_bits_1, Cr12_JPEG_bits, Cr12_JPEG_LSBs_4;	  
-reg		[7:0]	Cr12_code_entry;
-reg		third_8_all_0s, fourth_8_all_0s, fifth_8_all_0s, sixth_8_all_0s, seventh_8_all_0s;
-reg		eighth_8_all_0s, end_of_block, code_15_0, zrl_et_15, end_of_block_output;
-reg		end_of_block_empty;
+    logic [7:0]  block_counter;
+    logic [11:0] Cr11_amp, Cr11_1_pos, Cr11_1_neg, Cr11_diff;
+    logic [11:0] Cr11_previous, Cr11_1;
+    logic [10:0] Cr12_amp, Cr12_pos, Cr12_neg;
+    logic [10:0] Cr21_pos, Cr21_neg, Cr31_pos, Cr31_neg, Cr22_pos, Cr22_neg;
+    logic [10:0] Cr13_pos, Cr13_neg, Cr14_pos, Cr14_neg, Cr15_pos, Cr15_neg;
+    logic [10:0] Cr16_pos, Cr16_neg, Cr17_pos, Cr17_neg, Cr18_pos, Cr18_neg;
+    logic [10:0] Cr23_pos, Cr23_neg, Cr24_pos, Cr24_neg, Cr25_pos, Cr25_neg;
+    logic [10:0] Cr26_pos, Cr26_neg, Cr27_pos, Cr27_neg, Cr28_pos, Cr28_neg;
+    logic [10:0] Cr32_pos, Cr32_neg;
+    logic [10:0] Cr33_pos, Cr33_neg, Cr34_pos, Cr34_neg, Cr35_pos, Cr35_neg;
+    logic [10:0] Cr36_pos, Cr36_neg, Cr37_pos, Cr37_neg, Cr38_pos, Cr38_neg;
+    logic [10:0] Cr41_pos, Cr41_neg, Cr42_pos, Cr42_neg;
+    logic [10:0] Cr43_pos, Cr43_neg, Cr44_pos, Cr44_neg, Cr45_pos, Cr45_neg;
+    logic [10:0] Cr46_pos, Cr46_neg, Cr47_pos, Cr47_neg, Cr48_pos, Cr48_neg;
+    logic [10:0] Cr51_pos, Cr51_neg, Cr52_pos, Cr52_neg;
+    logic [10:0] Cr53_pos, Cr53_neg, Cr54_pos, Cr54_neg, Cr55_pos, Cr55_neg;
+    logic [10:0] Cr56_pos, Cr56_neg, Cr57_pos, Cr57_neg, Cr58_pos, Cr58_neg;
+    logic [10:0] Cr61_pos, Cr61_neg, Cr62_pos, Cr62_neg;
+    logic [10:0] Cr63_pos, Cr63_neg, Cr64_pos, Cr64_neg, Cr65_pos, Cr65_neg;
+    logic [10:0] Cr66_pos, Cr66_neg, Cr67_pos, Cr67_neg, Cr68_pos, Cr68_neg;
+    logic [10:0] Cr71_pos, Cr71_neg, Cr72_pos, Cr72_neg;
+    logic [10:0] Cr73_pos, Cr73_neg, Cr74_pos, Cr74_neg, Cr75_pos, Cr75_neg;
+    logic [10:0] Cr76_pos, Cr76_neg, Cr77_pos, Cr77_neg, Cr78_pos, Cr78_neg;
+    logic [10:0] Cr81_pos, Cr81_neg, Cr82_pos, Cr82_neg;
+    logic [10:0] Cr83_pos, Cr83_neg, Cr84_pos, Cr84_neg, Cr85_pos, Cr85_neg;
+    logic [10:0] Cr86_pos, Cr86_neg, Cr87_pos, Cr87_neg, Cr88_pos, Cr88_neg;
+
+    logic [3:0] Cr11_bits_pos, Cr11_bits_neg, Cr11_bits, Cr11_bits_1;
+    logic [3:0] Cr12_bits_pos, Cr12_bits_neg, Cr12_bits, Cr12_bits_1; 
+    logic [3:0] Cr12_bits_2, Cr12_bits_3;
+
+    logic Cr11_msb, Cr12_msb, Cr12_msb_1;
+    logic enable_1, enable_2, enable_3, enable_4, enable_5, enable_6;
+    logic enable_7, enable_8, enable_9, enable_10, enable_11, enable_12;
+    logic enable_13, enable_module, enable_latch_7, enable_latch_8;
+    logic Cr12_et_zero, rollover, rollover_1, rollover_2, rollover_3;
+    logic rollover_4, rollover_5, rollover_6, rollover_7;
+    logic Cr21_et_zero, Cr21_msb, Cr31_et_zero, Cr31_msb;
+    logic Cr22_et_zero, Cr22_msb, Cr13_et_zero, Cr13_msb;
+    logic Cr14_et_zero, Cr14_msb, Cr15_et_zero, Cr15_msb;
+    logic Cr16_et_zero, Cr16_msb, Cr17_et_zero, Cr17_msb;
+    logic Cr18_et_zero, Cr18_msb;
+    logic Cr23_et_zero, Cr23_msb, Cr24_et_zero, Cr24_msb;
+    logic Cr25_et_zero, Cr25_msb, Cr26_et_zero, Cr26_msb;
+    logic Cr27_et_zero, Cr27_msb, Cr28_et_zero, Cr28_msb;
+    logic Cr32_et_zero, Cr32_msb, Cr33_et_zero, Cr33_msb;
+    logic Cr34_et_zero, Cr34_msb, Cr35_et_zero, Cr35_msb;
+    logic Cr36_et_zero, Cr36_msb, Cr37_et_zero, Cr37_msb;
+    logic Cr38_et_zero, Cr38_msb;
+    logic Cr41_et_zero, Cr41_msb, Cr42_et_zero, Cr42_msb;
+    logic Cr43_et_zero, Cr43_msb, Cr44_et_zero, Cr44_msb;
+    logic Cr45_et_zero, Cr45_msb, Cr46_et_zero, Cr46_msb;
+    logic Cr47_et_zero, Cr47_msb, Cr48_et_zero, Cr48_msb;
+    logic Cr51_et_zero, Cr51_msb, Cr52_et_zero, Cr52_msb;
+    logic Cr53_et_zero, Cr53_msb, Cr54_et_zero, Cr54_msb;
+    logic Cr55_et_zero, Cr55_msb, Cr56_et_zero, Cr56_msb;
+    logic Cr57_et_zero, Cr57_msb, Cr58_et_zero, Cr58_msb;
+    logic Cr61_et_zero, Cr61_msb, Cr62_et_zero, Cr62_msb;
+    logic Cr63_et_zero, Cr63_msb, Cr64_et_zero, Cr64_msb;
+    logic Cr65_et_zero, Cr65_msb, Cr66_et_zero, Cr66_msb;
+    logic Cr67_et_zero, Cr67_msb, Cr68_et_zero, Cr68_msb;
+    logic Cr71_et_zero, Cr71_msb, Cr72_et_zero, Cr72_msb;
+    logic Cr73_et_zero, Cr73_msb, Cr74_et_zero, Cr74_msb;
+    logic Cr75_et_zero, Cr75_msb, Cr76_et_zero, Cr76_msb;
+    logic Cr77_et_zero, Cr77_msb, Cr78_et_zero, Cr78_msb;
+    logic Cr81_et_zero, Cr81_msb, Cr82_et_zero, Cr82_msb;
+    logic Cr83_et_zero, Cr83_msb, Cr84_et_zero, Cr84_msb;
+    logic Cr85_et_zero, Cr85_msb, Cr86_et_zero, Cr86_msb;
+    logic Cr87_et_zero, Cr87_msb, Cr88_et_zero, Cr88_msb;
+
+    logic Cr12_et_zero_1, Cr12_et_zero_2, Cr12_et_zero_3, Cr12_et_zero_4, Cr12_et_zero_5;
+
+    logic [10:0] Cr_DC [11:0];
+    logic [3:0]  Cr_DC_code_length [11:0];
+    logic [15:0] Cr_AC [161:0];
+    logic [4:0]  Cr_AC_code_length [161:0];
+    logic [7:0]  Cr_AC_run_code [250:0];
+
+    logic [10:0] Cr11_Huff, Cr11_Huff_1, Cr11_Huff_2;
+    logic [15:0] Cr12_Huff, Cr12_Huff_1, Cr12_Huff_2;
+    logic [3:0]  Cr11_Huff_count, Cr11_Huff_shift, Cr11_Huff_shift_1, Cr11_amp_shift, Cr12_amp_shift;
+    logic [3:0]  Cr12_Huff_shift, Cr12_Huff_shift_1, zero_run_length, zrl_1, zrl_2, zrl_3;
+    logic [4:0]  Cr12_Huff_count, Cr12_Huff_count_1;
+    logic [4:0]  Cr11_output_count, old_orc_1, old_orc_2;
+    logic [4:0]  old_orc_3, old_orc_4, old_orc_5, old_orc_6, Cr12_oc_1;
+    logic [4:0]  orc_3, orc_4, orc_5, orc_6, orc_7, orc_8;
+    logic [4:0]  Cr12_output_count;
+    logic [4:0]  Cr12_edge, Cr12_edge_1, Cr12_edge_2, Cr12_edge_3, Cr12_edge_4;
+
+    logic [31:0] JPEG_bs, JPEG_bs_1, JPEG_bs_2, JPEG_bs_3, JPEG_bs_4, JPEG_bs_5;
+    logic [31:0] JPEG_Cr12_bs, JPEG_Cr12_bs_1, JPEG_Cr12_bs_2, JPEG_Cr12_bs_3, JPEG_Cr12_bs_4;
+    logic [31:0] JPEG_ro_bs, JPEG_ro_bs_1, JPEG_ro_bs_2, JPEG_ro_bs_3, JPEG_ro_bs_4;
+
+    logic [21:0] Cr11_JPEG_LSBs_3;
+    logic [10:0] Cr11_JPEG_LSBs, Cr11_JPEG_LSBs_1, Cr11_JPEG_LSBs_2;
+    logic [9:0]  Cr12_JPEG_LSBs, Cr12_JPEG_LSBs_1, Cr12_JPEG_LSBs_2, Cr12_JPEG_LSBs_3;
+    logic [25:0] Cr11_JPEG_bits, Cr11_JPEG_bits_1, Cr12_JPEG_bits, Cr12_JPEG_LSBs_4;
+
+    logic [7:0]  Cr12_code_entry;
+
+    logic third_8_all_0s, fourth_8_all_0s, fifth_8_all_0s, sixth_8_all_0s, seventh_8_all_0s;
+    logic eighth_8_all_0s, end_of_block, code_15_0, zrl_et_15, end_of_block_output;
 
 wire	[7:0]	code_index = { zrl_2, Cr12_bits };
 

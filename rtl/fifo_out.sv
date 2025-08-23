@@ -17,70 +17,109 @@
 
 `timescale 1ns / 100ps
 
-module fifo_out(clk, rst, enable, data_in, JPEG_bitstream, data_ready, orc_reg);
-input		clk, rst, enable;
-input	[23:0]	data_in;
-output  [31:0]  JPEG_bitstream;
-output		data_ready;
-output	[4:0] orc_reg;
+module fifo_out(
+    input  logic        clk, rst, enable,
+    input  logic [23:0] data_in,
+    output logic [31:0] JPEG_bitstream,
+    output logic        data_ready,
+    output logic [4:0]  orc_reg
+);
+
+    logic [31:0]  cb_JPEG_bitstream, cr_JPEG_bitstream, y_JPEG_bitstream;
+    logic [4:0]   cr_orc, cb_orc, y_orc;
+    logic [31:0]  y_bits_out;
+    logic         y_out_enable;
+    logic         cb_data_ready, cr_data_ready, y_data_ready;
+    logic         end_of_block_output, y_eob_empty; 
+    logic         cb_eob_empty, cr_eob_empty;
+    logic         y_fifo_empty;
+
+    logic [4:0]   orc, orc_cb, orc_cr, old_orc_reg, sorc_reg, roll_orc_reg;
+    logic [4:0]   orc_1, orc_2, orc_3, orc_4, orc_5, orc_reg_delay;
+    logic [4:0]   static_orc_1, static_orc_2, static_orc_3, static_orc_4, static_orc_5;
+    logic [4:0]   static_orc_6;
+    logic [4:0]   edge_ro_1, edge_ro_2, edge_ro_3, edge_ro_4, edge_ro_5;
+
+    logic [31:0]  jpeg_ro_1, jpeg_ro_2, jpeg_ro_3, jpeg_ro_4, jpeg_ro_5, jpeg_delay;
+    logic [31:0]  jpeg, jpeg_1, jpeg_2, jpeg_3, jpeg_4, jpeg_5, jpeg_6;
+
+    logic [4:0]   cr_orc_1, cb_orc_1, y_orc_1;
+    logic         cr_out_enable_1, cb_out_enable_1, y_out_enable_1, eob_1;
+    logic         eob_2, eob_3, eob_4;
+
+    logic         enable_1, enable_2, enable_3, enable_4, enable_5;
+    logic         enable_6, enable_7, enable_8, enable_9, enable_10;
+    logic         enable_11, enable_12, enable_13, enable_14, enable_15;
+    logic         enable_16, enable_17, enable_18, enable_19, enable_20;
+    logic         enable_21, enable_22, enable_23, enable_24, enable_25;
+    logic         enable_26, enable_27, enable_28, enable_29, enable_30;
+    logic         enable_31, enable_32, enable_33, enable_34, enable_35;
+
+    logic [2:0]   bits_mux, old_orc_mux, read_mux;
+    logic         bits_ready, br_1, br_2, br_3, br_4, br_5, br_6, br_7, br_8;
+    logic         rollover, rollover_1, rollover_2, rollover_3, rollover_eob;
+    logic         rollover_4, rollover_5, rollover_6, rollover_7;
+    logic         eobe_1, cb_read_req, cr_read_req, y_read_req;
+    logic         eob_early_out_enable, fifo_mux;
+
+    logic [31:0]  cr_bits_out1, cr_bits_out2, cb_bits_out1, cb_bits_out2;
+    logic         cr_fifo_empty1, cr_fifo_empty2, cb_fifo_empty1, cb_fifo_empty2;
+    logic         cr_out_enable1, cr_out_enable2, cb_out_enable1, cb_out_enable2;
 
 
+// --------------------
+// Signal Declarations
+// --------------------
+logic cb_write_enable;
+logic cr_write_enable;
+logic y_write_enable;
 
-wire  [31:0]  cb_JPEG_bitstream, cr_JPEG_bitstream, y_JPEG_bitstream;
-wire  [4:0] cr_orc, cb_orc, y_orc;
-wire  [31:0]  y_bits_out;
-wire		y_out_enable;
-wire		cb_data_ready, cr_data_ready, y_data_ready;
-wire		end_of_block_output, y_eob_empty; 
-wire		cb_eob_empty, cr_eob_empty;
-wire		y_fifo_empty;
-reg [4:0]	orc, orc_reg, orc_cb, orc_cr, old_orc_reg, sorc_reg, roll_orc_reg;
-reg [4:0]	orc_1, orc_2, orc_3, orc_4, orc_5, orc_reg_delay;
-reg [4:0]	static_orc_1, static_orc_2, static_orc_3, static_orc_4, static_orc_5;
-reg [4:0]	static_orc_6;
-reg [4:0]	edge_ro_1, edge_ro_2, edge_ro_3, edge_ro_4, edge_ro_5;
-reg	[31:0]	jpeg_ro_1, jpeg_ro_2, jpeg_ro_3, jpeg_ro_4, jpeg_ro_5, jpeg_delay;
-reg	[31:0]	jpeg, jpeg_1, jpeg_2, jpeg_3, jpeg_4, jpeg_5, jpeg_6, JPEG_bitstream;
-reg [4:0]	cr_orc_1, cb_orc_1, y_orc_1;
-reg			cr_out_enable_1, cb_out_enable_1, y_out_enable_1, eob_1;
-reg			eob_2, eob_3, eob_4;
-reg			enable_1, enable_2, enable_3, enable_4, enable_5;
-reg			enable_6, enable_7, enable_8, enable_9, enable_10;
-reg			enable_11, enable_12, enable_13, enable_14, enable_15;
-reg			enable_16, enable_17, enable_18, enable_19, enable_20;
-reg			enable_21, enable_22, enable_23, enable_24, enable_25;
-reg			enable_26, enable_27, enable_28, enable_29, enable_30;
-reg			enable_31, enable_32, enable_33, enable_34, enable_35;
-reg [2:0]   bits_mux, old_orc_mux, read_mux;
-reg			bits_ready, br_1, br_2, br_3, br_4, br_5, br_6, br_7, br_8;
-reg			rollover, rollover_1, rollover_2, rollover_3, rollover_eob;
-reg			rollover_4, rollover_5, rollover_6, rollover_7;
-reg			data_ready, eobe_1, cb_read_req, cr_read_req, y_read_req;
-reg			eob_early_out_enable, fifo_mux;
-wire [31:0] cr_bits_out1, cr_bits_out2, cb_bits_out1, cb_bits_out2;
-wire		cr_fifo_empty1, cr_fifo_empty2, cb_fifo_empty1, cb_fifo_empty2;
-wire		cr_out_enable1, cr_out_enable2, cb_out_enable1, cb_out_enable2;
-wire cb_write_enable = cb_data_ready && !cb_eob_empty;
-wire cr_write_enable = cr_data_ready && !cr_eob_empty;
-wire y_write_enable = y_data_ready && !y_eob_empty;
-wire cr_read_req1 = fifo_mux ? 0 : cr_read_req;
-wire cr_read_req2 = fifo_mux ? cr_read_req : 0;
-wire [31:0] cr_JPEG_bitstream1 = fifo_mux ? cr_JPEG_bitstream : 0;
-wire [31:0] cr_JPEG_bitstream2 = fifo_mux ? 0 : cr_JPEG_bitstream;
-wire cr_write_enable1 = fifo_mux && cr_write_enable;
-wire cr_write_enable2 = !fifo_mux && cr_write_enable;
-wire [31:0] cr_bits_out = fifo_mux ? cr_bits_out2 : cr_bits_out1;
-wire cr_fifo_empty = fifo_mux ? cr_fifo_empty2 : cr_fifo_empty1;
-wire cr_out_enable = fifo_mux ? cr_out_enable2 : cr_out_enable1;
-wire cb_read_req1 = fifo_mux ? 0 : cb_read_req;
-wire cb_read_req2 = fifo_mux ? cb_read_req : 0;
-wire [31:0] cb_JPEG_bitstream1 = fifo_mux ? cb_JPEG_bitstream : 0;
-wire [31:0] cb_JPEG_bitstream2 = fifo_mux ? 0 : cb_JPEG_bitstream;
-wire cb_write_enable1 = fifo_mux && cb_write_enable;
-wire cb_write_enable2 = !fifo_mux && cb_write_enable;
-wire [31:0] cb_bits_out = fifo_mux ? cb_bits_out2 : cb_bits_out1;
-wire cb_fifo_empty = fifo_mux ? cb_fifo_empty2 : cb_fifo_empty1;
-wire cb_out_enable = fifo_mux ? cb_out_enable2 : cb_out_enable1;
+logic cr_read_req1;
+logic cr_read_req2;
+logic [31:0] cr_JPEG_bitstream1;
+logic [31:0] cr_JPEG_bitstream2;
+logic cr_write_enable1;
+logic cr_write_enable2;
+logic [31:0] cr_bits_out;
+logic cr_fifo_empty;
+logic cr_out_enable;
+
+logic cb_read_req1;
+logic cb_read_req2;
+logic [31:0] cb_JPEG_bitstream1;
+logic [31:0] cb_JPEG_bitstream2;
+logic cb_write_enable1;
+logic cb_write_enable2;
+logic [31:0] cb_bits_out;
+logic cb_fifo_empty;
+logic cb_out_enable;
+
+// --------------------
+// Assign Statements
+// --------------------
+assign cb_write_enable  = cb_data_ready && !cb_eob_empty;
+assign cr_write_enable  = cr_data_ready && !cr_eob_empty;
+assign y_write_enable   = y_data_ready  && !y_eob_empty;
+
+assign cr_read_req1     = fifo_mux ? 0 : cr_read_req;
+assign cr_read_req2     = fifo_mux ? cr_read_req : 0;
+assign cr_JPEG_bitstream1 = fifo_mux ? cr_JPEG_bitstream : 0;
+assign cr_JPEG_bitstream2 = fifo_mux ? 0 : cr_JPEG_bitstream;
+assign cr_write_enable1 = fifo_mux && cr_write_enable;
+assign cr_write_enable2 = !fifo_mux && cr_write_enable;
+assign cr_bits_out      = fifo_mux ? cr_bits_out2 : cr_bits_out1;
+assign cr_fifo_empty    = fifo_mux ? cr_fifo_empty2 : cr_fifo_empty1;
+assign cr_out_enable    = fifo_mux ? cr_out_enable2 : cr_out_enable1;
+
+assign cb_read_req1     = fifo_mux ? 0 : cb_read_req;
+assign cb_read_req2     = fifo_mux ? cb_read_req : 0;
+assign cb_JPEG_bitstream1 = fifo_mux ? cb_JPEG_bitstream : 0;
+assign cb_JPEG_bitstream2 = fifo_mux ? 0 : cb_JPEG_bitstream;
+assign cb_write_enable1 = fifo_mux && cb_write_enable;
+assign cb_write_enable2 = !fifo_mux && cb_write_enable;
+assign cb_bits_out      = fifo_mux ? cb_bits_out2 : cb_bits_out1;
+assign cb_fifo_empty    = fifo_mux ? cb_fifo_empty2 : cb_fifo_empty1;
+assign cb_out_enable    = fifo_mux ? cb_out_enable2 : cb_out_enable1;
 
 
  	pre_fifo u14(.clk(clk), .rst(rst), .enable(enable), .data_in(data_in),

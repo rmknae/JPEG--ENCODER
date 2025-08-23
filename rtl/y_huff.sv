@@ -9,125 +9,135 @@
 //
 // Author:Rameen
 // Date:15th July,2025.
-`timescale 1ns / 100ps
-		
-module y_huff(clk, rst, enable,
-Y11, Y12, Y13, Y14, Y15, Y16, Y17, Y18, Y21, Y22, Y23, Y24, Y25, Y26, Y27, Y28,
-Y31, Y32, Y33, Y34, Y35, Y36, Y37, Y38, Y41, Y42, Y43, Y44, Y45, Y46, Y47, Y48,
-Y51, Y52, Y53, Y54, Y55, Y56, Y57, Y58, Y61, Y62, Y63, Y64, Y65, Y66, Y67, Y68,
-Y71, Y72, Y73, Y74, Y75, Y76, Y77, Y78, Y81, Y82, Y83, Y84, Y85, Y86, Y87, Y88,
-JPEG_bitstream, data_ready, output_reg_count, end_of_block_output,
- end_of_block_empty);
-input		clk;
-input		rst;
-input		enable;
-input  [10:0]  Y11, Y12, Y13, Y14, Y15, Y16, Y17, Y18, Y21, Y22, Y23, Y24;
-input  [10:0]  Y25, Y26, Y27, Y28, Y31, Y32, Y33, Y34, Y35, Y36, Y37, Y38;
-input  [10:0]  Y41, Y42, Y43, Y44, Y45, Y46, Y47, Y48, Y51, Y52, Y53, Y54;
-input  [10:0]  Y55, Y56, Y57, Y58, Y61, Y62, Y63, Y64, Y65, Y66, Y67, Y68;
-input  [10:0]  Y71, Y72, Y73, Y74, Y75, Y76, Y77, Y78, Y81, Y82, Y83, Y84;
-input  [10:0]  Y85, Y86, Y87, Y88;
-output	[31:0]	JPEG_bitstream;
-output	data_ready;
-output	[4:0] output_reg_count;
-output	end_of_block_output;
-output		end_of_block_empty;
 
-reg		[7:0] block_counter;
-reg		[11:0]  Y11_amp, Y11_1_pos, Y11_1_neg, Y11_diff;
-reg		[11:0]  Y11_previous, Y11_1;
-reg		[10:0]  Y12_amp, Y12_pos, Y12_neg;
-reg		[10:0]  Y21_pos, Y21_neg, Y31_pos, Y31_neg, Y22_pos, Y22_neg;
-reg		[10:0]  Y13_pos, Y13_neg, Y14_pos, Y14_neg, Y15_pos, Y15_neg;
-reg		[10:0]  Y16_pos, Y16_neg, Y17_pos, Y17_neg, Y18_pos, Y18_neg;
-reg		[10:0]  Y23_pos, Y23_neg, Y24_pos, Y24_neg, Y25_pos, Y25_neg;
-reg		[10:0]  Y26_pos, Y26_neg, Y27_pos, Y27_neg, Y28_pos, Y28_neg;
-reg		[10:0]  Y32_pos, Y32_neg;
-reg		[10:0]  Y33_pos, Y33_neg, Y34_pos, Y34_neg, Y35_pos, Y35_neg;
-reg		[10:0]  Y36_pos, Y36_neg, Y37_pos, Y37_neg, Y38_pos, Y38_neg;
-reg		[10:0]  Y41_pos, Y41_neg, Y42_pos, Y42_neg;
-reg		[10:0]  Y43_pos, Y43_neg, Y44_pos, Y44_neg, Y45_pos, Y45_neg;
-reg		[10:0]  Y46_pos, Y46_neg, Y47_pos, Y47_neg, Y48_pos, Y48_neg;
-reg		[10:0]  Y51_pos, Y51_neg, Y52_pos, Y52_neg;
-reg		[10:0]  Y53_pos, Y53_neg, Y54_pos, Y54_neg, Y55_pos, Y55_neg;
-reg		[10:0]  Y56_pos, Y56_neg, Y57_pos, Y57_neg, Y58_pos, Y58_neg;
-reg		[10:0]  Y61_pos, Y61_neg, Y62_pos, Y62_neg;
-reg		[10:0]  Y63_pos, Y63_neg, Y64_pos, Y64_neg, Y65_pos, Y65_neg;
-reg		[10:0]  Y66_pos, Y66_neg, Y67_pos, Y67_neg, Y68_pos, Y68_neg;
-reg		[10:0]  Y71_pos, Y71_neg, Y72_pos, Y72_neg;
-reg		[10:0]  Y73_pos, Y73_neg, Y74_pos, Y74_neg, Y75_pos, Y75_neg;
-reg		[10:0]  Y76_pos, Y76_neg, Y77_pos, Y77_neg, Y78_pos, Y78_neg;
-reg		[10:0]  Y81_pos, Y81_neg, Y82_pos, Y82_neg;
-reg		[10:0]  Y83_pos, Y83_neg, Y84_pos, Y84_neg, Y85_pos, Y85_neg;
-reg		[10:0]  Y86_pos, Y86_neg, Y87_pos, Y87_neg, Y88_pos, Y88_neg;
-reg		[3:0]	Y11_bits_pos, Y11_bits_neg, Y11_bits, Y11_bits_1;
-reg		[3:0]	Y12_bits_pos, Y12_bits_neg, Y12_bits, Y12_bits_1; 
-reg		[3:0]	Y12_bits_2, Y12_bits_3;
-reg		Y11_msb, Y12_msb, Y12_msb_1, data_ready;
-reg		enable_1, enable_2, enable_3, enable_4, enable_5, enable_6;
-reg		enable_7, enable_8, enable_9, enable_10, enable_11, enable_12;
-reg		enable_13, enable_module, enable_latch_7, enable_latch_8;
-reg		Y12_et_zero, rollover, rollover_1, rollover_2, rollover_3;
-reg		rollover_4, rollover_5, rollover_6, rollover_7;
-reg		Y21_et_zero, Y21_msb, Y31_et_zero, Y31_msb;
-reg		Y22_et_zero, Y22_msb, Y13_et_zero, Y13_msb;
-reg		Y14_et_zero, Y14_msb, Y15_et_zero, Y15_msb;
-reg		Y16_et_zero, Y16_msb, Y17_et_zero, Y17_msb;
-reg		Y18_et_zero, Y18_msb;
-reg		Y23_et_zero, Y23_msb, Y24_et_zero, Y24_msb;
-reg		Y25_et_zero, Y25_msb, Y26_et_zero, Y26_msb;
-reg		Y27_et_zero, Y27_msb, Y28_et_zero, Y28_msb;
-reg		Y32_et_zero, Y32_msb, Y33_et_zero, Y33_msb;
-reg		Y34_et_zero, Y34_msb, Y35_et_zero, Y35_msb;
-reg		Y36_et_zero, Y36_msb, Y37_et_zero, Y37_msb;
-reg		Y38_et_zero, Y38_msb;
-reg		Y41_et_zero, Y41_msb, Y42_et_zero, Y42_msb;
-reg		Y43_et_zero, Y43_msb, Y44_et_zero, Y44_msb;
-reg		Y45_et_zero, Y45_msb, Y46_et_zero, Y46_msb;
-reg		Y47_et_zero, Y47_msb, Y48_et_zero, Y48_msb;
-reg		Y51_et_zero, Y51_msb, Y52_et_zero, Y52_msb;
-reg		Y53_et_zero, Y53_msb, Y54_et_zero, Y54_msb;
-reg		Y55_et_zero, Y55_msb, Y56_et_zero, Y56_msb;
-reg		Y57_et_zero, Y57_msb, Y58_et_zero, Y58_msb;
-reg		Y61_et_zero, Y61_msb, Y62_et_zero, Y62_msb;
-reg		Y63_et_zero, Y63_msb, Y64_et_zero, Y64_msb;
-reg		Y65_et_zero, Y65_msb, Y66_et_zero, Y66_msb;
-reg		Y67_et_zero, Y67_msb, Y68_et_zero, Y68_msb;
-reg		Y71_et_zero, Y71_msb, Y72_et_zero, Y72_msb;
-reg		Y73_et_zero, Y73_msb, Y74_et_zero, Y74_msb;
-reg		Y75_et_zero, Y75_msb, Y76_et_zero, Y76_msb;
-reg		Y77_et_zero, Y77_msb, Y78_et_zero, Y78_msb;
-reg		Y81_et_zero, Y81_msb, Y82_et_zero, Y82_msb;
-reg		Y83_et_zero, Y83_msb, Y84_et_zero, Y84_msb;
-reg		Y85_et_zero, Y85_msb, Y86_et_zero, Y86_msb;
-reg		Y87_et_zero, Y87_msb, Y88_et_zero, Y88_msb;
-reg 	Y12_et_zero_1, Y12_et_zero_2, Y12_et_zero_3, Y12_et_zero_4, Y12_et_zero_5;
-reg		[10:0] Y_DC [11:0];
-reg 	[3:0] Y_DC_code_length [11:0];
-reg		[15:0] Y_AC [161:0];
-reg 	[4:0] Y_AC_code_length [161:0];
-reg 	[7:0] Y_AC_run_code [250:0];
-reg		[10:0] Y11_Huff, Y11_Huff_1, Y11_Huff_2;
-reg		[15:0] Y12_Huff, Y12_Huff_1, Y12_Huff_2;
-reg		[3:0] Y11_Huff_count, Y11_Huff_shift, Y11_Huff_shift_1, Y11_amp_shift, Y12_amp_shift;
-reg		[3:0] Y12_Huff_shift, Y12_Huff_shift_1, zero_run_length, zrl_1, zrl_2, zrl_3;
-reg		[4:0] Y12_Huff_count, Y12_Huff_count_1;
-reg		[4:0] output_reg_count, Y11_output_count, old_orc_1, old_orc_2;
-reg		[4:0] old_orc_3, old_orc_4, old_orc_5, old_orc_6, Y12_oc_1;
-reg		[4:0] orc_3, orc_4, orc_5, orc_6, orc_7, orc_8;
-reg		[4:0] Y12_output_count;
-reg 	[4:0] Y12_edge, Y12_edge_1, Y12_edge_2, Y12_edge_3, Y12_edge_4;
-reg		[31:0]	JPEG_bitstream, JPEG_bs, JPEG_bs_1, JPEG_bs_2, JPEG_bs_3, JPEG_bs_4, JPEG_bs_5;
-reg		[31:0]	JPEG_Y12_bs, JPEG_Y12_bs_1, JPEG_Y12_bs_2, JPEG_Y12_bs_3, JPEG_Y12_bs_4;
-reg		[31:0]	JPEG_ro_bs, JPEG_ro_bs_1, JPEG_ro_bs_2, JPEG_ro_bs_3, JPEG_ro_bs_4;
-reg		[21:0]	Y11_JPEG_LSBs_3;
-reg		[10:0]	Y11_JPEG_LSBs, Y11_JPEG_LSBs_1, Y11_JPEG_LSBs_2;
-reg		[9:0]	Y12_JPEG_LSBs, Y12_JPEG_LSBs_1, Y12_JPEG_LSBs_2, Y12_JPEG_LSBs_3;
-reg		[25:0]	Y11_JPEG_bits, Y11_JPEG_bits_1, Y12_JPEG_bits, Y12_JPEG_LSBs_4;	  
-reg		[7:0]	Y12_code_entry;
-reg		third_8_all_0s, fourth_8_all_0s, fifth_8_all_0s, sixth_8_all_0s, seventh_8_all_0s;
-reg		eighth_8_all_0s, end_of_block, code_15_0, zrl_et_15, end_of_block_output;
-reg		end_of_block_empty;
+`timescale 1ns / 100ps
+
+module y_huff (
+    input  logic        clk,
+    input  logic        rst,
+    input  logic        enable,
+    input  logic [10:0] Y11, Y12, Y13, Y14, Y15, Y16, Y17, Y18,
+    input  logic [10:0] Y21, Y22, Y23, Y24, Y25, Y26, Y27, Y28,
+    input  logic [10:0] Y31, Y32, Y33, Y34, Y35, Y36, Y37, Y38,
+    input  logic [10:0] Y41, Y42, Y43, Y44, Y45, Y46, Y47, Y48,
+    input  logic [10:0] Y51, Y52, Y53, Y54, Y55, Y56, Y57, Y58,
+    input  logic [10:0] Y61, Y62, Y63, Y64, Y65, Y66, Y67, Y68,
+    input  logic [10:0] Y71, Y72, Y73, Y74, Y75, Y76, Y77, Y78,
+    input  logic [10:0] Y81, Y82, Y83, Y84, Y85, Y86, Y87, Y88,
+    output logic [31:0] JPEG_bitstream,
+    output logic        data_ready,
+    output logic [4:0]  output_reg_count,
+    output logic        end_of_block_output,
+    output logic        end_of_block_empty
+);
+
+    logic [7:0]  block_counter;
+    logic [11:0] Y11_amp, Y11_1_pos, Y11_1_neg, Y11_diff;
+    logic [11:0] Y11_previous, Y11_1;
+    logic [10:0] Y12_amp, Y12_pos, Y12_neg;
+    logic [10:0] Y21_pos, Y21_neg, Y31_pos, Y31_neg, Y22_pos, Y22_neg;
+    logic [10:0] Y13_pos, Y13_neg, Y14_pos, Y14_neg, Y15_pos, Y15_neg;
+    logic [10:0] Y16_pos, Y16_neg, Y17_pos, Y17_neg, Y18_pos, Y18_neg;
+    logic [10:0] Y23_pos, Y23_neg, Y24_pos, Y24_neg, Y25_pos, Y25_neg;
+    logic [10:0] Y26_pos, Y26_neg, Y27_pos, Y27_neg, Y28_pos, Y28_neg;
+    logic [10:0] Y32_pos, Y32_neg;
+    logic [10:0] Y33_pos, Y33_neg, Y34_pos, Y34_neg, Y35_pos, Y35_neg;
+    logic [10:0] Y36_pos, Y36_neg, Y37_pos, Y37_neg, Y38_pos, Y38_neg;
+    logic [10:0] Y41_pos, Y41_neg, Y42_pos, Y42_neg;
+    logic [10:0] Y43_pos, Y43_neg, Y44_pos, Y44_neg, Y45_pos, Y45_neg;
+    logic [10:0] Y46_pos, Y46_neg, Y47_pos, Y47_neg, Y48_pos, Y48_neg;
+    logic [10:0] Y51_pos, Y51_neg, Y52_pos, Y52_neg;
+    logic [10:0] Y53_pos, Y53_neg, Y54_pos, Y54_neg, Y55_pos, Y55_neg;
+    logic [10:0] Y56_pos, Y56_neg, Y57_pos, Y57_neg, Y58_pos, Y58_neg;
+    logic [10:0] Y61_pos, Y61_neg, Y62_pos, Y62_neg;
+    logic [10:0] Y63_pos, Y63_neg, Y64_pos, Y64_neg, Y65_pos, Y65_neg;
+    logic [10:0] Y66_pos, Y66_neg, Y67_pos, Y67_neg, Y68_pos, Y68_neg;
+    logic [10:0] Y71_pos, Y71_neg, Y72_pos, Y72_neg;
+    logic [10:0] Y73_pos, Y73_neg, Y74_pos, Y74_neg, Y75_pos, Y75_neg;
+    logic [10:0] Y76_pos, Y76_neg, Y77_pos, Y77_neg, Y78_pos, Y78_neg;
+    logic [10:0] Y81_pos, Y81_neg, Y82_pos, Y82_neg;
+    logic [10:0] Y83_pos, Y83_neg, Y84_pos, Y84_neg, Y85_pos, Y85_neg;
+    logic [10:0] Y86_pos, Y86_neg, Y87_pos, Y87_neg, Y88_pos, Y88_neg;
+
+    logic [3:0]  Y11_bits_pos, Y11_bits_neg, Y11_bits, Y11_bits_1;
+    logic [3:0]  Y12_bits_pos, Y12_bits_neg, Y12_bits, Y12_bits_1; 
+    logic [3:0]  Y12_bits_2, Y12_bits_3;
+
+    logic Y11_msb, Y12_msb, Y12_msb_1;
+
+    logic enable_1, enable_2, enable_3, enable_4, enable_5, enable_6;
+    logic enable_7, enable_8, enable_9, enable_10, enable_11, enable_12;
+    logic enable_13, enable_module, enable_latch_7, enable_latch_8;
+
+    logic Y12_et_zero, rollover, rollover_1, rollover_2, rollover_3;
+    logic rollover_4, rollover_5, rollover_6, rollover_7;
+
+    logic Y21_et_zero, Y21_msb, Y31_et_zero, Y31_msb;
+    logic Y22_et_zero, Y22_msb, Y13_et_zero, Y13_msb;
+    logic Y14_et_zero, Y14_msb, Y15_et_zero, Y15_msb;
+    logic Y16_et_zero, Y16_msb, Y17_et_zero, Y17_msb;
+    logic Y18_et_zero, Y18_msb;
+    logic Y23_et_zero, Y23_msb, Y24_et_zero, Y24_msb;
+    logic Y25_et_zero, Y25_msb, Y26_et_zero, Y26_msb;
+    logic Y27_et_zero, Y27_msb, Y28_et_zero, Y28_msb;
+    logic Y32_et_zero, Y32_msb, Y33_et_zero, Y33_msb;
+    logic Y34_et_zero, Y34_msb, Y35_et_zero, Y35_msb;
+    logic Y36_et_zero, Y36_msb, Y37_et_zero, Y37_msb;
+    logic Y38_et_zero, Y38_msb;
+    logic Y41_et_zero, Y41_msb, Y42_et_zero, Y42_msb;
+    logic Y43_et_zero, Y43_msb, Y44_et_zero, Y44_msb;
+    logic Y45_et_zero, Y45_msb, Y46_et_zero, Y46_msb;
+    logic Y47_et_zero, Y47_msb, Y48_et_zero, Y48_msb;
+    logic Y51_et_zero, Y51_msb, Y52_et_zero, Y52_msb;
+    logic Y53_et_zero, Y53_msb, Y54_et_zero, Y54_msb;
+    logic Y55_et_zero, Y55_msb, Y56_et_zero, Y56_msb;
+    logic Y57_et_zero, Y57_msb, Y58_et_zero, Y58_msb;
+    logic Y61_et_zero, Y61_msb, Y62_et_zero, Y62_msb;
+    logic Y63_et_zero, Y63_msb, Y64_et_zero, Y64_msb;
+    logic Y65_et_zero, Y65_msb, Y66_et_zero, Y66_msb;
+    logic Y67_et_zero, Y67_msb, Y68_et_zero, Y68_msb;
+    logic Y71_et_zero, Y71_msb, Y72_et_zero, Y72_msb;
+    logic Y73_et_zero, Y73_msb, Y74_et_zero, Y74_msb;
+    logic Y75_et_zero, Y75_msb, Y76_et_zero, Y76_msb;
+    logic Y77_et_zero, Y77_msb, Y78_et_zero, Y78_msb;
+    logic Y81_et_zero, Y81_msb, Y82_et_zero, Y82_msb;
+    logic Y83_et_zero, Y83_msb, Y84_et_zero, Y84_msb;
+    logic Y85_et_zero, Y85_msb, Y86_et_zero, Y86_msb;
+    logic Y87_et_zero, Y87_msb, Y88_et_zero, Y88_msb;
+
+    logic Y12_et_zero_1, Y12_et_zero_2, Y12_et_zero_3, Y12_et_zero_4, Y12_et_zero_5;
+
+    logic [10:0] Y_DC [11:0];
+    logic [3:0]  Y_DC_code_length [11:0];
+    logic [15:0] Y_AC [161:0];
+    logic [4:0]  Y_AC_code_length [161:0];
+    logic [7:0]  Y_AC_run_code [250:0];
+
+    logic [10:0] Y11_Huff, Y11_Huff_1, Y11_Huff_2;
+    logic [15:0] Y12_Huff, Y12_Huff_1, Y12_Huff_2;
+
+    logic [3:0]  Y11_Huff_count, Y11_Huff_shift, Y11_Huff_shift_1, Y11_amp_shift, Y12_amp_shift;
+    logic [3:0]  Y12_Huff_shift, Y12_Huff_shift_1, zero_run_length, zrl_1, zrl_2, zrl_3;
+    logic [4:0]  Y12_Huff_count, Y12_Huff_count_1;
+    logic [4:0]  Y11_output_count, old_orc_1, old_orc_2, old_orc_3, old_orc_4, old_orc_5, old_orc_6, Y12_oc_1;
+    logic [4:0]  orc_3, orc_4, orc_5, orc_6, orc_7, orc_8;
+    logic [4:0]  Y12_output_count;
+    logic [4:0]  Y12_edge, Y12_edge_1, Y12_edge_2, Y12_edge_3, Y12_edge_4;
+
+    logic [31:0] JPEG_bs, JPEG_bs_1, JPEG_bs_2, JPEG_bs_3, JPEG_bs_4, JPEG_bs_5;
+    logic [31:0] JPEG_Y12_bs, JPEG_Y12_bs_1, JPEG_Y12_bs_2, JPEG_Y12_bs_3, JPEG_Y12_bs_4;
+    logic [31:0] JPEG_ro_bs, JPEG_ro_bs_1, JPEG_ro_bs_2, JPEG_ro_bs_3, JPEG_ro_bs_4;
+
+    logic [21:0] Y11_JPEG_LSBs_3;
+    logic [10:0] Y11_JPEG_LSBs, Y11_JPEG_LSBs_1, Y11_JPEG_LSBs_2;
+    logic [9:0]  Y12_JPEG_LSBs, Y12_JPEG_LSBs_1, Y12_JPEG_LSBs_2, Y12_JPEG_LSBs_3;
+    logic [25:0] Y11_JPEG_bits, Y11_JPEG_bits_1, Y12_JPEG_bits, Y12_JPEG_LSBs_4;	  
+    logic [7:0]  Y12_code_entry;
+
+    logic third_8_all_0s, fourth_8_all_0s, fifth_8_all_0s, sixth_8_all_0s, seventh_8_all_0s;
+    logic eighth_8_all_0s, end_of_block, code_15_0, zrl_et_15;
+
+
 
 wire	[7:0]	code_index = { zrl_2, Y12_bits };
 

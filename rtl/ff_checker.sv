@@ -20,53 +20,51 @@
 
 `timescale 1ns / 100ps
 
-module ff_checker(clk, rst, end_of_file_signal, JPEG_in, data_ready_in, orc_reg_in,
-JPEG_bitstream_1, data_ready_1, orc_reg, eof_data_partial_ready);
-input		clk;
-input		rst;
-input		end_of_file_signal;
-input  [31:0]  JPEG_in;
-input		data_ready_in;
-input	[4:0]	orc_reg_in;
-output  [31:0]  JPEG_bitstream_1;
-output		data_ready_1;
-output	[4:0]	orc_reg;
-output		eof_data_partial_ready;
+module ff_checker(
+    input  logic        clk,
+    input  logic        rst,
+    input  logic        end_of_file_signal,
+    input  logic [31:0] JPEG_in,
+    input  logic        data_ready_in,
+    input  logic [4:0]  orc_reg_in,
+    output logic [31:0] JPEG_bitstream_1,
+    output logic        data_ready_1,
+    output logic [4:0]  orc_reg,
+    output logic        eof_data_partial_ready
+);
 
-		
-reg	first_2bytes, second_2bytes, third_2bytes, fourth_2bytes;
-reg first_2bytes_eof, second_2bytes_eof, third_2bytes_eof;
-reg fourth_2bytes_eof, fifth_2bytes_eof, s2b, t2b; 
-reg [79:0]	JPEG_eof_6, JPEG_eof_7;
-reg [63:0]	JPEG_5, JPEG_eof_5_1, JPEG_6, JPEG_7;
-reg [55:0]	JPEG_4, JPEG_eof_3, JPEG_eof_4, JPEG_eof_5;
-reg [47:0]	JPEG_3, JPEG_eof_2; 
-reg	[39:0]	JPEG_2, JPEG_eof_1;
-reg	[31:0]	JPEG_1, JPEG_ro, JPEG_bitstream, JPEG_bitstream_1;
-reg [31:0] 	JPEG_eof, JPEG_eof_ro;
-reg [31:0]	JPEG_bitstream_eof;
-reg [15:0] 	JPEG_eof_ro_ro;
-reg	[87:0]	JPEG_out, JPEG_out_1, JPEG_pf;
-reg [23:0]  JPEG_ro_ro;
-reg	dr_in_1, dr_in_2, dr_in_3, dr_in_4, dr_in_5, dr_in_6;
-reg	dr_in_7, dr_in_8;
-reg rollover, rollover_1, rollover_2, rollover_3, rollover_4, rollover_5;
-reg rollover_pf, rpf_1;
-reg [1:0] FF_count, FF_count_1, FF_eof_shift;
-reg [2:0] count_total, ct_1;
-reg [1:0] ffc_1, ffc_2, ffc_3, ffc_4, ffc_5, ffc_6, ffc_7;
-reg [1:0] ffc_postfifo, count_total_eof;
-reg [4:0] orc_input;
-reg [4:0] orc_reg;
-reg [6:0] extra_bits_eof, extra_bits_eof_1;
-wire [90:0] read_data;
+logic first_2bytes, second_2bytes, third_2bytes, fourth_2bytes;
+logic first_2bytes_eof, second_2bytes_eof, third_2bytes_eof;
+logic fourth_2bytes_eof, fifth_2bytes_eof, s2b, t2b; 
+logic [79:0] JPEG_eof_6, JPEG_eof_7;
+logic [63:0] JPEG_5, JPEG_eof_5_1, JPEG_6, JPEG_7;
+logic [55:0] JPEG_4, JPEG_eof_3, JPEG_eof_4, JPEG_eof_5;
+logic [47:0] JPEG_3, JPEG_eof_2; 
+logic [39:0] JPEG_2, JPEG_eof_1;
+logic [31:0] JPEG_1, JPEG_ro, JPEG_bitstream;
+logic [31:0] JPEG_eof, JPEG_eof_ro;
+logic [31:0] JPEG_bitstream_eof;
+logic [15:0] JPEG_eof_ro_ro;
+logic [87:0] JPEG_out, JPEG_out_1, JPEG_pf;
+logic [23:0] JPEG_ro_ro;
+logic dr_in_1, dr_in_2, dr_in_3, dr_in_4, dr_in_5, dr_in_6;
+logic dr_in_7, dr_in_8;
+logic rollover, rollover_1, rollover_2, rollover_3, rollover_4, rollover_5;
+logic rollover_pf, rpf_1;
+logic [1:0] FF_count, FF_count_1, FF_eof_shift;
+logic [2:0] count_total, ct_1;
+logic [1:0] ffc_1, ffc_2, ffc_3, ffc_4, ffc_5, ffc_6, ffc_7;
+logic [1:0] ffc_postfifo, count_total_eof;
+logic [4:0] orc_input;
+logic [6:0] extra_bits_eof, extra_bits_eof_1;
+wire  [90:0] read_data;
 wire [90:0] write_data = { JPEG_out_1, ffc_7, rollover_5 }; 
-reg data_ready, data_ready_1, write_enable, read_req, rdv_1;
-reg end_of_file_enable, eof_count_enable;
-reg eof_data_partial_ready, eof_dpr_1, eof_dpr_2;
-reg end_of_file_enable_hold, eof_data_ready;
-reg eof_data_ready_1, eof_bits_1, eof_bits_2, eof_bits_3;
-reg [8:0] eof_count;
+logic data_ready,write_enable, read_req, rdv_1;
+logic end_of_file_enable, eof_count_enable;
+logic eof_dpr_1, eof_dpr_2;
+logic end_of_file_enable_hold, eof_data_ready;
+logic eof_data_ready_1, eof_bits_1, eof_bits_2, eof_bits_3;
+logic [8:0] eof_count;
 wire fifo_empty, rdata_valid;
 
  sync_fifo_ff u18(.clk(clk), .rst(rst), .read_req(read_req), .write_data(write_data), 
