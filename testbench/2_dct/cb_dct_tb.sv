@@ -18,6 +18,7 @@
 // Date: 21st July, 2025.
 
 `timescale 1ns / 100ps
+`include "dct_constants.svh"
 
 module cb_dct_tb;
 
@@ -142,3 +143,4 @@ module cb_dct_tb;
   end
 
 endmodule
+
