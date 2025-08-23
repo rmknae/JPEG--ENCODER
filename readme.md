@@ -60,9 +60,9 @@ cd JPEG--ENCODER
 > **Headers & Selection**
 > During simulation, the encoder reads image **headers (size, format, pixel depth)** and selects the proper quantization and Huffman tables automatically.
 > This ensures compatibility with baseline JPEG compression.
-## Supported Image Sizes  (These headers are available in Headers folder)
+> ## Supported Image Sizes  (These headers are available in Headers folder)
 
-<div align="center">
+> <div align="center">
  
 | Resolution   | Standard  |
 |--------------|-----------|
@@ -72,11 +72,11 @@ cd JPEG--ENCODER
 | 800 × 600    | SVGA      |
 | 96 × 96      | Icon/Test |
 
-</div>
+> </div>
 
 ---
 
-## 🛠️ Custom Resolution via `header.bin` (SOF0)  
+> ## Custom Resolution via `header.bin` (SOF0)  
 
 If you need a resolution not listed above, you can edit the static JPEG header file:  
 
