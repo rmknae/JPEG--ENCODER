@@ -98,11 +98,6 @@ logic		Cb83_et_zero, Cb83_msb, Cb84_et_zero, Cb84_msb;
 logic		Cb85_et_zero, Cb85_msb, Cb86_et_zero, Cb86_msb;
 logic		Cb87_et_zero, Cb87_msb, Cb88_et_zero, Cb88_msb;
 logic 	Cb12_et_zero_1, Cb12_et_zero_2, Cb12_et_zero_3, Cb12_et_zero_4, Cb12_et_zero_5;
-logic		[10:0] Cb_DC [11:0];
-logic 	[3:0] Cb_DC_code_length [11:0];
-logic		[15:0] Cb_AC [161:0];
-logic 	[4:0] Cb_AC_code_length [161:0];
-logic 	[7:0] Cb_AC_run_code [250:0];
 logic		[10:0] Cb11_Huff, Cb11_Huff_1, Cb11_Huff_2;
 logic		[15:0] Cb12_Huff, Cb12_Huff_1, Cb12_Huff_2;
 logic		[3:0] Cb11_Huff_count, Cb11_Huff_shift, Cb11_Huff_shift_1, Cb11_amp_shift, Cb12_amp_shift;
@@ -2219,4 +2214,5 @@ begin
 	else if (enable_module && orc_8 <= 31) 
 		JPEG_bitstream[0] <= JPEG_bs_5[0];
 end
+
 endmodule
