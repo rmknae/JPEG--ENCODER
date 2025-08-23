@@ -13,6 +13,7 @@
 // Date: 31st July, 2025
 
 `timescale 1ns / 100ps
+`include "dct_constants.svh"
 
 module y_dct_tb;
 
@@ -132,3 +133,4 @@ endtask
   end
 
 endmodule
+
