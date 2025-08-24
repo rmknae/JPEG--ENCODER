@@ -14,14 +14,6 @@
 
 Welcome to the **JPEG Encoder** project\! This tool allows you to convert **raw RGB images into JPEG compressed format** using a **hardware-based encoder implemented in SystemVerilog**.
 
-## Features
-  * **Complete JPEG Pipeline:** Converts raw RGB images into a compressed format by performing YCbCr conversion, DCT, Quantization, and Huffman Encoding.
-  * **Modular Hardware Design:** The encoder is built using a modular design in SystemVerilog/Verilog.
-  * **Robust Testbenches:** Includes SystemVerilog testbenches for comprehensive simulation and validation.
-  * **Cross-Platform Simulation:** Works seamlessly with QuestaSim and other standard HDL simulators.
-  * **Automated Workflow:** A `run.bat` file automates the entire process on Windows, from data generation to final image output.
-  * **Python Utilities:** Provides Python scripts to convert input images into pixel data for simulation and to reconstruct the final JPEG image from the generated hex bitstream.
-
 ## Requirements
 
 Before you begin, ensure you have the following software installed on your machine.
