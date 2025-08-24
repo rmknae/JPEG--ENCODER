@@ -84,6 +84,7 @@ The `run.bat` file automates all the necessary steps for a full simulation and i
 
 The final JPEG image will be saved to a new folder named `output_images/`.
 
+---
 ### Troubleshooting
 
 | Problem | Solution |
