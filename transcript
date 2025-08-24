@@ -1,0 +1,259 @@
+# do run.do
+# ** Warning: (vlib-34) Library already exists at "work".
+# Errors: 0, Warnings: 1
+# QuestaSim-64 vmap 2024.1 Lib Mapping Utility 2024.02 Feb  1 2024
+# vmap work work 
+# Modifying modelsim.ini
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:49 on Aug 24,2025
+# vlog -sv rtl/dct_constants.svh 
+# -- Compiling package dct_constants_svh_unit
+# 
+# Top level modules:
+# 	--none--
+# End time: 05:05:49 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:49 on Aug 24,2025
+# vlog -sv rtl/quantizer_constants.svh 
+# -- Compiling package quantizer_constants_svh_unit
+# 
+# Top level modules:
+# 	--none--
+# End time: 05:05:49 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:49 on Aug 24,2025
+# vlog -sv rtl/cb_dct.sv 
+# -- Compiling package cb_dct_sv_unit
+# -- Compiling module cb_dct
+# 
+# Top level modules:
+# 	cb_dct
+# End time: 05:05:49 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:50 on Aug 24,2025
+# vlog -sv rtl/cb_huff.sv 
+# -- Compiling module cb_huff
+# 
+# Top level modules:
+# 	cb_huff
+# End time: 05:05:50 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:50 on Aug 24,2025
+# vlog -sv rtl/cb_quantizer.sv 
+# -- Compiling package cb_quantizer_sv_unit
+# -- Compiling module cb_quantizer
+# 
+# Top level modules:
+# 	cb_quantizer
+# End time: 05:05:50 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:50 on Aug 24,2025
+# vlog -sv rtl/cbd_q_h.sv 
+# -- Compiling module cbd_q_h
+# 
+# Top level modules:
+# 	cbd_q_h
+# End time: 05:05:50 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:50 on Aug 24,2025
+# vlog -sv rtl/cr_dct.sv 
+# -- Compiling package cr_dct_sv_unit
+# -- Compiling module cr_dct
+# 
+# Top level modules:
+# 	cr_dct
+# End time: 05:05:50 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:50 on Aug 24,2025
+# vlog -sv rtl/cr_huff.sv 
+# -- Compiling module cr_huff
+# 
+# Top level modules:
+# 	cr_huff
+# End time: 05:05:51 on Aug 24,2025, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:51 on Aug 24,2025
+# vlog -sv rtl/cr_quantizer.sv 
+# -- Compiling package cr_quantizer_sv_unit
+# -- Compiling module cr_quantizer
+# 
+# Top level modules:
+# 	cr_quantizer
+# End time: 05:05:51 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:51 on Aug 24,2025
+# vlog -sv rtl/crd_q_h.sv 
+# -- Compiling module crd_q_h
+# 
+# Top level modules:
+# 	crd_q_h
+# End time: 05:05:51 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:51 on Aug 24,2025
+# vlog -sv rtl/ff_checker.sv 
+# -- Compiling module ff_checker
+# 
+# Top level modules:
+# 	ff_checker
+# End time: 05:05:51 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:51 on Aug 24,2025
+# vlog -sv rtl/fifo_out.sv 
+# -- Compiling module fifo_out
+# 
+# Top level modules:
+# 	fifo_out
+# End time: 05:05:51 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:51 on Aug 24,2025
+# vlog -sv rtl/jpeg_top.sv 
+# -- Compiling module jpeg_top
+# 
+# Top level modules:
+# 	jpeg_top
+# End time: 05:05:52 on Aug 24,2025, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:52 on Aug 24,2025
+# vlog -sv rtl/pre_fifo.sv 
+# -- Compiling module pre_fifo
+# 
+# Top level modules:
+# 	pre_fifo
+# End time: 05:05:52 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:52 on Aug 24,2025
+# vlog -sv rtl/rgb2ycbcr.sv 
+# -- Compiling module RGB2YCBCR
+# 
+# Top level modules:
+# 	RGB2YCBCR
+# End time: 05:05:52 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:52 on Aug 24,2025
+# vlog -sv rtl/sync_fifo_32.sv 
+# -- Compiling module sync_fifo_32
+# 
+# Top level modules:
+# 	sync_fifo_32
+# End time: 05:05:52 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:52 on Aug 24,2025
+# vlog -sv rtl/sync_fifo_ff.sv 
+# -- Compiling module sync_fifo_ff
+# 
+# Top level modules:
+# 	sync_fifo_ff
+# End time: 05:05:52 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:52 on Aug 24,2025
+# vlog -sv rtl/y_dct.sv 
+# -- Compiling package y_dct_sv_unit
+# -- Compiling module y_dct
+# 
+# Top level modules:
+# 	y_dct
+# End time: 05:05:53 on Aug 24,2025, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:53 on Aug 24,2025
+# vlog -sv rtl/y_huff.sv 
+# -- Compiling module y_huff
+# 
+# Top level modules:
+# 	y_huff
+# End time: 05:05:53 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:53 on Aug 24,2025
+# vlog -sv rtl/y_quantizer.sv 
+# -- Compiling package y_quantizer_sv_unit
+# -- Compiling module y_quantizer
+# 
+# Top level modules:
+# 	y_quantizer
+# End time: 05:05:53 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:53 on Aug 24,2025
+# vlog -sv rtl/yd_q_h.sv 
+# -- Compiling module yd_q_h
+# 
+# Top level modules:
+# 	yd_q_h
+# End time: 05:05:53 on Aug 24,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2024.1 Compiler 2024.02 Feb  1 2024
+# Start time: 05:05:53 on Aug 24,2025
+# vlog -sv rtl/jpeg_top_TB.sv 
+# -- Compiling module jpeg_top_tb
+# 
+# Top level modules:
+# 	jpeg_top_tb
+# End time: 05:05:54 on Aug 24,2025, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.jpeg_top_tb 
+# Start time: 05:05:54 on Aug 24,2025
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  Questa Sim-64
+# //  Version 2024.1 win64 Feb  1 2024
+# //
+# // Unpublished work. Copyright 2024 Siemens
+# //
+# // This material contains trade secrets or otherwise confidential information
+# // owned by Siemens Industry Software Inc. or its affiliates (collectively,
+# // "SISW"), or its licensors. Access to and use of this information is strictly
+# // limited as set forth in the Customer's applicable agreements with SISW.
+# //
+# // This material may not be copied, distributed, or otherwise disclosed outside
+# // of the Customer's facilities without the express written permission of SISW,
+# // and may not be used in any way not expressly authorized by SISW.
+# //
+# Loading sv_std.std
+# Loading work.jpeg_top_tb(fast)
+# Loading work.jpeg_top(fast)
+# Loading work.fifo_out(fast)
+# Loading work.pre_fifo(fast)
+# Loading work.RGB2YCBCR(fast)
+# Loading work.crd_q_h(fast)
+# Loading work.cr_dct_sv_unit(fast)
+# Loading work.cr_dct(fast)
+# Loading work.cr_quantizer_sv_unit(fast)
+# Loading work.cr_quantizer(fast)
+# Loading work.cr_huff(fast)
+# Loading work.cbd_q_h(fast)
+# Loading work.cb_dct_sv_unit(fast)
+# Loading work.cb_dct(fast)
+# Loading work.cb_quantizer_sv_unit(fast)
+# Loading work.cb_quantizer(fast)
+# Loading work.cb_huff(fast)
+# Loading work.yd_q_h(fast)
+# Loading work.y_dct_sv_unit(fast)
+# Loading work.y_dct(fast)
+# Loading work.y_quantizer_sv_unit(fast)
+# Loading work.y_quantizer(fast)
+# Loading work.y_huff(fast)
+# Loading work.sync_fifo_32(fast)
+# Loading work.ff_checker(fast)
+# Loading work.sync_fifo_ff(fast)
+# INFO: End of JPEG stream detected. Closing file and stopping.
+# ** Note: $finish    : rtl/jpeg_top_TB.sv(82)
+#    Time: 115965 ns  Iteration: 1  Instance: /jpeg_top_tb
+# End time: 05:06:00 on Aug 24,2025, Elapsed time: 0:00:06
+# Errors: 0, Warnings: 0
