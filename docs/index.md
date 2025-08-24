@@ -2,7 +2,7 @@
 
 > **Hardware JPEG Encoder (SystemVerilog Implementation)**
 >
-> 🗕️ *Last updated: August 19, 2025*
+> 🗕️ *Last updated: August 24, 2025*
 > © 2025 [Maktab-e-Digital Systems Lahore](https://github.com/meds-uet). Licensed under the Apache 2.0 License.
 
 ---
@@ -23,12 +23,6 @@ This project implements a **hardware JPEG encoder** using **SystemVerilog**. It 
 * Enables fast transmission and efficient memory use
 * Maintains high visual fidelity
 * Universally supported across hardware/software platforms
----
-Perfect — thanks for clarifying 👌
-You want the **connection modules** (`y_d_q_h`, `cr_d_q_h`, `cb_d_q_h`) **listed directly under RTL**, not in a separate heading.
-Here’s the **clean, merged final table** with everything included:
-
----
 
 ## Repository Structure Details
 
