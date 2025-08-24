@@ -26,7 +26,7 @@ print("\n Available headers:")
 for i, f in enumerate(header_files, 1):
     print(f"  {i}. {f}")
 
-choice = input("\nEnter header filename, number, or type 'custom' for a new header: (The image which you placed in the script folder open it and on the left side of it the resolution will be written as -__x__ if any above size match write that otherwise write custom)").strip()
+choice = input("\nEnter header filename, number, or type 'custom' for a new header: (The image which you placed in the script folder open it and in the bottom left side of it the resolution will be written as __x__ if any above size match write that otherwise, write custom)").strip()
 
 # -----------------------------
 # Step 2: Handle custom header
