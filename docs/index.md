@@ -214,7 +214,7 @@ The DCT uses a scaled matrix T **(×2¹⁴ = 16384)** with three pipeline stages
 
 ---
 
-##`*_quantizer`: Quantization Modules
+## `*_quantizer`: Quantization Modules
 
 <div align="center">
  <img src="./images_design_diagrams/JPEG-quantization.png" alt="JPEG Quantization Diagram" width="550" height="480">
