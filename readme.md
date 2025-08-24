@@ -29,6 +29,10 @@ Before you begin, ensure you have the following software installed on your machi
 ```bash
 pip install pillow numpy
 ```
+If your system uses python3, run:
+```bash
+python -m pip install pillow numpy
+```
 
 ## Getting Started
 
