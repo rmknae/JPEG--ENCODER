@@ -56,25 +56,21 @@ Place your test image inside the `script/` folder. The workflow supports common 
 #### Step 3: Run Simulation
 
 The `run.bat` file automates all the necessary steps for a full simulation and image generation. 
+1. This script prompts the user to `select an image (1, 2, or 3)` from the script/ directory which you placed for compression.
+2. After the image is chosen, it asks for the resolution for the JPEG header. You must enter the exact dimensions of the image you selected for the script to function correctly.
 
-**For Windows:**
-Simply double-click `run.bat`. The workflow will automatically:
+> **For Windows:**
+> Simply double-click `run.bat`.
+> **For Linux/Mac:**
+> The `.bat` file is Windows-only, but you can achieve the same result by running the commands directly in your terminal. For example:
 
-  * Run `data_in.py` to generate input data.
-  * Launch QuestaSim and execute `run.do`.
-  * Run `jpeg.py` to produce the final JPEG image.
-
-**For Linux/Mac:**
-The `.bat` file is Windows-only, but you can achieve the same result by running the commands directly in your terminal. For example:
-
-```bash
-python data_in.py
-vlog ./src/*.sv ./testbench/*.sv
-vsim -c -do "run -all; quit" tb_top
-python script/raw_jpeg_bitstream_to_image/jpeg.py
-```
-
-You can also create your own `run_sim.sh` shell script to automate this.
+> ```bash
+> python data_in.py
+> vlog ./src/*.sv ./testbench/*.sv
+> vsim -c -do "run -all; quit" tb_top
+> python script/raw_jpeg_bitstream_to_image/jpeg.py
+> ```
+> You can also create your own `run_sim.sh` shell script to automate this.
 
 #### Step 4: Output
 
