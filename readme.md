@@ -108,7 +108,7 @@ We welcome contributions\!
 
 ### Documentation
 
-[](https://meds-jpeg-docs.readthedocs.io/en/latest/?badge=latest)
+[DOCUMENTATION](https://meds-jpeg-docs.readthedocs.io/en/latest/?badge=latest)
 
 -----
 
