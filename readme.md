@@ -112,6 +112,11 @@ We welcome contributions\!
 
 -----
 
+---
+> **Disclaimer:** This project is inspired by and makes reference to the [oc_jpegencode](https://github.com/chiggs/oc_jpegencode) repository. I have studied its implementation to understand JPEG encoding and have adapted certain  where applicable.
+
+---
+
 ### Licensing
 
 Licensed under the **Apache License 2.0**
