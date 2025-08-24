@@ -30,9 +30,6 @@ This project implements a **hardware JPEG encoder** using **SystemVerilog**. It 
 
 ### Image → SystemVerilog Testbench Data Converter
 This script converts an image into **SystemVerilog testbench input data** for the JPEG encoder. It processes the image in **8×8 blocks**, converts each pixel into a **24-bit BGR binary value**, and generates **simulation-ready statements** with proper timing delays and control signals.  
-
----
-
 ### Processing Steps
 
 1. **Image Input**
@@ -50,7 +47,7 @@ This script converts an image into **SystemVerilog testbench input data** for th
      data_in <= 24'bBBBBBBBBGGGGGGGGRRRRRRRR;
      #10000;
      ```
-
+     
 4. **Block Control**
    - After each 8×8 block (except the last), an enable reset sequence is added:  
 
@@ -75,106 +72,57 @@ This script converts an image into **SystemVerilog testbench input data** for th
  ```
 ---
 
-## .hex file to Compressed JPEG Image (hex_to_jpeg.py) and header.bin:
+## .hex file to Compressed JPEG Image (jpeg.py):
 
-We take the **raw JPEG bitstream** (entropy-coded) and combine it with a proper **JPEG header** (`header.bin`) to create a valid JPEG image using a python code.
+This tool rebuilds a JPEG image from:  
 
+- A **header file** (`.bin`) in `Headers/`  
+- A **hex bitstream file** (`bitstream_output.txt`)
+- 
+### How it works  
 
-##  How It Works
+1. **Header selection**  
+   - Choose a `.bin` header by **number** or **filename**.  
+   - Or type **`custom`** → enter a new size (e.g., `1920x1080`).  
+     - The script loads the **first header in `Headers/`** as a template.  
+     - Locates the **SOF0 marker (`FFC0`)** inside the header.  
+     - Patches width/height bytes with your custom values.  
+     - Uses the patched header in memory (saved output is named `custom_WxH.bin`).  
 
-1. **Header Loading**
-  - `header.bin` contains:
-     - Image **dimensions** (e.g., 1920×1080, 1280×720, etc.)
-     - Sampling factors
-     - Quantization tables
-     - Huffman tables  
-   - Each resolution requires its own header.
+2. **Bitstream read**  
+   - Loads hex data line-by-line from `bitstream_output.txt`.  
+   - File must contain plain hex (no `0x`, no spaces).  
 
-2. **Bitstream Loading**
-  - `bitstream.hex` contains the **entropy-coded JPEG data**.  
- 
+   **Example `bitstream_output.txt`:**
+               ``` FFD8FFE000104A46
+                   4946000102000047
+                  4142490001FFDB00
+                                     ```
+3. **Merge**  
+- Concatenates header + bitstream.  
+- Ensures the JPEG ends with `FFD9` (EOI marker).  
 
-3. **Combining Header + Bitstream**
-  - The header and Huffman-encoded bitstream are concatenated.
-  - If missing, the **EOI marker (`FF D9`)** is automatically added.
-
-4. **Image Conversion (Optional)**
-  - The combined JPEG is opened directly from memory.
-
-## Supported Image Sizes
-This JPEG encoder supports compression at the following image sizes:  
-
-<div align="center">
-
-| Resolution     | Standard      |
-|----------------|---------------|
-| **1920 × 1080** | Full HD       |
-| **1280 × 720**  | HD            |
-| **1024 × 768**  | XGA           |
-| **800 × 600**   | SVGA          |
-| **96 × 96**     | Icon / Test   |
-
-</div>  
-    
-## Edit `header.bin` for a New JPEG Resolution (SOF0)
-
-If you require compression at a resolution not listed above, you can **modify the static header** accordingly.  
-The steps for creating or editing a header file will be provided in the following section:
-
-#### 1) Open `header.bin` in a hex editor (e.g., https://hexed.it).
-
-#### 2)  Look for the SOF0 (Start of Frame, Baseline DCT) pattern:
-
-        <div align="center">        FF C0 00 11 08 HH HH WW WW ... </div>  
-    
-
-where:
-
-- `FF C0` = SOF0  
-- `00 11` = segment length (17 bytes)  
-- `08` = precision (8 bits)  
-- Next **2 bytes** = **Height** (big-endian)  
-- Next **2 bytes** = **Width** (big-endian)
-#### 3) Convert your target size to hex (big-endian)
-- Height (decimal) → hex → **MSB LSB** (2 bytes)  
-- Width (decimal) → hex → **MSB LSB** (2 bytes)
-
-Examples:
-- `720  → 0x02D0 → 02 D0`
-- `1280 → 0x0500 → 05 00`
-- `480  → 0x01E0 → 01 E0`
-- `640  → 0x0280 → 02 80`
-
-#### 4) Overwrite the four size bytes
-Replace in SOF0:
-
-`... FF C0 00 11 08 [HH HH] [WW WW] ...`
-
-with your new **Height** and **Width** bytes.  
-Do **not** change anything else in SOF0.
-
-#### 5) Save and test
-- Save `header.bin`.  
-- Run your combine script (header + `bitstream.hex`).  
-- You should get a valid JPEG at the new resolution.
-
-
-## Quick Reference (Common Sizes)
-<div align="center">    
-
-| Resolution | Height (dec) | Height (hex) | Width (dec) | Width (hex) |
-|------------|---------------|--------------|-------------|-------------|
-| 1920×1080  | 1080          | `04 38`      | 1920        | `07 80`     |
-| 1280×720   | 720           | `02 D0`      | 1280        | `05 00`     |
-| 1024×768   | 768           | `03 00`      | 1024        | `04 00`     |
-| 800×600    | 600           | `02 58`      | 800         | `03 20`     |
-| 640×480    | 480           | `01 E0`      | 640         | `02 80`     |
-| 96×96      | 96            | `00 60`      | 96          | `00 60`     |
-
-
- </div>  
+4. **Reconstruction**  
+- Opens the combined bytes in memory using Pillow.  
+- Saves the JPEG image into `output_images/`.  
 
 ---
+> ## Insight about header 
+> A JPEG file always begins with a **header section** that tells any JPEG decoder how to interpret the compressed image data.  
+> The header contains:
+
+> - **SOI (Start of Image marker)** – signals the beginning of the JPEG file.  
+> - **APP0 / JFIF marker** – provides version and density information.  
+> - **DQT (Define Quantization Tables)** – stores quantization tables used during compression.  
+> - **SOF (Start of Frame)** – defines image size, color components, and precision.  
+> - **DHT (Define Huffman Tables)** – stores Huffman coding tables for entropy coding.  
+> - **SOS (Start of Scan)** – marks where the actual compressed image data begins.  
+
+> After the header, the JPEG bitstream of encoded image blocks is appended.  
+> Finally, the file ends with the **EOI (End of Image marker)**.  
+
+> This project uses **predefined headers (header.bin files)** for different resolutions and settings, so the encoder only needs to output the raw compressed data. > The script then attaches the correct header, making a complete and valid JPEG file.
+
 ## System Architecture
 ### Top-Level Block Diagram
 
