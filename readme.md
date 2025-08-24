@@ -46,6 +46,7 @@ cd JPEG--ENCODER
 Place your test image inside the `script/` folder. The workflow supports common formats such as `.jpg`, `.png`, and `.jpeg`.
 
 #### Step 3: Run Simulation
+Click on the run.bat file simply.
 
 The `run.bat` file automates all the necessary steps for a full simulation and image generation. 
 1. This script prompts the user to `select an image (1, 2, or 3)` from the script/ directory which you placed for compression.
