@@ -194,7 +194,7 @@ To implement this efficiently in hardware, all coefficients are scaled by `2¹³
 ### `*_dct`: DCT Modules
 
 <div align="center">
-<img src="./images_design_diagrams/JPEG-dct.png" alt="JPEG DCT Block Diagram" width="550" height="480">
+<img src="./images_design_diagrams/JPEG-dct.png" alt="JPEG DCT Block Diagram" width="450" height="480">
 </div>
 
 The `y_dct, cb_dct, and cr_dct modules` each perform a 2D Discrete Cosine Transform (DCT) on 8×8 blocks of image data corresponding to the Y (luminance), Cb (chroma blue), and Cr (chroma red) components in a JPEG encoder. This transformation shifts pixel data from the spatial domain to the frequency domain, enabling efficient compression. The computation follows the formula 
