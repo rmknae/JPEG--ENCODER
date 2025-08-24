@@ -30,6 +30,8 @@ Before you begin, ensure you have the following software installed on your machi
 <!-- end list -->
 
 ```bash
+python -m ensurepip --default-pip
+
 pip install pillow numpy
 ```
 If your system uses python3, run:
