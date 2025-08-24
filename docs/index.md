@@ -26,24 +26,56 @@ This project implements a **hardware JPEG encoder** using **SystemVerilog**. It 
 ---
 
 
-## Image to RGB Pixels (data_in.py):
+## Image to RGB Pixels (script/data_in.py):
 
-We have `data_in` that works like this: an image is converted into Systemverilog testbench statements in 8x8 blocks. Each pixel is written as a 24-bit binary value in BGR order:
+### Image → SystemVerilog Testbench Data Converter
+This script converts an image into **SystemVerilog testbench input data** for the JPEG encoder. It processes the image in **8×8 blocks**, converts each pixel into a **24-bit BGR binary value**, and generates **simulation-ready statements** with proper timing delays and control signals.  
 
-```
-data_in <= 24'bBBBBBBBBGGGGGGGGRRRRRRRR;
-#10000;
-```
+---
 
-Edge blocks are padded to make them 8x8 if the image size is not a multiple of 8. After each 8x8 block, we add a control sequence with `enable`:
+### Processing Steps
 
-```
-enable <= 1'b0;
-#10000;
-enable <= 1'b1;
-```
+1. **Image Input**
+   - Accepts `.jpg`, `.png`, `.bmp` files from the script’s folder.  
+   - Converts pixel format from **RGB → BGR** (required by the encoder).  
 
-The output is saved in `data_in.txt` and can be used directly in a Verilog testbench. We have `data_in` that represents the image pixels block-by-block with timing delays and enable control.
+2. **Block Handling**
+   - Image is divided into **8×8 pixel blocks**.  
+   - If width/height is not a multiple of 8 → **edge pixels are zero-padded**.  
+
+3. **Pixel Output Format**
+   - Each pixel is written in **24-bit binary BGR form** with delay:  
+
+     ```systemverilog
+     data_in <= 24'bBBBBBBBBGGGGGGGGRRRRRRRR;
+     #10000;
+     ```
+
+4. **Block Control**
+   - After each 8×8 block (except the last), an enable reset sequence is added:  
+
+     ```systemverilog
+     enable <= 1'b0;
+     #10000;
+     enable <= 1'b1;
+     ```
+
+5. **End-of-File Signaling**
+   - For the **final block**, the script asserts the EOF flag before writing pixel data:  
+
+     ```systemverilog
+     end_of_file_signal <= 1'b1;
+     ```
+
+---
+
+## Output
+
+- All generated statements are saved to:  
+ ```
+     rtl/pixel_data.txt
+ ```
+
 
 ## .hex file to Compressed JPEG Image (hex_to_jpeg.py) and header.bin:
 
