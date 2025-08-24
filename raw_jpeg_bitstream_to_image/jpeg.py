@@ -15,14 +15,14 @@ os.makedirs(output_folder, exist_ok=True)
 
 bitstream_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "bitstream_output.txt")
 if not os.path.exists(bitstream_file):
-    print(f"❌ Bitstream file not found at {bitstream_file}")
+    print(f" Bitstream file not found at {bitstream_file}")
     exit(1)
 
 # -----------------------------
 # Step 1: List headers
 # -----------------------------
 header_files = sorted([f for f in os.listdir(header_folder) if f.endswith(".bin")])
-print("\n📂 Available headers:")
+print("\n Available headers:")
 for i, f in enumerate(header_files, 1):
     print(f"  {i}. {f}")
 
@@ -45,18 +45,18 @@ if choice.lower() == 'custom':
     try:
         new_width, new_height = map(int, size_input.lower().split('x'))
     except:
-        print("❌ Invalid format!")
+        print(" Invalid format!")
         exit(1)
     # Use first available header as template
     if not header_files:
-        print("❌ No template headers available for custom patching!")
+        print(" No template headers available for custom patching!")
         exit(1)
     header_path = os.path.join(header_folder, header_files[0])
     with open(header_path, "rb") as f:
         header_bytes = bytearray(f.read())
     header_bytes = patch_header_bytes(header_bytes, new_width, new_height)
     header_file = f"custom_{new_width}x{new_height}.bin"
-    print(f"\n✅ Custom header generated in memory: {header_file}")
+    print(f"\n Custom header generated in memory: {header_file}")
 
 # -----------------------------
 # Step 3: Use existing header
@@ -67,17 +67,17 @@ else:
         if 0 <= idx < len(header_files):
             header_file = header_files[idx]
         else:
-            print("❌ Invalid number!")
+            print(" Invalid number!")
             exit(1)
     elif choice in header_files:
         header_file = choice
     else:
-        print("❌ Header not found!")
+        print("Header not found!")
         exit(1)
     header_path = os.path.join(header_folder, header_file)
     with open(header_path, "rb") as f:
         header_bytes = bytearray(f.read())
-    print(f"\n✅ Using header: {header_file}")
+    print(f"\n Using header: {header_file}")
 
 # -----------------------------
 # Step 4: Read hex bitstream
@@ -109,4 +109,4 @@ output_file = os.path.join(
     f"reconstructed_{os.path.splitext(header_file)[0]}.jpg"
 )
 img.save(output_file, quality=30)
-print(f"\n✅ JPEG image saved at {output_file}")
+print(f"\n JPEG image saved at {output_file}")
