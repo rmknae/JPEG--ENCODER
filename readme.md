@@ -33,7 +33,11 @@ If your system uses python3, run:
 ```bash
 python -m pip install pillow numpy
 ```
-
+To verify if downloaded:
+```bash
+pip show pillow
+pip show numpy
+```
 ## Getting Started
 
 Follow these steps to set up and run the JPEG encoder.
