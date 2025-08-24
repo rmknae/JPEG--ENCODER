@@ -27,7 +27,7 @@ if not image_files:
     print("❌ No image files found in this folder!")
     exit(1)
 
-print("\nAvailable images in script folder:")
+print("\nAvailable images in script folder: (enter the image number from the list below)")
 for i, img in enumerate(image_files, 1):
     print(f"  {i}. {os.path.basename(img)}")  # show only filename
 
