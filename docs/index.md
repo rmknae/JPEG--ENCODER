@@ -72,8 +72,7 @@ This script converts an image into **SystemVerilog testbench input data** for th
  ```
 ---
 
-## .hex file to Compressed JPEG Image (jpeg.py):
-
+## raw_jpeg_bitstream_to_image (jpeg.py):
 This tool rebuilds a JPEG image from:  
 
 - A **header file** (`.bin`) in `Headers/`  
