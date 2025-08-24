@@ -194,7 +194,7 @@ To implement this efficiently in hardware, all coefficients are scaled by `2¹³
 ### `*_dct`: DCT Modules
 
 <div align="center">
-<img src="./images_design_diagrams/JPEG-dct.png" alt="JPEG DCT Block Diagram" width="350" height="480">
+<img src="./images_design_diagrams/JPEG-dct.png" alt="JPEG DCT Block Diagram" width="450" height="480">
 </div>
 
 The `y_dct, cb_dct, and cr_dct modules` each perform a 2D Discrete Cosine Transform (DCT) on 8×8 blocks of image data corresponding to the Y (luminance), Cb (chroma blue), and Cr (chroma red) components in a JPEG encoder. This transformation shifts pixel data from the spatial domain to the frequency domain, enabling efficient compression. The computation follows the formula 
@@ -221,7 +221,7 @@ The `y_quantizer, cr_quantizer, and cb_quantizer` modules perform lossy compress
 ### `*_huff`: Huffman Encoding
 
 <div align="center">
-  <img src="./images_design_diagrams/JPEG-huff.png" alt="JPEG Huffman Encoding Diagram" width="540" height="400">
+  <img src="./images_design_diagrams/JPEG-huff.png" alt="JPEG Huffman Encoding Diagram" width="640" height="400">
 </div>
 
 The `y_huff, cb_huff, and cr_huff modules` perform JPEG-compliant Huffman encoding for the `Y` (luminance), `Cb` (chroma-blue), and `Cr` (chroma-red) channels, respectively. Each module operates in five stages: ***(1)*** extracting sign and magnitude of the quantized DCT coefficients, ***(2)*** applying run-length encoding (RLE) to compress sequences of zero-valued AC coefficients, ***(3)*** performing lookups in predefined JPEG Huffman tables, ***(4)*** packing the variable-length Huffman codes and amplitudes into 32-bit words, and ***(5)*** outputting the encoded data stream. 
