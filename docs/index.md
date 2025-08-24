@@ -269,27 +269,7 @@ Testbench verifies the jpeg_top module by feeding it pixel data from an external
 ### 1. Purpose of Test Cases
 The testbench is designed to check the accuracy of color space conversion under common edge cases and validate robustness with random RGB inputs. It ensures proper pipeline behavior, rounding, and output timing of the rgb2ycrcb module.
 
-### 2. Input Vectors
-### Testbench RGB Input Patterns  
-
-### Testbench RGB Input Patterns  
-
-<div align="center">
-
-| Pattern           | RGB Values        | Description              |
-|-------------------|------------------|--------------------------|
-| **Black**         | (0, 0, 0)        | Fully black pixel        |
-| **White**         | (255, 255, 255)  | Fully white pixel        |
-| **Red**           | (255, 0, 0)      | Pure red                 |
-| **Green**         | (0, 255, 0)      | Pure green               |
-| **Blue**          | (0, 0, 255)      | Pure blue                |
-| **Mid-gray**      | (128, 128, 128)  | Neutral gray             |
-| **Random Values** | 10 × 24-bit RGB  | for real-case testing |
-
-</div>  
-
-
- ### 3. Expected Output:
+ ### 2. Expected Output:
 Each input is applied with a 1-cycle enable signal and a 3-cycle wait to accommodate pipeline latency. The testbench checks for a valid `enable_out` and prints the YCbCr result in a readable format. 
 
  <div align="center">
@@ -302,21 +282,7 @@ Each input is applied with a 1-cycle enable signal and a 3-cycle wait to accommo
 ### 1. Purpose of Test Cases
 This testbench verifies the `*_dct module`, which performs an 8×8 Discrete Cosine Transform (DCT) on image blocks as part of JPEG encoding. It serially feeds 8-bit input pixels and observes 64 signed 11-bit DCT output coefficients. The test also tracks `output_enable` to confirm pipeline latency.
 
-### 2. Input Vectors
-### Input Pixel Patterns (Testbench)  
-
-| Pattern                         | Description                                                                 | Expected Behavior                                  |
-|---------------------------------|-----------------------------------------------------------------------------|---------------------------------------------------|
-| **All 128 (8'h80)**             | Flat mid-gray block                                                         | Strong DC term, minimal AC terms                  |
-| **All 64 (8'h40)**              | Uniform darker block                                                        | Strong DC term, minimal AC terms                  |
-| **All 0 (8'h00)**               | Fully black block                                                           | DC = 0, AC = 0                                    |
-| **All 255 (8'hFF)**             | Bright white block                                                          | Strong DC term, minimal AC terms                  |
-| **Checkerboard (0 / 255)**      | Alternating black & white pixels (high-frequency pattern)                    | Strong AC terms, DC ≈ 0                           |
-| **Random Values (0–255)**       | Random pixel intensities `)                          | Mixed DC and AC terms, simulates noisy image data |
-  
-
-
- ### 3. Expected Output:
+ ### 2. Expected Output:
 Once processing is complete, `output_enable` goes high.
 The testbench prints:
 - The full 8×8 DCT coefficient matrix using `$write` formatting.
@@ -334,21 +300,7 @@ The testbench prints:
 ### 1. Purpose
 The test cases are designed to confirm that the quantization logic correctly applies scaling and rounding to signed DCT coefficients. The expected outputs are computed using the same reciprocal-based method used in hardware: multiplying by (4096 / Q[i][j]), right-shifting by 12, and rounding toward zero. The goal is to validate accuracy, rounding behavior, and pipeline timing across various coefficient patterns.
 
-### 2.  Input Pattern
-### Quantizer Testbench Input Patterns  
-
-<div align="center">
-
-| Pattern              | Description                                                                 |
-|----------------------|-----------------------------------------------------------------------------|
-| **All 1023**         | Sets every matrix element to the maximum positive value (**11'sd1023**).    |
-| **Ramp Pattern**     | Gradually increases values from **0 to 63** across the matrix.              |
-| **Checkerboard**     | Alternates **+1023** and **-1024** to test signed rounding behavior.        |
-| **Random Values**    | 64 random signed 11-bit inputs in the range **[-1024, +1023]**.             |
-
-</div>
-  
-### 3. Expected Outputs
+### 2. Expected Outputs
 After applying inputs and enabling the module for one clock cycle, the testbench waits for the `out_enable signal` to assert (indicating pipeline completion). It then prints the input matrix, expected quantized values, and actual hardware outputs side-by-side for visual comparison
 
  ### `*_quantizer:` 
@@ -363,18 +315,8 @@ After applying inputs and enabling the module for one clock cycle, the testbench
 ## 4. `tb_*_huff`:
 ### 1. Purpose
 The testbench validates the functionality of the `*_huff module`, which performs Huffman encoding on an 8×8 block of quantized DCT coefficients for the components in JPEG compression. It ensures correct encoding of sparse DCT blocks, including proper handling of DC and AC coefficients, `output bitstream` generation, and `end-of-block signaling`.
-
-### 2.  Input Pattern 
-### Included Test Cases  
-<div align="center">
-
-| Test Case            | Other Coefficients | Notes                                                |
-|----------------------|--------------------|------------------------------------------------------|
-| **Sparse DCT Block** | All = 0            | Tests sparse input with minimal non-zero AC values.  |
-| **After Reset**      | All = 0            | Verifies reset behavior with new DC/AC coefficients. |
-</div>
   
-### 3. Expected Outputs
+### 2. Expected Outputs
 For each test case, the monitor displays:The evolving state of `data_ready`, `output_reg_count`, `end_of_block_output`, and `JPEG_bitstream`.The encoded output should reflect the DC value followed by Huffman-encoded non-zero AC coefficients, terminated with an end-of-block symbol.
 
  ### `*_huff`:
