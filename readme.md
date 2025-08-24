@@ -20,6 +20,8 @@ Before you begin, ensure you have the following software installed on your machi
 
   * **HDL Simulator:** QuestaSim is the recommended simulator.
   * **Python 3.8+:** You can download the latest version from the official Python website. During installation, be sure to check the box to "Add Python to PATH".
+                                     ``` python --version ```
+
   * **Python Libraries:** The project requires `Pillow` and `NumPy` for image handling and data processing. Install them using the command below:
 
 <!-- end list -->
