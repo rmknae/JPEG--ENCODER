@@ -43,6 +43,8 @@ To verify if downloaded:
 pip show pillow
 pip show numpy
 ```
+---
+
 ## Getting Started
 
 Follow these steps to set up and run the JPEG encoder.
