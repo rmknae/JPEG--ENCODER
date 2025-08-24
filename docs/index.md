@@ -66,16 +66,14 @@ This script converts an image into **SystemVerilog testbench input data** for th
      ```systemverilog
      end_of_file_signal <= 1'b1;
      ```
-
----
-
-## Output
+     
+### Output
 
 - All generated statements are saved to:  
  ```
      rtl/pixel_data.txt
  ```
-
+---
 
 ## .hex file to Compressed JPEG Image (hex_to_jpeg.py) and header.bin:
 
