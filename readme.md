@@ -35,14 +35,14 @@ python -m ensurepip --default-pip
 pip install pillow numpy
 ```
 If your system uses python3, run:
-```bash
-python -m pip install pillow numpy
-```
+ ```bash
+ python -m pip install pillow numpy
+ ```
 To verify if downloaded:
-```bash
-pip show pillow
-pip show numpy
-```
+  ```bash
+ pip show pillow
+ pip show numpy
+ ```
 ---
 
 ## Getting Started
