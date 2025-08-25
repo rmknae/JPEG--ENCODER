@@ -18,7 +18,15 @@ Welcome to the **JPEG Encoder** project\! This tool allows you to convert **raw 
 
 Before you begin, ensure you have the following software installed on your machine.
 
-  * **HDL Simulator:** QuestaSim is the recommended simulator.
+  * **HDL Simulator:** QuestaSim is the recommended simulator[.Siemens EDA (full professional QuestaSim)](https://support.sw.siemens.com/en-US/downloads)
+
+        Siemens EDA Support Center – Downloads
+        Steps:
+       1. Sign in with your Siemens EDA/Mentor account (your university/company usually provides this).
+       2. Go to Downloads → Questa Advanced Simulator.
+       3. Select version & OS, then download.
+       4. Apply your organization’s license file.
+          
   * **Python 3.8+:** You can download the latest version from the official Python website. During installation, be sure to check the box to "Add Python to PATH".
     
      ```bash
