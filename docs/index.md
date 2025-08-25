@@ -18,8 +18,7 @@ This project implements a **hardware JPEG encoder** using **SystemVerilog**. It 
 ---
 # Table of Contents
 
-- [Overview](#overview)
-- [Why JPEG?](# Table of Contents
+# Table of Contents
 
 - [Overview](#overview)
 - [Why JPEG?](#-why-jpeg)
@@ -31,43 +30,21 @@ This project implements a **hardware JPEG encoder** using **SystemVerilog**. It 
   - [Pipeline Architecture](#pipeline-architecture)
 - [Modules Descriptions](#modules-descriptions)
   - [RGB2YCBCR](#rgb2ycbcr)
-  - [*_dct: DCT Modules](#_dct-dct-modules)
-  - [*_quantizer: Quantization Modules](#_quantizer-quantization-modules)
-  - [*_huff: Huffman Encoding](#_huff-huffman-encoding)
-  - [*d_q_h](#d_q_h)
+  - [\*_dct: DCT Modules](#_dct-dct-modules)
+  - [\*_quantizer: Quantization Modules](#_quantizer-quantization-modules)
+  - [\*_huff: Huffman Encoding](#_huff-huffman-encoding)
+  - [\*d_q_h](#d_q_h)
   - [FIFO and FSM Handling](#fifo-and-fsm-handling)
 - [FSM State Table](#fsm-state-table)
 - [Testbenches](#testbenches)
   - [Overall Testing (jpeg_top_TB)](#overall-testing)
   - [tb_rgb2ycrcb](#1-tb_rgb2ycrcb)
-  - [*_dct](#2-_dct)
-  - [*_quantizer](#3-tb-_quantizer)
-  - [*_huff](#4-tb-_huff)
+  - [\*_dct](#2-_dct)
+  - [\*_quantizer](#3-tb-_quantizer)
+  - [\*_huff](#4-tb-_huff)
 - [Disclaimer](#disclaimer)
 - [License](#licensed-under-the-apache-license-20)
-)
-- [Repository Structure Details](#repository-structure-details)
-- [Image to RGB Pixels (script/data_in.py)](#image-to-rgb-pixels-scriptdatainpy)
-- [raw_jpeg_bitstream_to_image (jpeg.py)](#raw_jpeg_bitstream_to_image-jpegpy)
-- [System Architecture](#system-architecture)
-  - [Top-Level Block Diagram](#top-level-block-diagram)
-  - [Pipeline Architecture](#pipeline-architecture)
-- [Modules Descriptions](#modules-descriptions)
-  - [RGB2YCBCR](#rgb2ycbcr)
-  - [*_dct: DCT Modules](#_dct-dct-modules)
-  - [*_quantizer: Quantization Modules](#_quantizer-quantization-modules)
-  - [*_huff: Huffman Encoding](#_huff-huffman-encoding)
-  - [*d_q_h](#d_q_h)
-  - [FIFO and FSM Handling](#fifo-and-fsm-handling)
-- [FSM State Table](#fsm-state-table)
-- [Testbenches](#testbenches)
-  - [Overall Testing (jpeg_top_TB)](#overall-testing)
-  - [tb_rgb2ycrcb](#1-tb_rgb2ycrcb)
-  - [*_dct](#2-_dct)
-  - [*_quantizer](#3-tb-_quantizer)
-  - [*_huff](#4-tb-_huff)
-- [Disclaimer](#disclaimer)
-- [License](#licensed-under-the-apache-license-20)
+
 
 ##  Why JPEG?
 
