@@ -7,7 +7,6 @@
 
 ---
 # Table of Contents
-
 - [Overview](#overview)  
 - [Why JPEG?](#why-jpeg)  
 - [Repository Structure Details](#repository-structure-details)
