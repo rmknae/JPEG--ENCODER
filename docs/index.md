@@ -6,16 +6,6 @@
 > © 2025 [Maktab-e-Digital Systems Lahore](https://github.com/meds-uet). Licensed under the Apache 2.0 License.
 
 ---
-
-
-## Overview
-
-This project implements a **hardware JPEG encoder** using **SystemVerilog**. It compresses RGB image data following the standard JPEG pipeline:
-<div align="center">
-    Color Conversion → DCT → Quantization → Huffman Coding → Bitstream Assembly 
-</div>
-
----
 # Table of Contents
 
 - [Overview](#overview)  
@@ -28,10 +18,19 @@ This project implements a **hardware JPEG encoder** using **SystemVerilog**. It 
   - [Pipeline Architecture](#pipeline-architecture)  
 - [Modules Descriptions](#modules-descriptions)  
 - [FSM State Table](#fsm-state-table)  
-- [Testbenches](#testbenches)  
-- [Disclaimer](#disclaimer)  
-- [License](#license)  
+- [Testbenches](#testbenches)
 
+---
+
+
+## Overview
+
+This project implements a **hardware JPEG encoder** using **SystemVerilog**. It compresses RGB image data following the standard JPEG pipeline:
+<div align="center">
+    Color Conversion → DCT → Quantization → Huffman Coding → Bitstream Assembly 
+</div>
+
+---
 ##  Why JPEG?
 
 * Reduces file size by discarding perceptually insignificant data
