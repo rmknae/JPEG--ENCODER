@@ -91,7 +91,7 @@ This tool rebuilds a JPEG image from:
 
 - A **header file** (`.bin`) in `Headers/`  
 - A **hex bitstream file** (`bitstream_output.txt`)
-- 
+  
 ### How it works  
 
 1. **Header selection**  
@@ -159,6 +159,7 @@ The jpeg_top module is the main entry point for the JPEG encoder core and interf
 * `end_of_file_bitstream_count [3:0]`: Remaining byte count
 * `eof_data_partial_ready`: Final block ready signal
 * `data_ready`: Valid compressed output signal
+  
 ### Detail:
 The output of the encoder is a 32-bit JPEG bitstream provided on the `JPEG_bitstream` signal. The most significant byte is in bits `[31:24]`, followed by `[23:16]`, `[15:8]`, and [7:0]. This output is valid only when the data_ready signal is high, which is asserted for one clock cycle per valid output word. For the final block, if the remaining bits do not fill an entire 32-bit word, the signal eof_data_partial_ready will go high for one cycle, and the number of valid bits in JPEG_bitstream is indicated by the 5-bit `end_of_file_bitstream_count`. This ensures that no compressed data is lost at the end of the encoding process.
 
