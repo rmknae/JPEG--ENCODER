@@ -16,63 +16,25 @@
 `include "dct_constants.svh"
 
 module y_dct(
-    input  logic        clk,
-    input  logic        rst,
-    input  logic        enable,
-    input  logic [7:0]  data_in,
-    output logic [10:0] Z11_final, Z12_final, Z13_final, Z14_final,
-    output logic [10:0] Z15_final, Z16_final, Z17_final, Z18_final,
-    output logic [10:0] Z21_final, Z22_final, Z23_final, Z24_final,
-    output logic [10:0] Z25_final, Z26_final, Z27_final, Z28_final,
-    output logic [10:0] Z31_final, Z32_final, Z33_final, Z34_final,
-    output logic [10:0] Z35_final, Z36_final, Z37_final, Z38_final,
-    output logic [10:0] Z41_final, Z42_final, Z43_final, Z44_final,
-    output logic [10:0] Z45_final, Z46_final, Z47_final, Z48_final,
-    output logic [10:0] Z51_final, Z52_final, Z53_final, Z54_final,
-    output logic [10:0] Z55_final, Z56_final, Z57_final, Z58_final,
-    output logic [10:0] Z61_final, Z62_final, Z63_final, Z64_final,
-    output logic [10:0] Z65_final, Z66_final, Z67_final, Z68_final,
-    output logic [10:0] Z71_final, Z72_final, Z73_final, Z74_final,
-    output logic [10:0] Z75_final, Z76_final, Z77_final, Z78_final,
-    output logic [10:0] Z81_final, Z82_final, Z83_final, Z84_final,
-    output logic [10:0] Z85_final, Z86_final, Z87_final, Z88_final,
-    output logic        output_enable
+    input  logic       clk,
+    input  logic       rst,
+    input  logic       enable,
+    input  logic [7:0] data_in,
+    output logic [10:0] Z_final[1:8][1:8],
+    output logic       output_enable
 );
-
-
+logic [31:0] Z_temp[1:8][1:8];
+logic [26:0] Z[1:8][1:8];
 
 logic [24:0] Y_temp_11;
 logic [24:0] Y11, Y21, Y31, Y41, Y51, Y61, Y71, Y81, Y11_final;
 logic [31:0] Y_temp_21, Y_temp_31, Y_temp_41, Y_temp_51;
 logic [31:0] Y_temp_61, Y_temp_71, Y_temp_81;
-logic [31:0] Z_temp_11, Z_temp_12, Z_temp_13, Z_temp_14;
-logic [31:0] Z_temp_15, Z_temp_16, Z_temp_17, Z_temp_18;
-logic [31:0] Z_temp_21, Z_temp_22, Z_temp_23, Z_temp_24;
-logic [31:0] Z_temp_25, Z_temp_26, Z_temp_27, Z_temp_28;
-logic [31:0] Z_temp_31, Z_temp_32, Z_temp_33, Z_temp_34;
-logic [31:0] Z_temp_35, Z_temp_36, Z_temp_37, Z_temp_38;
-logic [31:0] Z_temp_41, Z_temp_42, Z_temp_43, Z_temp_44;
-logic [31:0] Z_temp_45, Z_temp_46, Z_temp_47, Z_temp_48;
-logic [31:0] Z_temp_51, Z_temp_52, Z_temp_53, Z_temp_54;
-logic [31:0] Z_temp_55, Z_temp_56, Z_temp_57, Z_temp_58;
-logic [31:0] Z_temp_61, Z_temp_62, Z_temp_63, Z_temp_64;
-logic [31:0] Z_temp_65, Z_temp_66, Z_temp_67, Z_temp_68;
-logic [31:0] Z_temp_71, Z_temp_72, Z_temp_73, Z_temp_74;
-logic [31:0] Z_temp_75, Z_temp_76, Z_temp_77, Z_temp_78;
-logic [31:0] Z_temp_81, Z_temp_82, Z_temp_83, Z_temp_84;
-logic [31:0] Z_temp_85, Z_temp_86, Z_temp_87, Z_temp_88;
-logic [26:0] Z11, Z12, Z13, Z14, Z15, Z16, Z17, Z18;
-logic [26:0] Z21, Z22, Z23, Z24, Z25, Z26, Z27, Z28;
-logic [26:0] Z31, Z32, Z33, Z34, Z35, Z36, Z37, Z38;
-logic [26:0] Z41, Z42, Z43, Z44, Z45, Z46, Z47, Z48;
-logic [26:0] Z51, Z52, Z53, Z54, Z55, Z56, Z57, Z58;
-logic [26:0] Z61, Z62, Z63, Z64, Z65, Z66, Z67, Z68;
-logic [26:0] Z71, Z72, Z73, Z74, Z75, Z76, Z77, Z78;
-logic [26:0] Z81, Z82, Z83, Z84, Z85, Z86, Z87, Z88;
-logic [31:0]  Y11_final_2, Y21_final_2, Y11_final_3, Y11_final_4, Y31_final_2, Y41_final_2;
-logic [31:0]  Y51_final_2, Y61_final_2, Y71_final_2, Y81_final_2;
-logic [12:0]  Y11_final_1, Y21_final_1, Y31_final_1, Y41_final_1;
-logic [12:0]  Y51_final_1, Y61_final_1, Y71_final_1, Y81_final_1;
+
+logic [31:0] Y11_final_2, Y21_final_2, Y11_final_3, Y11_final_4, Y31_final_2, Y41_final_2;
+logic [31:0] Y51_final_2, Y61_final_2, Y71_final_2, Y81_final_2;
+logic [12:0] Y11_final_1, Y21_final_1, Y31_final_1, Y41_final_1;
+logic [12:0] Y51_final_1, Y61_final_1, Y71_final_1, Y81_final_1;
 logic [24:0] Y21_final, Y31_final, Y41_final, Y51_final;
 logic [24:0] Y61_final, Y71_final, Y81_final;
 logic [24:0] Y21_final_prev, Y21_final_diff;
@@ -84,210 +46,112 @@ logic [24:0] Y71_final_prev, Y71_final_diff;
 logic [24:0] Y81_final_prev, Y81_final_diff;
 
 logic [2:0] count;
-logic	[2:0] count_of, count_of_copy;
-logic	count_1, count_3, count_4, count_5, count_6, count_7, count_8, enable_1;
+logic [2:0] count_of, count_of_copy;
+logic count_1, count_3, count_4, count_5, count_6, count_7, count_8, enable_1;
 logic count_9, count_10;
+
 logic [7:0] data_1;
+
 integer Y2_mul_input, Y3_mul_input, Y4_mul_input, Y5_mul_input;
 integer Y6_mul_input, Y7_mul_input, Y8_mul_input;	
 integer Ti2_mul_input, Ti3_mul_input, Ti4_mul_input, Ti5_mul_input;
 integer Ti6_mul_input, Ti7_mul_input, Ti8_mul_input;
 
+// This block computes partial DCT results for the Y channel.
+// On reset → clears Z_temp matrix to 0.
+// When enabled (enable_1 & count_8) →
+//   Each row i (1–8) uses its Y[i]_final_* value,
+//   multiplied with 8 transform coefficients (Ti1..Ti8),
+//   filling row i of Z_temp[ ][ ] with products.
+always_ff @(posedge clk) begin
+    if (rst) begin
+        for (int i = 1; i <= 8; i++) begin
+            for (int j = 1; j <= 8; j++) begin
+                Z_temp[i][j] <= 0;
+            end
+        end
+    end 
+    else if (enable_1 & count_8) begin
+        Z_temp[1][1] <= Y11_final_4 * Ti1;            Z_temp[1][2] <= Y11_final_4 * Ti2_mul_input;
+        Z_temp[1][3] <= Y11_final_4 * Ti3_mul_input;  Z_temp[1][4] <= Y11_final_4 * Ti4_mul_input;
+        Z_temp[1][5] <= Y11_final_4 * Ti5_mul_input;  Z_temp[1][6] <= Y11_final_4 * Ti6_mul_input;
+        Z_temp[1][7] <= Y11_final_4 * Ti7_mul_input;  Z_temp[1][8] <= Y11_final_4 * Ti8_mul_input;
 
+        Z_temp[2][1] <= Y21_final_2 * Ti1;            Z_temp[2][2] <= Y21_final_2 * Ti2_mul_input;
+        Z_temp[2][3] <= Y21_final_2 * Ti3_mul_input;  Z_temp[2][4] <= Y21_final_2 * Ti4_mul_input;
+        Z_temp[2][5] <= Y21_final_2 * Ti5_mul_input;  Z_temp[2][6] <= Y21_final_2 * Ti6_mul_input;
+        Z_temp[2][7] <= Y21_final_2 * Ti7_mul_input;  Z_temp[2][8] <= Y21_final_2 * Ti8_mul_input;
 
-always_ff @(posedge clk)
-begin
-	if (rst) begin
- 		Z_temp_11 <= 0; Z_temp_12 <= 0; Z_temp_13 <= 0; Z_temp_14 <= 0;
-		Z_temp_15 <= 0; Z_temp_16 <= 0; Z_temp_17 <= 0; Z_temp_18 <= 0;
-		Z_temp_21 <= 0; Z_temp_22 <= 0; Z_temp_23 <= 0; Z_temp_24 <= 0;
-		Z_temp_25 <= 0; Z_temp_26 <= 0; Z_temp_27 <= 0; Z_temp_28 <= 0;
-		Z_temp_31 <= 0; Z_temp_32 <= 0; Z_temp_33 <= 0; Z_temp_34 <= 0;
-		Z_temp_35 <= 0; Z_temp_36 <= 0; Z_temp_37 <= 0; Z_temp_38 <= 0;
-		Z_temp_41 <= 0; Z_temp_42 <= 0; Z_temp_43 <= 0; Z_temp_44 <= 0;
-		Z_temp_45 <= 0; Z_temp_46 <= 0; Z_temp_47 <= 0; Z_temp_48 <= 0;
-		Z_temp_51 <= 0; Z_temp_52 <= 0; Z_temp_53 <= 0; Z_temp_54 <= 0;
-		Z_temp_55 <= 0; Z_temp_56 <= 0; Z_temp_57 <= 0; Z_temp_58 <= 0;
-		Z_temp_61 <= 0; Z_temp_62 <= 0; Z_temp_63 <= 0; Z_temp_64 <= 0;
-		Z_temp_65 <= 0; Z_temp_66 <= 0; Z_temp_67 <= 0; Z_temp_68 <= 0;
-		Z_temp_71 <= 0; Z_temp_72 <= 0; Z_temp_73 <= 0; Z_temp_74 <= 0;
-		Z_temp_75 <= 0; Z_temp_76 <= 0; Z_temp_77 <= 0; Z_temp_78 <= 0;
-		Z_temp_81 <= 0; Z_temp_82 <= 0; Z_temp_83 <= 0; Z_temp_84 <= 0;
-		Z_temp_85 <= 0; Z_temp_86 <= 0; Z_temp_87 <= 0; Z_temp_88 <= 0;
-		end
-	else if (enable_1 & count_8) begin
-		Z_temp_11 <= Y11_final_4 * Ti1; Z_temp_12 <= Y11_final_4 * Ti2_mul_input;
-		Z_temp_13 <= Y11_final_4 * Ti3_mul_input; Z_temp_14 <= Y11_final_4 * Ti4_mul_input;
-		Z_temp_15 <= Y11_final_4 * Ti5_mul_input; Z_temp_16 <= Y11_final_4 * Ti6_mul_input;
-		Z_temp_17 <= Y11_final_4 * Ti7_mul_input; Z_temp_18 <= Y11_final_4 * Ti8_mul_input;
-		Z_temp_21 <= Y21_final_2 * Ti1; Z_temp_22 <= Y21_final_2 * Ti2_mul_input;
-		Z_temp_23 <= Y21_final_2 * Ti3_mul_input; Z_temp_24 <= Y21_final_2 * Ti4_mul_input;
-		Z_temp_25 <= Y21_final_2 * Ti5_mul_input; Z_temp_26 <= Y21_final_2 * Ti6_mul_input;
-		Z_temp_27 <= Y21_final_2 * Ti7_mul_input; Z_temp_28 <= Y21_final_2 * Ti8_mul_input;
-		Z_temp_31 <= Y31_final_2 * Ti1; Z_temp_32 <= Y31_final_2 * Ti2_mul_input;
-		Z_temp_33 <= Y31_final_2 * Ti3_mul_input; Z_temp_34 <= Y31_final_2 * Ti4_mul_input;
-		Z_temp_35 <= Y31_final_2 * Ti5_mul_input; Z_temp_36 <= Y31_final_2 * Ti6_mul_input;
-		Z_temp_37 <= Y31_final_2 * Ti7_mul_input; Z_temp_38 <= Y31_final_2 * Ti8_mul_input;
-		Z_temp_41 <= Y41_final_2 * Ti1; Z_temp_42 <= Y41_final_2 * Ti2_mul_input;
-		Z_temp_43 <= Y41_final_2 * Ti3_mul_input; Z_temp_44 <= Y41_final_2 * Ti4_mul_input;
-		Z_temp_45 <= Y41_final_2 * Ti5_mul_input; Z_temp_46 <= Y41_final_2 * Ti6_mul_input;
-		Z_temp_47 <= Y41_final_2 * Ti7_mul_input; Z_temp_48 <= Y41_final_2 * Ti8_mul_input;
-		Z_temp_51 <= Y51_final_2 * Ti1; Z_temp_52 <= Y51_final_2 * Ti2_mul_input;
-		Z_temp_53 <= Y51_final_2 * Ti3_mul_input; Z_temp_54 <= Y51_final_2 * Ti4_mul_input;
-		Z_temp_55 <= Y51_final_2 * Ti5_mul_input; Z_temp_56 <= Y51_final_2 * Ti6_mul_input;
-		Z_temp_57 <= Y51_final_2 * Ti7_mul_input; Z_temp_58 <= Y51_final_2 * Ti8_mul_input;
-		Z_temp_61 <= Y61_final_2 * Ti1; Z_temp_62 <= Y61_final_2 * Ti2_mul_input;
-		Z_temp_63 <= Y61_final_2 * Ti3_mul_input; Z_temp_64 <= Y61_final_2 * Ti4_mul_input;
-		Z_temp_65 <= Y61_final_2 * Ti5_mul_input; Z_temp_66 <= Y61_final_2 * Ti6_mul_input;
-		Z_temp_67 <= Y61_final_2 * Ti7_mul_input; Z_temp_68 <= Y61_final_2 * Ti8_mul_input;
-		Z_temp_71 <= Y71_final_2 * Ti1; Z_temp_72 <= Y71_final_2 * Ti2_mul_input;
-		Z_temp_73 <= Y71_final_2 * Ti3_mul_input; Z_temp_74 <= Y71_final_2 * Ti4_mul_input;
-		Z_temp_75 <= Y71_final_2 * Ti5_mul_input; Z_temp_76 <= Y71_final_2 * Ti6_mul_input;
-		Z_temp_77 <= Y71_final_2 * Ti7_mul_input; Z_temp_78 <= Y71_final_2 * Ti8_mul_input;
-		Z_temp_81 <= Y81_final_2 * Ti1; Z_temp_82 <= Y81_final_2 * Ti2_mul_input;
-		Z_temp_83 <= Y81_final_2 * Ti3_mul_input; Z_temp_84 <= Y81_final_2 * Ti4_mul_input;
-		Z_temp_85 <= Y81_final_2 * Ti5_mul_input; Z_temp_86 <= Y81_final_2 * Ti6_mul_input;
-		Z_temp_87 <= Y81_final_2 * Ti7_mul_input; Z_temp_88 <= Y81_final_2 * Ti8_mul_input;
-		end
+        Z_temp[3][1] <= Y31_final_2 * Ti1;            Z_temp[3][2] <= Y31_final_2 * Ti2_mul_input;
+        Z_temp[3][3] <= Y31_final_2 * Ti3_mul_input;  Z_temp[3][4] <= Y31_final_2 * Ti4_mul_input;
+        Z_temp[3][5] <= Y31_final_2 * Ti5_mul_input;  Z_temp[3][6] <= Y31_final_2 * Ti6_mul_input;
+        Z_temp[3][7] <= Y31_final_2 * Ti7_mul_input;  Z_temp[3][8] <= Y31_final_2 * Ti8_mul_input;
+
+        Z_temp[4][1] <= Y41_final_2 * Ti1;            Z_temp[4][2] <= Y41_final_2 * Ti2_mul_input;
+        Z_temp[4][3] <= Y41_final_2 * Ti3_mul_input;  Z_temp[4][4] <= Y41_final_2 * Ti4_mul_input;
+        Z_temp[4][5] <= Y41_final_2 * Ti5_mul_input;  Z_temp[4][6] <= Y41_final_2 * Ti6_mul_input;
+        Z_temp[4][7] <= Y41_final_2 * Ti7_mul_input;  Z_temp[4][8] <= Y41_final_2 * Ti8_mul_input;
+
+        Z_temp[5][1] <= Y51_final_2 * Ti1;            Z_temp[5][2] <= Y51_final_2 * Ti2_mul_input;
+        Z_temp[5][3] <= Y51_final_2 * Ti3_mul_input;  Z_temp[5][4] <= Y51_final_2 * Ti4_mul_input;
+        Z_temp[5][5] <= Y51_final_2 * Ti5_mul_input;  Z_temp[5][6] <= Y51_final_2 * Ti6_mul_input;
+        Z_temp[5][7] <= Y51_final_2 * Ti7_mul_input;  Z_temp[5][8] <= Y51_final_2 * Ti8_mul_input;
+
+        Z_temp[6][1] <= Y61_final_2 * Ti1;            Z_temp[6][2] <= Y61_final_2 * Ti2_mul_input;
+        Z_temp[6][3] <= Y61_final_2 * Ti3_mul_input;  Z_temp[6][4] <= Y61_final_2 * Ti4_mul_input;
+        Z_temp[6][5] <= Y61_final_2 * Ti5_mul_input;  Z_temp[6][6] <= Y61_final_2 * Ti6_mul_input;
+        Z_temp[6][7] <= Y61_final_2 * Ti7_mul_input;  Z_temp[6][8] <= Y61_final_2 * Ti8_mul_input;
+
+        Z_temp[7][1] <= Y71_final_2 * Ti1;            Z_temp[7][2] <= Y71_final_2 * Ti2_mul_input;
+        Z_temp[7][3] <= Y71_final_2 * Ti3_mul_input;  Z_temp[7][4] <= Y71_final_2 * Ti4_mul_input;
+        Z_temp[7][5] <= Y71_final_2 * Ti5_mul_input;  Z_temp[7][6] <= Y71_final_2 * Ti6_mul_input;
+        Z_temp[7][7] <= Y71_final_2 * Ti7_mul_input;  Z_temp[7][8] <= Y71_final_2 * Ti8_mul_input;
+
+        Z_temp[8][1] <= Y81_final_2 * Ti1;            Z_temp[8][2] <= Y81_final_2 * Ti2_mul_input;
+        Z_temp[8][3] <= Y81_final_2 * Ti3_mul_input;  Z_temp[8][4] <= Y81_final_2 * Ti4_mul_input;
+        Z_temp[8][5] <= Y81_final_2 * Ti5_mul_input;  Z_temp[8][6] <= Y81_final_2 * Ti6_mul_input;
+        Z_temp[8][7] <= Y81_final_2 * Ti7_mul_input;  Z_temp[8][8] <= Y81_final_2 * Ti8_mul_input;
+    end
 end
 
-always_ff @(posedge clk)
-begin
-	if (rst) begin
-		Z11 <= 0; Z12 <= 0; Z13 <= 0; Z14 <= 0; Z15 <= 0; Z16 <= 0; Z17 <= 0; Z18 <= 0;
-		Z21 <= 0; Z22 <= 0; Z23 <= 0; Z24 <= 0; Z25 <= 0; Z26 <= 0; Z27 <= 0; Z28 <= 0;
-		Z31 <= 0; Z32 <= 0; Z33 <= 0; Z34 <= 0; Z35 <= 0; Z36 <= 0; Z37 <= 0; Z38 <= 0;
-		Z41 <= 0; Z42 <= 0; Z43 <= 0; Z44 <= 0; Z45 <= 0; Z46 <= 0; Z47 <= 0; Z48 <= 0;
-		Z51 <= 0; Z52 <= 0; Z53 <= 0; Z54 <= 0; Z55 <= 0; Z56 <= 0; Z57 <= 0; Z58 <= 0;
-		Z61 <= 0; Z62 <= 0; Z63 <= 0; Z64 <= 0; Z65 <= 0; Z66 <= 0; Z67 <= 0; Z68 <= 0;
-		Z71 <= 0; Z72 <= 0; Z73 <= 0; Z74 <= 0; Z75 <= 0; Z76 <= 0; Z77 <= 0; Z78 <= 0;
-		Z81 <= 0; Z82 <= 0; Z83 <= 0; Z84 <= 0; Z85 <= 0; Z86 <= 0; Z87 <= 0; Z88 <= 0;
-		end
-	else if (count_8 & count_of == 1) begin
-		Z11 <= 0; Z12 <= 0; Z13 <= 0; Z14 <= 0;
-		Z15 <= 0; Z16 <= 0; Z17 <= 0; Z18 <= 0;
-		Z21 <= 0; Z22 <= 0; Z23 <= 0; Z24 <= 0;
-		Z25 <= 0; Z26 <= 0; Z27 <= 0; Z28 <= 0;
-		Z31 <= 0; Z32 <= 0; Z33 <= 0; Z34 <= 0;
-		Z35 <= 0; Z36 <= 0; Z37 <= 0; Z38 <= 0;
-		Z41 <= 0; Z42 <= 0; Z43 <= 0; Z44 <= 0;
-		Z45 <= 0; Z46 <= 0; Z47 <= 0; Z48 <= 0;
-		Z51 <= 0; Z52 <= 0; Z53 <= 0; Z54 <= 0;
-		Z55 <= 0; Z56 <= 0; Z57 <= 0; Z58 <= 0;
-		Z61 <= 0; Z62 <= 0; Z63 <= 0; Z64 <= 0;
-		Z65 <= 0; Z66 <= 0; Z67 <= 0; Z68 <= 0;
-		Z71 <= 0; Z72 <= 0; Z73 <= 0; Z74 <= 0;
-		Z75 <= 0; Z76 <= 0; Z77 <= 0; Z78 <= 0;
-		Z81 <= 0; Z82 <= 0; Z83 <= 0; Z84 <= 0;
-		Z85 <= 0; Z86 <= 0; Z87 <= 0; Z88 <= 0;
-		end
-	else if (enable & count_9) begin
-		Z11 <= Z_temp_11 + Z11; Z12 <= Z_temp_12 + Z12; Z13 <= Z_temp_13 + Z13; Z14 <= Z_temp_14 + Z14;
-		Z15 <= Z_temp_15 + Z15; Z16 <= Z_temp_16 + Z16; Z17 <= Z_temp_17 + Z17; Z18 <= Z_temp_18 + Z18;
-		Z21 <= Z_temp_21 + Z21; Z22 <= Z_temp_22 + Z22; Z23 <= Z_temp_23 + Z23; Z24 <= Z_temp_24 + Z24;
-		Z25 <= Z_temp_25 + Z25; Z26 <= Z_temp_26 + Z26; Z27 <= Z_temp_27 + Z27; Z28 <= Z_temp_28 + Z28;
-		Z31 <= Z_temp_31 + Z31; Z32 <= Z_temp_32 + Z32; Z33 <= Z_temp_33 + Z33; Z34 <= Z_temp_34 + Z34;
-		Z35 <= Z_temp_35 + Z35; Z36 <= Z_temp_36 + Z36; Z37 <= Z_temp_37 + Z37; Z38 <= Z_temp_38 + Z38;
-		Z41 <= Z_temp_41 + Z41; Z42 <= Z_temp_42 + Z42; Z43 <= Z_temp_43 + Z43; Z44 <= Z_temp_44 + Z44;
-		Z45 <= Z_temp_45 + Z45; Z46 <= Z_temp_46 + Z46; Z47 <= Z_temp_47 + Z47; Z48 <= Z_temp_48 + Z48;
-		Z51 <= Z_temp_51 + Z51; Z52 <= Z_temp_52 + Z52; Z53 <= Z_temp_53 + Z53; Z54 <= Z_temp_54 + Z54;
-		Z55 <= Z_temp_55 + Z55; Z56 <= Z_temp_56 + Z56; Z57 <= Z_temp_57 + Z57; Z58 <= Z_temp_58 + Z58;
-		Z61 <= Z_temp_61 + Z61; Z62 <= Z_temp_62 + Z62; Z63 <= Z_temp_63 + Z63; Z64 <= Z_temp_64 + Z64;
-		Z65 <= Z_temp_65 + Z65; Z66 <= Z_temp_66 + Z66; Z67 <= Z_temp_67 + Z67; Z68 <= Z_temp_68 + Z68;
-		Z71 <= Z_temp_71 + Z71; Z72 <= Z_temp_72 + Z72; Z73 <= Z_temp_73 + Z73; Z74 <= Z_temp_74 + Z74;
-		Z75 <= Z_temp_75 + Z75; Z76 <= Z_temp_76 + Z76; Z77 <= Z_temp_77 + Z77; Z78 <= Z_temp_78 + Z78;
-		Z81 <= Z_temp_81 + Z81; Z82 <= Z_temp_82 + Z82; Z83 <= Z_temp_83 + Z83; Z84 <= Z_temp_84 + Z84;
-		Z85 <= Z_temp_85 + Z85; Z86 <= Z_temp_86 + Z86; Z87 <= Z_temp_87 + Z87; Z88 <= Z_temp_88 + Z88;
-		end	
+// This block manages 8x8 DCT coefficients:
+// - rst : clears all Z values
+// - count_8 && count_of==1 : clears Z for new block
+// - enable && count_9 : accumulates partial results (Z_temp) into Z
+always_ff @(posedge clk) begin
+    if (rst) begin
+        foreach (Z[i,j]) begin
+            Z[i][j] <= '0;
+        end
+    end 
+    else if (count_8 & (count_of == 1)) begin
+        foreach (Z[i,j]) begin
+            Z[i][j] <= '0;
+        end
+    end 
+    else if (enable & count_9) begin
+        foreach (Z[i,j]) begin
+            Z[i][j] <= Z_temp[i][j] + Z[i][j];
+        end
+    end
 end
 
-always_ff @(posedge clk)
-begin
-	if (rst) begin
-		Z11_final <= 0; Z12_final <= 0; Z13_final <= 0; Z14_final <= 0;
-		Z15_final <= 0; Z16_final <= 0; Z17_final <= 0; Z18_final <= 0;
-		Z21_final <= 0; Z22_final <= 0; Z23_final <= 0; Z24_final <= 0;
-		Z25_final <= 0; Z26_final <= 0; Z27_final <= 0; Z28_final <= 0;
-		Z31_final <= 0; Z32_final <= 0; Z33_final <= 0; Z34_final <= 0;
-		Z35_final <= 0; Z36_final <= 0; Z37_final <= 0; Z38_final <= 0;
-		Z41_final <= 0; Z42_final <= 0; Z43_final <= 0; Z44_final <= 0;
-		Z45_final <= 0; Z46_final <= 0; Z47_final <= 0; Z48_final <= 0;
-		Z51_final <= 0; Z52_final <= 0; Z53_final <= 0; Z54_final <= 0;
-		Z55_final <= 0; Z56_final <= 0; Z57_final <= 0; Z58_final <= 0;
-		Z61_final <= 0; Z62_final <= 0; Z63_final <= 0; Z64_final <= 0;
-		Z65_final <= 0; Z66_final <= 0; Z67_final <= 0; Z68_final <= 0;
-		Z71_final <= 0; Z72_final <= 0; Z73_final <= 0; Z74_final <= 0;
-		Z75_final <= 0; Z76_final <= 0; Z77_final <= 0; Z78_final <= 0;
-		Z81_final <= 0; Z82_final <= 0; Z83_final <= 0; Z84_final <= 0;
-		Z85_final <= 0; Z86_final <= 0; Z87_final <= 0; Z88_final <= 0;
-		end
-	else if (count_10 & count_of == 0) begin
-		Z11_final <= Z11[15] ? Z11[26:16] + 1 : Z11[26:16];
-		Z12_final <= Z12[15] ? Z12[26:16] + 1 : Z12[26:16];
-		Z13_final <= Z13[15] ? Z13[26:16] + 1 : Z13[26:16];
-		Z14_final <= Z14[15] ? Z14[26:16] + 1 : Z14[26:16];
-		Z15_final <= Z15[15] ? Z15[26:16] + 1 : Z15[26:16];
-		Z16_final <= Z16[15] ? Z16[26:16] + 1 : Z16[26:16];
-		Z17_final <= Z17[15] ? Z17[26:16] + 1 : Z17[26:16];
-		Z18_final <= Z18[15] ? Z18[26:16] + 1 : Z18[26:16]; 
-		Z21_final <= Z21[15] ? Z21[26:16] + 1 : Z21[26:16];
-		Z22_final <= Z22[15] ? Z22[26:16] + 1 : Z22[26:16];
-		Z23_final <= Z23[15] ? Z23[26:16] + 1 : Z23[26:16];
-		Z24_final <= Z24[15] ? Z24[26:16] + 1 : Z24[26:16];
-		Z25_final <= Z25[15] ? Z25[26:16] + 1 : Z25[26:16];
-		Z26_final <= Z26[15] ? Z26[26:16] + 1 : Z26[26:16];
-		Z27_final <= Z27[15] ? Z27[26:16] + 1 : Z27[26:16];
-		Z28_final <= Z28[15] ? Z28[26:16] + 1 : Z28[26:16]; 
-		Z31_final <= Z31[15] ? Z31[26:16] + 1 : Z31[26:16];
-		Z32_final <= Z32[15] ? Z32[26:16] + 1 : Z32[26:16];
-		Z33_final <= Z33[15] ? Z33[26:16] + 1 : Z33[26:16];
-		Z34_final <= Z34[15] ? Z34[26:16] + 1 : Z34[26:16];
-		Z35_final <= Z35[15] ? Z35[26:16] + 1 : Z35[26:16];
-		Z36_final <= Z36[15] ? Z36[26:16] + 1 : Z36[26:16];
-		Z37_final <= Z37[15] ? Z37[26:16] + 1 : Z37[26:16];
-		Z38_final <= Z38[15] ? Z38[26:16] + 1 : Z38[26:16]; 
-		Z41_final <= Z41[15] ? Z41[26:16] + 1 : Z41[26:16];
-		Z42_final <= Z42[15] ? Z42[26:16] + 1 : Z42[26:16];
-		Z43_final <= Z43[15] ? Z43[26:16] + 1 : Z43[26:16];
-		Z44_final <= Z44[15] ? Z44[26:16] + 1 : Z44[26:16];
-		Z45_final <= Z45[15] ? Z45[26:16] + 1 : Z45[26:16];
-		Z46_final <= Z46[15] ? Z46[26:16] + 1 : Z46[26:16];
-		Z47_final <= Z47[15] ? Z47[26:16] + 1 : Z47[26:16];
-		Z48_final <= Z48[15] ? Z48[26:16] + 1 : Z48[26:16]; 
-		Z51_final <= Z51[15] ? Z51[26:16] + 1 : Z51[26:16];
-		Z52_final <= Z52[15] ? Z52[26:16] + 1 : Z52[26:16];
-		Z53_final <= Z53[15] ? Z53[26:16] + 1 : Z53[26:16];
-		Z54_final <= Z54[15] ? Z54[26:16] + 1 : Z54[26:16];
-		Z55_final <= Z55[15] ? Z55[26:16] + 1 : Z55[26:16];
-		Z56_final <= Z56[15] ? Z56[26:16] + 1 : Z56[26:16];
-		Z57_final <= Z57[15] ? Z57[26:16] + 1 : Z57[26:16];
-		Z58_final <= Z58[15] ? Z58[26:16] + 1 : Z58[26:16]; 
-		Z61_final <= Z61[15] ? Z61[26:16] + 1 : Z61[26:16];
-		Z62_final <= Z62[15] ? Z62[26:16] + 1 : Z62[26:16];
-		Z63_final <= Z63[15] ? Z63[26:16] + 1 : Z63[26:16];
-		Z64_final <= Z64[15] ? Z64[26:16] + 1 : Z64[26:16];
-		Z65_final <= Z65[15] ? Z65[26:16] + 1 : Z65[26:16];
-		Z66_final <= Z66[15] ? Z66[26:16] + 1 : Z66[26:16];
-		Z67_final <= Z67[15] ? Z67[26:16] + 1 : Z67[26:16];
-		Z68_final <= Z68[15] ? Z68[26:16] + 1 : Z68[26:16]; 
-		Z71_final <= Z71[15] ? Z71[26:16] + 1 : Z71[26:16];
-		Z72_final <= Z72[15] ? Z72[26:16] + 1 : Z72[26:16];
-		Z73_final <= Z73[15] ? Z73[26:16] + 1 : Z73[26:16];
-		Z74_final <= Z74[15] ? Z74[26:16] + 1 : Z74[26:16];
-		Z75_final <= Z75[15] ? Z75[26:16] + 1 : Z75[26:16];
-		Z76_final <= Z76[15] ? Z76[26:16] + 1 : Z76[26:16];
-		Z77_final <= Z77[15] ? Z77[26:16] + 1 : Z77[26:16];
-		Z78_final <= Z78[15] ? Z78[26:16] + 1 : Z78[26:16]; 
-		Z81_final <= Z81[15] ? Z81[26:16] + 1 : Z81[26:16];
-		Z82_final <= Z82[15] ? Z82[26:16] + 1 : Z82[26:16];
-		Z83_final <= Z83[15] ? Z83[26:16] + 1 : Z83[26:16];
-		Z84_final <= Z84[15] ? Z84[26:16] + 1 : Z84[26:16];
-		Z85_final <= Z85[15] ? Z85[26:16] + 1 : Z85[26:16];
-		Z86_final <= Z86[15] ? Z86[26:16] + 1 : Z86[26:16];
-		Z87_final <= Z87[15] ? Z87[26:16] + 1 : Z87[26:16];
-		Z88_final <= Z88[15] ? Z88[26:16] + 1 : Z88[26:16]; 
-		end
+// This block finalizes DCT coefficients:
+// - rst : clears all Z_final values
+// - count_10 && count_of==0 : extracts 11-bit results from Z (with rounding)
+always_ff @(posedge clk) begin
+    if (rst) begin
+        foreach (Z_final[i,j]) begin
+            Z_final[i][j] <= '0;
+        end
+    end 
+    else if (count_10 && count_of == 0) begin
+        foreach (Z_final[i,j]) begin
+            Z_final[i][j] <= Z[i][j][15] ? Z[i][j][26:16] + 1 : Z[i][j][26:16];
+        end
+    end
 end
+
 
 // output_enable signals the next block, the quantizer, that the input data is ready
 always_ff @(posedge clk)

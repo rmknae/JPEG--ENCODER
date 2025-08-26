@@ -253,47 +253,18 @@ begin
 end	 
 
 
-	
-always_ff @(posedge clk)
-begin
-	if (rst) begin
-		JPEG_bs_5 <= 0; 
-		end
-	else if (enable_module) begin 
-		JPEG_bs_5[31] <= (rollover_6 & orc_7 > 0) ? JPEG_ro_bs_4[31] : JPEG_bs_4[31];
-		JPEG_bs_5[30] <= (rollover_6 & orc_7 > 1) ? JPEG_ro_bs_4[30] : JPEG_bs_4[30];
-		JPEG_bs_5[29] <= (rollover_6 & orc_7 > 2) ? JPEG_ro_bs_4[29] : JPEG_bs_4[29];
-		JPEG_bs_5[28] <= (rollover_6 & orc_7 > 3) ? JPEG_ro_bs_4[28] : JPEG_bs_4[28];
-		JPEG_bs_5[27] <= (rollover_6 & orc_7 > 4) ? JPEG_ro_bs_4[27] : JPEG_bs_4[27];
-		JPEG_bs_5[26] <= (rollover_6 & orc_7 > 5) ? JPEG_ro_bs_4[26] : JPEG_bs_4[26];
-		JPEG_bs_5[25] <= (rollover_6 & orc_7 > 6) ? JPEG_ro_bs_4[25] : JPEG_bs_4[25];
-		JPEG_bs_5[24] <= (rollover_6 & orc_7 > 7) ? JPEG_ro_bs_4[24] : JPEG_bs_4[24];
-		JPEG_bs_5[23] <= (rollover_6 & orc_7 > 8) ? JPEG_ro_bs_4[23] : JPEG_bs_4[23];
-		JPEG_bs_5[22] <= (rollover_6 & orc_7 > 9) ? JPEG_ro_bs_4[22] : JPEG_bs_4[22];
-		JPEG_bs_5[21] <= (rollover_6 & orc_7 > 10) ? JPEG_ro_bs_4[21] : JPEG_bs_4[21];
-		JPEG_bs_5[20] <= (rollover_6 & orc_7 > 11) ? JPEG_ro_bs_4[20] : JPEG_bs_4[20];
-		JPEG_bs_5[19] <= (rollover_6 & orc_7 > 12) ? JPEG_ro_bs_4[19] : JPEG_bs_4[19];
-		JPEG_bs_5[18] <= (rollover_6 & orc_7 > 13) ? JPEG_ro_bs_4[18] : JPEG_bs_4[18];
-		JPEG_bs_5[17] <= (rollover_6 & orc_7 > 14) ? JPEG_ro_bs_4[17] : JPEG_bs_4[17];
-		JPEG_bs_5[16] <= (rollover_6 & orc_7 > 15) ? JPEG_ro_bs_4[16] : JPEG_bs_4[16];
-		JPEG_bs_5[15] <= (rollover_6 & orc_7 > 16) ? JPEG_ro_bs_4[15] : JPEG_bs_4[15];
-		JPEG_bs_5[14] <= (rollover_6 & orc_7 > 17) ? JPEG_ro_bs_4[14] : JPEG_bs_4[14];
-		JPEG_bs_5[13] <= (rollover_6 & orc_7 > 18) ? JPEG_ro_bs_4[13] : JPEG_bs_4[13];
-		JPEG_bs_5[12] <= (rollover_6 & orc_7 > 19) ? JPEG_ro_bs_4[12] : JPEG_bs_4[12];
-		JPEG_bs_5[11] <= (rollover_6 & orc_7 > 20) ? JPEG_ro_bs_4[11] : JPEG_bs_4[11];
-		JPEG_bs_5[10] <= (rollover_6 & orc_7 > 21) ? JPEG_ro_bs_4[10] : JPEG_bs_4[10];
-		JPEG_bs_5[9] <= (rollover_6 & orc_7 > 22) ? JPEG_ro_bs_4[9] : JPEG_bs_4[9];
-		JPEG_bs_5[8] <= (rollover_6 & orc_7 > 23) ? JPEG_ro_bs_4[8] : JPEG_bs_4[8];
-		JPEG_bs_5[7] <= (rollover_6 & orc_7 > 24) ? JPEG_ro_bs_4[7] : JPEG_bs_4[7];
-		JPEG_bs_5[6] <= (rollover_6 & orc_7 > 25) ? JPEG_ro_bs_4[6] : JPEG_bs_4[6];
-		JPEG_bs_5[5] <= (rollover_6 & orc_7 > 26) ? JPEG_ro_bs_4[5] : JPEG_bs_4[5];
-		JPEG_bs_5[4] <= (rollover_6 & orc_7 > 27) ? JPEG_ro_bs_4[4] : JPEG_bs_4[4];
-		JPEG_bs_5[3] <= (rollover_6 & orc_7 > 28) ? JPEG_ro_bs_4[3] : JPEG_bs_4[3];
-		JPEG_bs_5[2] <= (rollover_6 & orc_7 > 29) ? JPEG_ro_bs_4[2] : JPEG_bs_4[2];
-		JPEG_bs_5[1] <= (rollover_6 & orc_7 > 30) ? JPEG_ro_bs_4[1] : JPEG_bs_4[1];
-		JPEG_bs_5[0] <= JPEG_bs_4[0];
-		end
-end	
+always_ff @(posedge clk) begin
+    if (rst) begin
+        JPEG_bs_5 <= 0;
+    end
+    else if (enable_module) begin
+        for (int i = 31; i > 0; i--) begin
+            JPEG_bs_5[i] <= (rollover_6 & (orc_7 > (31-i))) ? JPEG_ro_bs_4[i] : JPEG_bs_4[i];
+        end
+        JPEG_bs_5[0] <= JPEG_bs_4[0]; // LSB remains unchanged
+    end
+end
+
 	
 always_ff @(posedge clk)
 begin
@@ -363,56 +334,36 @@ begin
 		end
 end	
 
-always_ff @(posedge clk)
-begin
-	if (rst) begin
-		Cb12_JPEG_bits <= 0; Cb12_edge <= 0;
-		end
-	else if (enable_module) begin 
-		Cb12_JPEG_bits[25] <= (Cb12_Huff_shift_1 >= 16) ? Cb12_JPEG_LSBs_4[25] : Cb12_Huff_2[15];
-		Cb12_JPEG_bits[24] <= (Cb12_Huff_shift_1 >= 15) ? Cb12_JPEG_LSBs_4[24] : Cb12_Huff_2[14];
-		Cb12_JPEG_bits[23] <= (Cb12_Huff_shift_1 >= 14) ? Cb12_JPEG_LSBs_4[23] : Cb12_Huff_2[13];
-		Cb12_JPEG_bits[22] <= (Cb12_Huff_shift_1 >= 13) ? Cb12_JPEG_LSBs_4[22] : Cb12_Huff_2[12];
-		Cb12_JPEG_bits[21] <= (Cb12_Huff_shift_1 >= 12) ? Cb12_JPEG_LSBs_4[21] : Cb12_Huff_2[11];
-		Cb12_JPEG_bits[20] <= (Cb12_Huff_shift_1 >= 11) ? Cb12_JPEG_LSBs_4[20] : Cb12_Huff_2[10];
-		Cb12_JPEG_bits[19] <= (Cb12_Huff_shift_1 >= 10) ? Cb12_JPEG_LSBs_4[19] : Cb12_Huff_2[9];
-		Cb12_JPEG_bits[18] <= (Cb12_Huff_shift_1 >= 9) ? Cb12_JPEG_LSBs_4[18] : Cb12_Huff_2[8];
-		Cb12_JPEG_bits[17] <= (Cb12_Huff_shift_1 >= 8) ? Cb12_JPEG_LSBs_4[17] : Cb12_Huff_2[7];
-		Cb12_JPEG_bits[16] <= (Cb12_Huff_shift_1 >= 7) ? Cb12_JPEG_LSBs_4[16] : Cb12_Huff_2[6];
-		Cb12_JPEG_bits[15] <= (Cb12_Huff_shift_1 >= 6) ? Cb12_JPEG_LSBs_4[15] : Cb12_Huff_2[5];
-		Cb12_JPEG_bits[14] <= (Cb12_Huff_shift_1 >= 5) ? Cb12_JPEG_LSBs_4[14] : Cb12_Huff_2[4];
-		Cb12_JPEG_bits[13] <= (Cb12_Huff_shift_1 >= 4) ? Cb12_JPEG_LSBs_4[13] : Cb12_Huff_2[3];
-		Cb12_JPEG_bits[12] <= (Cb12_Huff_shift_1 >= 3) ? Cb12_JPEG_LSBs_4[12] : Cb12_Huff_2[2];
-		Cb12_JPEG_bits[11] <= (Cb12_Huff_shift_1 >= 2) ? Cb12_JPEG_LSBs_4[11] : Cb12_Huff_2[1];
-		Cb12_JPEG_bits[10] <= (Cb12_Huff_shift_1 >= 1) ? Cb12_JPEG_LSBs_4[10] : Cb12_Huff_2[0];
-		Cb12_JPEG_bits[9:0] <= Cb12_JPEG_LSBs_4[9:0];
-		Cb12_edge <= old_orc_2 + 26; // 26 is the size of Cb11_JPEG_bits
-		end
-end	
+always_ff @(posedge clk) begin
+    if (rst) begin
+        Cb12_JPEG_bits <= 0; 
+        Cb12_edge <= 0;
+    end
+    else if (enable_module) begin
+        for (int i = 10; i <= 25; i++) begin
+            Cb12_JPEG_bits[i] <= (Cb12_Huff_shift_1 >= i-10+1) ? Cb12_JPEG_LSBs_4[i] : Cb12_Huff_2[i-10];
+        end
+        Cb12_JPEG_bits[9:0] <= Cb12_JPEG_LSBs_4[9:0];
+        Cb12_edge <= old_orc_2 + 26;
+    end
+end
 
-always_ff @(posedge clk)
-begin
-	if (rst) begin
-		Cb11_JPEG_bits <= 0; 
-		end
-	else if (enable_7) begin 
-		Cb11_JPEG_bits[25] <= (Cb11_Huff_shift_1 >= 11) ? Cb11_JPEG_LSBs_3[21] : Cb11_Huff_2[10];
-		Cb11_JPEG_bits[24] <= (Cb11_Huff_shift_1 >= 10) ? Cb11_JPEG_LSBs_3[20] : Cb11_Huff_2[9];
-		Cb11_JPEG_bits[23] <= (Cb11_Huff_shift_1 >= 9) ? Cb11_JPEG_LSBs_3[19] : Cb11_Huff_2[8];
-		Cb11_JPEG_bits[22] <= (Cb11_Huff_shift_1 >= 8) ? Cb11_JPEG_LSBs_3[18] : Cb11_Huff_2[7];
-		Cb11_JPEG_bits[21] <= (Cb11_Huff_shift_1 >= 7) ? Cb11_JPEG_LSBs_3[17] : Cb11_Huff_2[6];
-		Cb11_JPEG_bits[20] <= (Cb11_Huff_shift_1 >= 6) ? Cb11_JPEG_LSBs_3[16] : Cb11_Huff_2[5];
-		Cb11_JPEG_bits[19] <= (Cb11_Huff_shift_1 >= 5) ? Cb11_JPEG_LSBs_3[15] : Cb11_Huff_2[4];
-		Cb11_JPEG_bits[18] <= (Cb11_Huff_shift_1 >= 4) ? Cb11_JPEG_LSBs_3[14] : Cb11_Huff_2[3];
-		Cb11_JPEG_bits[17] <= (Cb11_Huff_shift_1 >= 3) ? Cb11_JPEG_LSBs_3[13] : Cb11_Huff_2[2];
-		Cb11_JPEG_bits[16] <= (Cb11_Huff_shift_1 >= 2) ? Cb11_JPEG_LSBs_3[12] : Cb11_Huff_2[1];
-		Cb11_JPEG_bits[15] <= (Cb11_Huff_shift_1 >= 1) ? Cb11_JPEG_LSBs_3[11] : Cb11_Huff_2[0];
-		Cb11_JPEG_bits[14:4] <= Cb11_JPEG_LSBs_3[10:0];
-		end
-	else if (enable_latch_8) begin
-		Cb11_JPEG_bits <= Cb12_JPEG_bits;
-		end
-end	
+
+always_ff @(posedge clk) begin
+    if (rst) begin
+        Cb11_JPEG_bits <= 0;
+    end
+    else if (enable_7) begin
+        for (int i = 15; i <= 25; i++) begin
+            Cb11_JPEG_bits[i] <= (Cb11_Huff_shift_1 >= i-14) ? Cb11_JPEG_LSBs_3[i-4] : Cb11_Huff_2[i-15];
+        end
+        Cb11_JPEG_bits[14:4] <= Cb11_JPEG_LSBs_3[10:0];
+    end
+    else if (enable_latch_8) begin
+        Cb11_JPEG_bits <= Cb12_JPEG_bits;
+    end
+end
+
 
 
 always_ff @(posedge clk)
@@ -1899,324 +1850,15 @@ Cb_AC_run_code[250] <= 161;
 end	
 
 
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[31] <= 0;
-	else if (enable_module && rollover_7) 
-		JPEG_bitstream[31] <= JPEG_bs_5[31];
-	else if (enable_module && orc_8 == 0) 
-		JPEG_bitstream[31] <= JPEG_bs_5[31];
+always_ff @(posedge clk) begin
+    if (rst) begin
+        JPEG_bitstream <= 0;
+    end
+    else if (enable_module) begin
+        for (int i = 0; i < 32; i++) begin
+            if (rollover_7 || orc_8 <= (31 - i))
+                JPEG_bitstream[i] <= JPEG_bs_5[i];
+        end
+    end
 end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[30] <= 0;
-	else if (enable_module && rollover_7) 
-		JPEG_bitstream[30] <= JPEG_bs_5[30];
-	else if (enable_module && orc_8 <= 1) 
-		JPEG_bitstream[30] <= JPEG_bs_5[30];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[29] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[29] <= JPEG_bs_5[29];
-	else if (enable_module && orc_8 <= 2) 
-		JPEG_bitstream[29] <= JPEG_bs_5[29];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[28] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[28] <= JPEG_bs_5[28];
-	else if (enable_module && orc_8 <= 3) 
-		JPEG_bitstream[28] <= JPEG_bs_5[28];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[27] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[27] <= JPEG_bs_5[27];
-	else if (enable_module && orc_8 <= 4) 
-		JPEG_bitstream[27] <= JPEG_bs_5[27];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[26] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[26] <= JPEG_bs_5[26];
-	else if (enable_module && orc_8 <= 5) 
-		JPEG_bitstream[26] <= JPEG_bs_5[26];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[25] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[25] <= JPEG_bs_5[25];
-	else if (enable_module && orc_8 <= 6) 
-		JPEG_bitstream[25] <= JPEG_bs_5[25];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[24] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[24] <= JPEG_bs_5[24];
-	else if (enable_module && orc_8 <= 7) 
-		JPEG_bitstream[24] <= JPEG_bs_5[24];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[23] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[23] <= JPEG_bs_5[23];
-	else if (enable_module && orc_8 <= 8) 
-		JPEG_bitstream[23] <= JPEG_bs_5[23];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[22] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[22] <= JPEG_bs_5[22];
-	else if (enable_module && orc_8 <= 9) 
-		JPEG_bitstream[22] <= JPEG_bs_5[22];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[21] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[21] <= JPEG_bs_5[21];
-	else if (enable_module && orc_8 <= 10) 
-		JPEG_bitstream[21] <= JPEG_bs_5[21];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[20] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[20] <= JPEG_bs_5[20];
-	else if (enable_module && orc_8 <= 11) 
-		JPEG_bitstream[20] <= JPEG_bs_5[20];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[19] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[19] <= JPEG_bs_5[19];
-	else if (enable_module && orc_8 <= 12) 
-		JPEG_bitstream[19] <= JPEG_bs_5[19];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[18] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[18] <= JPEG_bs_5[18];
-	else if (enable_module && orc_8 <= 13) 
-		JPEG_bitstream[18] <= JPEG_bs_5[18];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[17] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[17] <= JPEG_bs_5[17];
-	else if (enable_module && orc_8 <= 14) 
-		JPEG_bitstream[17] <= JPEG_bs_5[17];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[16] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[16] <= JPEG_bs_5[16];
-	else if (enable_module && orc_8 <= 15) 
-		JPEG_bitstream[16] <= JPEG_bs_5[16];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[15] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[15] <= JPEG_bs_5[15];
-	else if (enable_module && orc_8 <= 16) 
-		JPEG_bitstream[15] <= JPEG_bs_5[15];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[14] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[14] <= JPEG_bs_5[14];
-	else if (enable_module && orc_8 <= 17) 
-		JPEG_bitstream[14] <= JPEG_bs_5[14];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[13] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[13] <= JPEG_bs_5[13];
-	else if (enable_module && orc_8 <= 18) 
-		JPEG_bitstream[13] <= JPEG_bs_5[13];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[12] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[12] <= JPEG_bs_5[12];
-	else if (enable_module && orc_8 <= 19) 
-		JPEG_bitstream[12] <= JPEG_bs_5[12];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[11] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[11] <= JPEG_bs_5[11];
-	else if (enable_module && orc_8 <= 20) 
-		JPEG_bitstream[11] <= JPEG_bs_5[11];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[10] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[10] <= JPEG_bs_5[10];
-	else if (enable_module && orc_8 <= 21) 
-		JPEG_bitstream[10] <= JPEG_bs_5[10];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[9] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[9] <= JPEG_bs_5[9];
-	else if (enable_module && orc_8 <= 22) 
-		JPEG_bitstream[9] <= JPEG_bs_5[9];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[8] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[8] <= JPEG_bs_5[8];
-	else if (enable_module && orc_8 <= 23) 
-		JPEG_bitstream[8] <= JPEG_bs_5[8];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[7] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[7] <= JPEG_bs_5[7];
-	else if (enable_module && orc_8 <= 24) 
-		JPEG_bitstream[7] <= JPEG_bs_5[7];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[6] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[6] <= JPEG_bs_5[6];
-	else if (enable_module && orc_8 <= 25) 
-		JPEG_bitstream[6] <= JPEG_bs_5[6];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[5] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[5] <= JPEG_bs_5[5];
-	else if (enable_module && orc_8 <= 26) 
-		JPEG_bitstream[5] <= JPEG_bs_5[5];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[4] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[4] <= JPEG_bs_5[4];
-	else if (enable_module && orc_8 <= 27) 
-		JPEG_bitstream[4] <= JPEG_bs_5[4];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[3] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[3] <= JPEG_bs_5[3];
-	else if (enable_module && orc_8 <= 28) 
-		JPEG_bitstream[3] <= JPEG_bs_5[3];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[2] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[2] <= JPEG_bs_5[2];
-	else if (enable_module && orc_8 <= 29) 
-		JPEG_bitstream[2] <= JPEG_bs_5[2];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[1] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[1] <= JPEG_bs_5[1];
-	else if (enable_module && orc_8 <= 30) 
-		JPEG_bitstream[1] <= JPEG_bs_5[1];
-end
-
-always_ff @(posedge clk)
-begin
-	if (rst) 
-		JPEG_bitstream[0] <= 0;
-	else if (enable_module && rollover_7)
-		JPEG_bitstream[0] <= JPEG_bs_5[0];
-	else if (enable_module && orc_8 <= 31) 
-		JPEG_bitstream[0] <= JPEG_bs_5[0];
-end
-endmodule
+ endmodule
