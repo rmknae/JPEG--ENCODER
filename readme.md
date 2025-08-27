@@ -1,143 +1,164 @@
 # JPEG-Based Lossy Image Compression System
-
-**Hardware JPEG Encoder (SystemVerilog Implementation)**
 *A real-time, low-power RGB → JPEG bitstream converter for embedded systems*
 
------
+---
 
-**Last updated:** August 23, 2025
-© 2025 **Maktab-e-Digital Systems Lahore**. Licensed under the [Apache 2.0 License](https://www.google.com/search?q=LICENSE).
+© 2025 **Maktab-e-Digital Systems Lahore**  
+Licensed under the [Apache 2.0 License](https://www.google.com/search?q=LICENSE)
 
------
+---
 
-# User Guide
+## Table of Contents
+- [Overview](#overview)
+- [Requirements](#requirements)
+- [Getting Started](#getting-started)
+  - [Step 1: Clone the Repository](#step-1-clone-the-repository)
+  - [Step 2: Place Input Image](#step-2-place-input-image)
+  - [Step 3: Run Simulation](#step-3-run-simulation)
+  - [Step 4: Output](#step-4-output)
+- [Troubleshooting](#troubleshooting)
+- [Useful Links](#useful-links)
+- [Contribution](#contribution)
+- [Documentation](#documentation)
+- [Disclaimer](#disclaimer)
+- [Licensing](#licensing)
 
-Welcome to the **JPEG Encoder** project\! This tool allows you to convert **raw RGB images into JPEG compressed format** using a **hardware-based encoder implemented in SystemVerilog**.
+---
+
+## Overview
+
+The **JPEG Encoder** project converts **raw RGB images into JPEG compressed format** using a **hardware-based encoder implemented in SystemVerilog**.  
+It is designed for real-time, low-power applications in embedded systems.
+
+---
 
 ## Requirements
 
-Before you begin, ensure you have the following software installed on your machine.
+- **HDL Simulator (QuestaSim)**  
+  [Download from Siemens EDA](https://support.sw.siemens.com/en-US/downloads)  
 
-  * **HDL Simulator:** QuestaSim is the recommended simulator[.Siemens EDA (full professional QuestaSim)](https://support.sw.siemens.com/en-US/downloads)
+  **Steps:**
+  1. Sign in with your Siemens EDA/Mentor account (your university/company usually provides this).  
+  2. Navigate to **Downloads → Questa Advanced Simulator**.  
+  3. Select version & OS, then download.  
+  4. Apply your organization’s license file.  
 
-        Siemens EDA Support Center – Downloads
-        Steps:
-           1. Sign in with your Siemens EDA/Mentor account (your university/company usually provides this).
-           2. Go to Downloads → Questa Advanced Simulator.
-           3. Select version & OS, then download.
-           4. Apply your organization’s license file.
-          
-  * **Python 3.8+:** You can download the latest version from the official Python website. During installation, be sure to check the box to "Add Python to PATH".
-    
-     ```bash
-    python --version
-     ```
+- **Python 3.8+**  
+  [Download here](https://www.python.org/downloads/)  
+  (check **“Add Python to PATH”** during installation).  
 
-  * **Python Libraries:** The project requires `Pillow` and `NumPy` for image handling and data processing. Install them using the command below:
-
-<!-- end list -->
-
-```bash
-python -m ensurepip --default-pip
-
-pip install pillow numpy
-```
-If your system uses python3, run:
- ```bash
- python -m pip install pillow numpy
- ```
-To verify if downloaded:
   ```bash
- pip show pillow
- pip show numpy
- ```
+  python --version
+  ```
+
+- **Python Libraries**  
+  Required: `Pillow` and `NumPy`  
+
+  ```bash
+  python -m ensurepip --default-pip
+  pip install pillow numpy
+  ```
+
+  If using `python3`:
+
+  ```bash
+  python -m pip install pillow numpy
+  ```
+
+  Verify installation:
+
+  ```bash
+  pip show pillow
+  pip show numpy
+  ```
+
 ---
 
 ## Getting Started
 
-Follow these steps to set up and run the JPEG encoder.
-
-#### Step 1: Clone the Repository
-
-Open your Command Prompt (Windows) or Terminal (Linux/Mac) and run the following commands:
+### Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/rmknae/JPEG--ENCODER.git
 cd JPEG--ENCODER
 ```
 
-#### Step 2: Place Input Image
+### Step 2: Place Input Image
 
-Place your test image inside the `script/` folder. The workflow supports common formats such as `.jpg`, `.png`, and `.jpeg`.
+Place your test image inside the `script/` folder.  
+Supported formats: `.jpg`, `.png`, `.jpeg`.
 
-#### Step 3: Run Simulation
-***Click on the run.bat file simply.***
+### Step 3: Run Simulation
 
-The `run.bat` file automates all the necessary steps for a full simulation and image generation. 
-1. This script prompts the user to `select an image (1, 2, or 3)` from the script/ directory which you placed for compression.
-2. After the image is chosen, it asks for the resolution for the JPEG header. You must enter the exact dimensions of the image you selected for the script to function correctly.
+Run the provided batch file:
 
-> **For Windows:**
-> Simply double-click `run.bat`.
-> **For Linux/Mac:**
-> The `.bat` file is Windows-only, but you can achieve the same result by running the commands directly in your terminal. For example:
+- **Windows:**  
+  Double-click `run.bat`
 
-> ```bash
-> python data_in.py
-> vlog ./src/*.sv ./testbench/*.sv
-> vsim -c -do "run -all; quit" tb_top
-> python script/raw_jpeg_bitstream_to_image/jpeg.py
-> ```
-> You can also create your own `run_sim.sh` shell script to automate this.
+- **Linux/Mac:**  
+  Run commands manually:
 
-#### Step 4: Output
+  ```bash
+  python data_in.py
+  vlog ./src/*.sv ./testbench/*.sv
+  vsim -c -do "run -all; quit" tb_top
+  python script/raw_jpeg_bitstream_to_image/jpeg.py
+  ```
 
-The final JPEG image will be saved to a new folder named `output_images/`.
+  Or create your own `run_sim.sh` shell script to automate.
+
+### Step 4: Output
+
+The final JPEG image is saved inside the `output_images/` folder.
 
 ---
-### Troubleshooting
+
+## Troubleshooting
 
 | Problem | Solution |
-| :--- | :--- |
-| Python cannot find **Pillow** or **NumPy** | Run `pip install pillow numpy` in your Windows Command Prompt to install the libraries. |
-| **`vsim` not found** | Add the QuestaSim installation folder (`win64`) to your Windows `PATH` environment variable. |
-| **Paths with spaces** fail | Always wrap paths in quotes: `"C:\Users\HH Traders\Documents\JPEG--ENCODER"` |
-| CMD closes immediately | Run `run.bat` from an already open Command Prompt window to keep error messages visible. |
+|---------|----------|
+| Python cannot find **Pillow** or **NumPy** | Run `pip install pillow numpy`. |
+| **`vsim` not found** | Add the QuestaSim `win64` folder to your `PATH`. |
+| Paths with spaces fail | Wrap in quotes: `"C:\Users\HH Traders\Documents\JPEG--ENCODER"`. |
+| CMD closes immediately | Run `run.bat` from an already open Command Prompt window. |
 
-> **Important:** Always run from a native Windows path. Avoid using `\\wsl.localhost\...` or any WSL paths, as they can cause compatibility issues.
-
------
-
-### Useful Links
-
-  * [JPEG Standard Overview](https://en.wikipedia.org/wiki/JPEG)
-  * [SystemVerilog Basics](https://www.chipverify.com/systemverilog/systemverilog-introduction)
-  * [Python Pillow (PIL)](https://pillow.readthedocs.io/en/stable/)
-
------
-
-### Contribution
-
-We welcome contributions\!
-
-  * Report issues in the [Issues tab](https://github.com/rmknae/JPEG--ENCODER/issues)
-  * Submit PRs with improvements or bug fixes
-
------
-
-### Documentation
-
-[DOCUMENTATION](https://meds-jpeg-docs.readthedocs.io/en/latest/?badge=latest)
-
------
-
----
-> **Disclaimer:** This project is inspired by and makes reference to the [oc_jpegencode](https://github.com/chiggs/oc_jpegencode) repository. I have studied its implementation to understand JPEG encoding and have adapted certain  where applicable.
+ **Note:** Always use **native Windows paths**. Avoid `\\wsl.localhost\...` or WSL paths as they may cause compatibility issues.
 
 ---
 
-### Licensing
+## Useful Links
 
-Licensed under the **Apache License 2.0**
-Copyright © 2025
+- [JPEG Standard Overview](https://en.wikipedia.org/wiki/JPEG)  
+- [SystemVerilog Basics](https://www.chipverify.com/systemverilog/systemverilog-introduction)  
+- [Python Pillow (PIL)](https://pillow.readthedocs.io/en/stable/)  
+
+---
+
+## Contribution
+
+We welcome contributions 
+
+- Report issues in the [Issues tab](https://github.com/rmknae/JPEG--ENCODER/issues)  
+- Submit pull requests with improvements or bug fixes  
+
+---
+
+## Documentation
+
+[Read the Documentation](https://meds-jpeg-docs.readthedocs.io/en/latest/?badge=latest)
+
+---
+
+## Disclaimer
+
+This project is inspired by the  
+[oc_jpegencode](https://github.com/chiggs/oc_jpegencode) repository.  
+We studied its implementation and adapted certain parts where applicable.
+
+---
+
+## Licensing
+
+Licensed under the **Apache License 2.0**  
+Copyright © 2025  
 **[Maktab-e-Digital Systems Lahore](https://github.com/meds-uet)**
