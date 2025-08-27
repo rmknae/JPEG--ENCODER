@@ -85,7 +85,7 @@ It is designed for real-time, low-power applications in embedded systems.
 ## Workflow Flowchart
 
 <p align="center">
-  <img src="./docs/images_design_diagrams/readmeflowchart.png" alt="JPEG Encoder Workflow Flowchart" width="700" height="500">
+  <img src="./docs/images_design_diagrams/readmeflowchart.png" alt="JPEG Encoder Workflow Flowchart" width="1000" height="900">
 </p>
 
 *Overall flow of JPEG Compression Steps*
