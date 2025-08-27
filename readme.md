@@ -82,6 +82,13 @@ It is designed for real-time, low-power applications in embedded systems.
 ---
 
 ## Getting Started
+## Workflow Flowchart
+
+<p align="center">
+  <img src="./docs/images_design_diagrams/readmeimage.png" alt="JPEG Encoder Workflow Flowchart" width="700" height="500">
+</p>
+
+*Overall flow of JPEG Compression Steps*
 
 ### Step 1: Clone the Repository
 
