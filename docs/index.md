@@ -1,136 +1,69 @@
 # JPEG-Based Lossy Image Compression System
 
-> **Hardware JPEG Encoder (SystemVerilog Implementation)**
->
-> 🗕️ *Last updated: August 24, 2025*
-> © 2025 [Maktab-e-Digital Systems Lahore](https://github.com/meds-uet). Licensed under the Apache 2.0 License.
+> **Hardware JPEG Encoder (SystemVerilog Implementation)**  
+> © 2025 [Maktab-e-Digital Systems Lahore](https://github.com/meds-uet)  
+> Licensed under the Apache 2.0 License.
 
 ---
-# Table of Contents
+
+## 📑 Table of Contents
 - [Overview](#overview)  
 - [Why JPEG?](#why-jpeg)  
-- [Repository Structure Details](#repository-structure-details)
-- [Image to RGB Pixels (script/data_in.py)](#image-to-rgb-pixels-scriptdatainpy)
-- [raw_jpeg_bitstream_to_image (jpeg.py)](#raw_jpeg_bitstream_to_image-jpegpy)
+- [Repository Structure](#repository-structure)  
+- [Image to RGB Pixels (script/data_in.py)](#image-to-rgb-pixels-scriptdatainpy)  
+- [raw_jpeg_bitstream_to_image (jpeg.py)](#raw_jpeg_bitstream_to_image-jpegpy)  
 - [System Architecture](#system-architecture)  
   - [Top-Level Block Diagram](#top-level-block-diagram)  
   - [Pipeline Architecture](#pipeline-architecture)  
 - [Modules Descriptions](#modules-descriptions)  
 - [FSM State Table](#fsm-state-table)  
-- [Testbenches](#testbenches)
+- [Testbenches](#testbenches)  
 
 ---
-
 
 ## Overview
 
-This project implements a **hardware JPEG encoder** using **SystemVerilog**. It compresses RGB image data following the standard JPEG pipeline:
+This project implements a **hardware JPEG encoder** in **SystemVerilog**.  
+It compresses raw RGB image data following the JPEG pipeline:
+
 <div align="center">
-    Color Conversion → DCT → Quantization → Huffman Coding → Bitstream Assembly 
+    Color Conversion → DCT → Quantization → Huffman Coding → Bitstream Assembly
 </div>
 
 ---
-##  Why JPEG?
 
-* Reduces file size by discarding perceptually insignificant data
-* Enables fast transmission and efficient memory use
-* Maintains high visual fidelity
-* Universally supported across hardware/software platforms
+## Why JPEG?
 
-## Repository Structure Details
-
-| Folder / File                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Headers/**                                 | Contains three sample JPEG headers (`.bin`). These are reference headers used for reconstruction.                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| **bitstream/**                               | Contains three sample bitstreams (`.hex`) used for testing functionality.                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| **docs/**                                    | Documentation folder. Includes: <br> • `images_design_diagrams/` – all JPEG encoder design diagrams <br> • `images_testbench_EO_CO/` – original vs expected output test images <br> • `index.md` – detailed project documentation                                                                                                                                                                                                                                                                                 |
-| **output\_images/**                          | Stores all reconstructed JPEG images.                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| **rtl/**                                     | Contains all **SystemVerilog RTL modules** for the JPEG encoder. Pipeline: <br> • **Color Conversion**: RGB → Y, Cb, Cr <br> • **DCT**: `y_dct`, `cr_dct`, `cb_dct` (+ `_constants.svh`) <br> • **Quantizers**: `y_quantizer`, `cr_quantizer`, `cb_quantizer` (+ `_constants.svh`) <br> • **Huffman Encoding**: `y_huff`, `cr_huff`, `cb_huff` <br> • **Bitstream Handling**: `pre_fifo`, `sync_fifo_ff`, `sync_fifo_32`, `ff_checker`, `fifo_out` <br> • **Combined Modules**: `y_d_q_h`, `cr_d_q_h`, `cb_d_q_h` |
-| **raw\_\_jpeg\_\_bitstream\_\_to\_\_image/** | Handles raw bitstream post-processing to generate compressed images. Includes: <br> • `bitstream__output.txt` – raw JPEG bitstream (hex) from QuestaSim <br> • `header.bin` – predefined JPEG header (resolution, quantization, Huffman tables) <br> • `jpeg.py` – merges header + bitstream to reconstruct compressed JPEG                                                                                                                                                                                       |
-| **testimages/**                              | Sample test images used for verifying encoder functionality.                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| **scripts/**                                 | Helper scripts and I/O handling. Includes: <br> • `input_image/` – uncompressed input images <br> • `data_in.py` – converts input images into 24-bit BGR testbench data, generates **`pixel_data.txt`** (used by RTL testbenches) <br> • `compressed_image/` – stores compressed output images                                                                                                                                                                                                                    |
-| **testbenches/**                             | Verification testbenches for modules and full encoder. Includes: <br> • `rgb2ycbcr_tb/` – RGB → YCbCr testbench <br> • `dct_tb/` – 8×8 DCT testbench <br> • `quantization_tb/` – Quantization testbench <br> • `huffman_tb/` – Huffman encoding testbench <br> • `jpeg_top_TB/` – full JPEG encoder testbench (produces **bitstream\_output.txt**)                                                                                                                                                                |
+- Reduces file size by discarding perceptually insignificant data  
+- Enables fast transmission and efficient memory use  
+- Maintains high visual fidelity  
+- Universally supported across hardware/software platforms  
 
 ---
 
-## Image to RGB Pixels (script/data_in.py):
+## Repository Structure
 
-### Image → SystemVerilog Testbench Data Converter
-This script converts an image into **SystemVerilog testbench input data** for the JPEG encoder. It processes the image in **8×8 blocks**, converts each pixel into a **24-bit BGR binary value**, and generates **simulation-ready statements** with proper timing delays and control signals.  
-### Processing Steps
+The project is organized into **RTL design**, **Testbenches**, and **SDK utilities**.
 
-1. **Image Input**
-   - Accepts `.jpg`, `.png`, `.bmp` files from the script’s folder.  
-   - Converts pixel format from **RGB → BGR** (required by the encoder).  
+| Folder | Description |
+|--------|-------------|
+| **rtl/** | Core SystemVerilog modules for JPEG encoder: <br> • **Color Conversion**: `rgb2ycbcr` <br> • **DCT**: `y_dct`, `cb_dct`, `cr_dct` (+ `_constants.svh`) <br> • **Quantizers**: `y_quantizer`, `cr_quantizer`, `cb_quantizer` (+ `_constants.svh`) <br> • **Huffman**: `y_huff`, `cb_huff`, `cr_huff` <br> • **Bitstream Handling**: `pre_fifo`, `sync_fifo_ff`, `sync_fifo_32`, `ff_checker`, `fifo_out` <br> • **Combined**: `y_d_q_h`, `cb_d_q_h`, `cr_d_q_h` |
+| **testbenches/** | Verification modules & input/output test data: <br> • `rgb2ycbcr_tb/` <br> • `dct_tb/` <br> • `quantization_tb/` <br> • `huffman_tb/` <br> • `jpeg_top_TB/` – full encoder verification <br> • `testimages/` – raw input images <br> • `output_images/` – compressed results |
+| **sdk/** | Scripts & tools for I/O and post-processing: <br> • `scripts/data_in.py` – converts images to 24-bit BGR pixel data (`pixel_data.txt`) <br> • `raw_jpeg_bitstream_to_image/jpeg.py` – merges headers + bitstreams into valid JPEG <br> • `Headers/` – predefined JPEG headers (`.bin`) <br> • `bitstream/` – sample bitstreams (`.hex`) <br> • `docs/` – diagrams & documentation |
 
-2. **Block Handling**
-   - Image is divided into **8×8 pixel blocks**.  
-   - If width/height is not a multiple of 8 → **edge pixels are zero-padded**.  
-
-3. **Pixel Output Format**
-   - Each pixel is written in **24-bit binary BGR form** with delay:  
-
-     ```systemverilog
-     data_in <= 24'bBBBBBBBBGGGGGGGGRRRRRRRR;
-     #10000;
-     ```
-     
-4. **Block Control**
-   - After each 8×8 block (except the last), an enable reset sequence is added:  
-
-     ```systemverilog
-     enable <= 1'b0;
-     #10000;
-     enable <= 1'b1;
-     ```
-
-5. **End-of-File Signaling**
-   - For the **final block**, the script asserts the EOF flag before writing pixel data:  
-
-     ```systemverilog
-     end_of_file_signal <= 1'b1;
-     ```
-     
-### Output
-
-- All generated statements are saved to:  
- ```
-     rtl/pixel_data.txt
- ```
 ---
 
-## raw_jpeg_bitstream_to_image (jpeg.py):
-This tool rebuilds a JPEG image from:  
+## Image to RGB Pixels (`script/data_in.py`)
+This script converts an image into **SystemVerilog testbench-ready pixel data**.  
+It outputs **24-bit BGR values** in **8×8 block order** with enable and EOF signaling.  
+***Output*** → `rtl/pixel_data.txt`  
 
-- A **header file** (`.bin`) in `Headers/`  
-- A **hex bitstream file** (`bitstream_output.txt`)
-  
-### How it works  
-
-1. **Header selection**  
-   - Choose a `.bin` header by **number** or **filename**.  
-   - Or type **`custom`** → enter a new size (e.g., `1920x1080`).  
-     - The script loads the **first header in `Headers/`** as a template.  
-     - Locates the **SOF0 marker (`FFC0`)** inside the header.  
-     - Patches width/height bytes with your custom values.  
-     - Uses the patched header in memory (saved output is named `custom_WxH.bin`).  
-
-2. **Bitstream read**  
-   - Loads hex data line-by-line from `bitstream_output.txt`.  
-   - File must contain plain hex (no `0x`, no spaces).  
-
-   **Example `bitstream_output.txt`:**
-               ``` FFD8FFE000104A46
-                   4946000102000047
-                  4142490001FFDB00
-                                     ```
-3. **Merge**  
-- Concatenates header + bitstream.  
-- Ensures the JPEG ends with `FFD9` (EOI marker).  
-
-4. **Reconstruction**  
-- Opens the combined bytes in memory using Pillow.  
-- Saves the JPEG image into `output_images/`.  
+---
+## raw_jpeg_bitstream_to_image (`jpeg.py`)
+Utility for reconstructing JPEG images from:  
+- Predefined header (`.bin`)  
+- Compressed bitstream (`bitstream_output.txt`)  
+Performs header patching, bitstream merging, and outputs valid `.jpeg` files into `output_images/`.
 
 ---
 > ## Insight about header 
