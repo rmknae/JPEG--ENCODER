@@ -35,7 +35,7 @@ It is designed for real-time, low-power applications in embedded systems.
 
 *Before Compression vs After Compression*  
 <p align="center">
-  <img src="compression.png" alt="Before and After Compression" width="600"/>
+  <img src="./docs/images_design_diagrams/compressed image.png" alt="Before and After Compression" width="700" height="400">
 </p>
 ---
 ## Requirements
