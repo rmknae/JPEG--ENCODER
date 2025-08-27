@@ -25,7 +25,7 @@ It compresses raw RGB image data following the JPEG pipeline:
 ## Workflow Flowchart
 
 <p align="center">
-  <img src="./docs/images_design_diagrams/index.mdflowchart.png" alt="JPEG Encoder Workflow Flowchart" width="700" height="500">
+  <img src="./docs/images_design_diagrams/flowchart.png" alt="JPEG Encoder Workflow Flowchart" width="700" height="500">
 </p>
 
 *Overall flow of JPEG Compression Steps*
