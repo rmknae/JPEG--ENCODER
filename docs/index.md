@@ -10,13 +10,11 @@
 - [Overview](#overview)  
 - [Why JPEG?](#why-jpeg)  
 - [Repository Structure](#repository-structure)  
-- [Image to RGB Pixels (script/data_in.py)](#image-to-rgb-pixels-scriptdatainpy)
-- [raw_jpeg_bitstream_to_image (jpeg.py)](#raw_jpeg_bitstream_to_image-jpegpy)  
+- [Image to RGB Pixels (`script/data_in.py`)](#image-to-rgb-pixels-scriptdatainpy)  
+- [Raw JPEG Bitstream to Image (`jpeg.py`)](#raw-jpeg-bitstream-to-image-jpegpy)  
 - [System Architecture](#system-architecture)  
-  - [Top-Level Block Diagram](#top-level-block-diagram)  
-  - [Pipeline Architecture](#pipeline-architecture)  
 - [Modules Descriptions](#modules-descriptions)  
-- [FSM State Table](#fsm-state-table)  
+- [FSM States](#fsm-states)  
 - [Testbenches](#testbenches)  
 
 ---
