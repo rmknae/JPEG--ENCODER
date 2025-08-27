@@ -44,8 +44,6 @@ It compresses raw RGB image data following the JPEG pipeline:
 ## Repository Structure
 
 The project is organized into **RTL design**, **Testbenches**, and **SDK utilities**.
-
-<div align="center">
 | Folder        | Description |
 |---------------|-------------|
 | **rtl/**      | Core SystemVerilog modules for JPEG encoder: <br> • **Color Conversion**: `rgb2ycbcr` <br> • **DCT**: `y_dct`, `cb_dct`, `cr_dct` (+ `_constants.svh`) <br> • **Quantizers**: `y_quantizer`, `cr_quantizer`, `cb_quantizer` (+ `_constants.svh`) <br> • **Huffman**: `y_huff`, `cb_huff`, `cr_huff` <br> • **Bitstream Handling**: `pre_fifo`, `sync_fifo_ff`, `sync_fifo_32`, `ff_checker`, `fifo_out` <br> • **Combined**: `y_d_q_h`, `cb_d_q_h`, `cr_d_q_h` |
