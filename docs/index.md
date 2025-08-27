@@ -6,7 +6,7 @@
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 - [Overview](#overview)  
 - [Why JPEG?](#why-jpeg)  
 - [Repository Structure](#repository-structure)  
