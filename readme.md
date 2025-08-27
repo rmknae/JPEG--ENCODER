@@ -38,6 +38,7 @@ It is designed for real-time, low-power applications in embedded systems.
   <img src="./docs/images_design_diagrams/compressed image.png" alt="Before and After Compression" width="700" height="400">
 </p>
 ---
+
 ## Requirements
 
 - **HDL Simulator (QuestaSim)**  
