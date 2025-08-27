@@ -85,7 +85,7 @@ Performs header patching, bitstream merging, and outputs valid `.jpeg` files int
 ### Top-Level Block Diagram
 
 <div align="center">
- <img src="./images_design_diagrams/JPEG-Top-level-module.png" alt="JPEG Top-level Module" width="700" height="400">
+ <img src="./images_design_diagrams/JPEG-Top-level-module.png" alt="JPEG-Top-level-Module" width="700" height="400">
 </div>
 
 #### Inputs:
