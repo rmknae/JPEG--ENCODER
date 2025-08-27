@@ -45,12 +45,13 @@ It compresses raw RGB image data following the JPEG pipeline:
 
 The project is organized into **RTL design**, **Testbenches**, and **SDK utilities**.
 
+<div align="center">
 | Folder | Description |
 |--------|-------------|
 | **rtl/** | Core SystemVerilog modules for JPEG encoder: <br> • **Color Conversion**: `rgb2ycbcr` <br> • **DCT**: `y_dct`, `cb_dct`, `cr_dct` (+ `_constants.svh`) <br> • **Quantizers**: `y_quantizer`, `cr_quantizer`, `cb_quantizer` (+ `_constants.svh`) <br> • **Huffman**: `y_huff`, `cb_huff`, `cr_huff` <br> • **Bitstream Handling**: `pre_fifo`, `sync_fifo_ff`, `sync_fifo_32`, `ff_checker`, `fifo_out` <br> • **Combined**: `y_d_q_h`, `cb_d_q_h`, `cr_d_q_h` |
-| **testbenches/** | Verification modules & input/output test data: <br> • `rgb2ycbcr_tb/` <br> • `dct_tb/` <br> • `quantization_tb/` <br> • `huffman_tb/` <br> • `jpeg_top_TB/` – full encoder verification <br> • `testimages/` – raw input images <br> • `output_images/` – compressed results |
-| **sdk/** | Scripts & tools for I/O and post-processing: <br> • `scripts/data_in.py` – converts images to 24-bit BGR pixel data (`pixel_data.txt`) <br> • `raw_jpeg_bitstream_to_image/jpeg.py` – merges headers + bitstreams into valid JPEG <br> • `Headers/` – predefined JPEG headers (`.bin`) <br> • `bitstream/` – sample bitstreams (`.hex`) <br> • `docs/` – diagrams & documentation |
-
+| **testbenches/** | Verification modules & input/output test data: <br> • `rgb2ycbcr_tb/` <br> • `dct_tb/` <br> • `quantization_tb/` <br> • `huffman_tb/` <br> • `jpeg_top_TB/` – full encoder verification <br> |
+| **sdk/** | Scripts & tools for I/O and post-processing: <br>  • `testimages/` – raw input images <br> • `output_images/` – compressed results • `scripts/data_in.py` – converts images to 24-bit BGR pixel data (`pixel_data.txt`) <br> • `raw_jpeg_bitstream_to_image/jpeg.py` – merges headers + bitstreams into valid JPEG <br> • `Headers/` – predefined JPEG headers (`.bin`) <br> • `bitstream/` – sample bitstreams (`.hex`) <br> • `docs/` – diagrams & documentation |
+</div>
 ---
 
 ## Image to RGB Pixels (`script/data_in.py`)
