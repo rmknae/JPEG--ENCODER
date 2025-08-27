@@ -11,7 +11,7 @@
 - [Why JPEG?](#why-jpeg)  
 - [Repository Structure](#repository-structure)  
 - [Image to RGB Pixels (`script/data_in.py`)](#image-to-rgb-pixels-scriptdatainpy)  
-- [Raw JPEG Bitstream to Image (`jpeg.py`)](#raw-jpeg-bitstream-to-image-jpegpy)  
+- [Raw JPEG Bitstream to Image (`jpeg.py`)](#raw_jpeg-bitstream-to-image-jpegpy)  
 - [System Architecture](#system-architecture)  
 - [Modules Descriptions](#modules-descriptions)  
 - [FSM States](#fsm-states)  
