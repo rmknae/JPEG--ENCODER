@@ -31,7 +31,13 @@ The **JPEG Encoder** project converts **raw RGB images into JPEG compressed form
 It is designed for real-time, low-power applications in embedded systems.
 
 ---
+## Compression Example
 
+*Before Compression vs After Compression*  
+<p align="center">
+  <img src="compression.png" alt="Before and After Compression" width="600"/>
+</p>
+---
 ## Requirements
 
 - **HDL Simulator (QuestaSim)**  
