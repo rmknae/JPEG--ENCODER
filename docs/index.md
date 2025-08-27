@@ -10,7 +10,7 @@
 - [Overview](#overview)  
 - [Why JPEG?](#why-jpeg)  
 - [Repository Structure](#repository-structure)  
-- [Image to RGB Pixels (script/data_in.py)](#image-to-rgb-pixels-scriptdatainpy)  
+- [Image to RGB Pixels (script/data_in.py)](#image-to-rgb-pixels-scriptdatainpy)
 - [raw_jpeg_bitstream_to_image (jpeg.py)](#raw_jpeg_bitstream_to_image-jpegpy)  
 - [System Architecture](#system-architecture)  
   - [Top-Level Block Diagram](#top-level-block-diagram)  
