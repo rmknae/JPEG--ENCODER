@@ -37,12 +37,12 @@ git clone https://github.com/YourUsername/JPEG-Encoder.git
 cd JPEG-Encoder
 ```
 
-### Build & Simulate
+##  Run JPEG Compression
 
-Run a simple module test (e.g., Y DCT) using Make:
+To compress an image, simply run:
 
 ```bash
-make SIM=y_dct
+run.bat
 ```
 
 ## Quick Links
